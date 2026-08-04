@@ -6,7 +6,7 @@ import requests
 from modules.elo_europa import SistemaEloEuropa
 from modules.montecarlo_europa import simular_partido_europa
 from modules.ml_europa import PredictorMLEuropa
-from modules.odds_engine import obtener_cuotas_partido, analizar_apuestas
+from modules.odds_europa import obtener_cuotas_europa, analizar_apuestas_europa
 
 # --- CONFIGURACIÓN DE PÁGINA ---
 st.set_page_config(page_title="European Elite Leagues Analytics (2026)", layout="wide")
@@ -162,7 +162,8 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                         
                         # 4. GESTIÓN DE CUOTAS Y VALOR ESPERADO (KELLY)
                         st.markdown("### ⚙️ Filtro Financiero: Cuotas y Valor (EV+)")
-                        cuotas_automaticas = obtener_cuotas_partido(datos_partido["fixture_id"])
+                        # CAMBIO AQUÍ: Usamos la función europea
+                        cuotas_automaticas = obtener_cuotas_europa(datos_partido["fixture_id"])
                         
                         mercados_keys = {
                             "Gana Local": "1", "Empate": "X", "Gana Visita": "2", 
@@ -186,6 +187,22 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                                     key=f"cuota_{nombre_liga}_{llave}"
                                 )
 
+                        # CAMBIO AQUÍ: Usamos el analizador europeo
+                        df_apuestas = analizar_apuestas_europa(resultados, datos_partido["fixture_id"], cuotas_personalizadas=cuotas_usuario)
+                        
+                        if not df_apuestas.empty:
+                            def color_veredicto(val):
+                                if '🔥' in str(val): return 'color: #00ff00; font-weight: bold'
+                                elif '✅' in str(val): return 'color: #adff2f'
+                                elif '⚠️' in str(val): return 'color: #ffa500'
+                                elif '❌' in str(val): return 'color: #ff4d4d'
+                                return ''
+                                
+                            st.dataframe(
+                                df_apuestas.style.map(color_veredicto, subset=['Veredicto']), 
+                                use_container_width=True,
+                                hide_index=True
+                            )
                         # Analizamos las apuestas usando las probabilidades de Montecarlo como base fuerte
                         df_apuestas = analizar_apuestas(resultados, datos_partido["fixture_id"], cuotas_personalizadas=cuotas_usuario)
                         
