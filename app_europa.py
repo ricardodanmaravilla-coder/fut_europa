@@ -2,8 +2,11 @@ import os
 import streamlit as st
 import pandas as pd
 import requests
+
 from modules.elo_europa import SistemaEloEuropa
 from modules.montecarlo_europa import simular_partido_europa
+from modules.ml_europa import PredictorMLEuropa
+from modules.odds_engine import obtener_cuotas_partido, analizar_apuestas
 
 # --- CONFIGURACIÓN DE PÁGINA ---
 st.set_page_config(page_title="European Elite Leagues Analytics (2026)", layout="wide")
@@ -66,7 +69,7 @@ def obtener_proximos_partidos_europa(league_id):
     return partidos_dict
 
 st.title("🇪🇺 European Elite Leagues Analytics (5 Grandes Ligas)")
-st.write("Análisis cuantitativo avanzado: xG, Tiros a Gol, Atajadas, Árbitros, ELO y Montecarlo.")
+st.write("Análisis cuantitativo avanzado: xG, Tiros a Gol, Atajadas, Árbitros, ELO, ML y Montecarlo.")
 
 # --- SISTEMA DE PESTAÑAS PRINCIPAL ---
 tabs = st.tabs(["🇬🇧 Premier League", "🇪🇸 La Liga", "🇮🇹 Serie A", "🇩🇪 Bundesliga", "🇫🇷 Ligue 1", "🌐 Escáner Global EV+"])
@@ -84,9 +87,10 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
             datos_partido = partidos_liga[seleccion]
 
             if st.button(f"Ejecutar Simulación - {nombre_liga}", type="primary", key=f"btn_{nombre_liga}"):
-                with st.spinner(f"Analizando {datos_partido['local']} vs {datos_partido['visita']} con xG y Montecarlo..."):
+                with st.spinner(f"Analizando {datos_partido['local']} vs {datos_partido['visita']} con Motores Avanzados..."):
                     df_hist = cargar_historico_liga(nombre_liga)
                     
+                    # 1. MOTOR ELO
                     motor_elo = SistemaEloEuropa()
                     tabla_elo = motor_elo.actualizar_ratings(df_hist)
                     
@@ -99,6 +103,7 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                     except:
                         e_vis = 1500.0
 
+                    # 2. MOTOR MONTECARLO
                     resultados = simular_partido_europa(
                         datos_partido["local"], 
                         datos_partido["visita"],
@@ -110,27 +115,107 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                     if isinstance(resultados, str):
                         st.error(resultados)
                     else:
-                        st.markdown("##### 🏆 Probabilidades del Encuentro (1X2)")
+                        st.markdown("### 🎲 Modelo Matemático: Poisson & ELO (Montecarlo)")
                         c1, c2, c3 = st.columns(3)
                         c1.metric(f"Victoria {datos_partido['local']}", f"{resultados['Resultado_1X2']['Gana Local']}%")
                         c2.metric("Empate", f"{resultados['Resultado_1X2']['Empate']}%")
                         c3.metric(f"Victoria {datos_partido['visita']}", f"{resultados['Resultado_1X2']['Gana Visita']}%")
                         
                         st.markdown("---")
-                        st.markdown("##### 🎯 Mercados Over / Under Clave")
                         c4, c5, c6 = st.columns(3)
                         c4.metric("Over 2.5 Goles", f"{resultados['Goles_Over_Under']['Over 2.5']}%")
                         c5.metric("Over 9.5 Córners", f"{resultados['Corners_Totales']['Over 9.5 Corners']}%")
                         c6.metric("Over 4.5 Tarjetas", f"{resultados['Tarjetas_Totales']['Over 4.5 Tarjetas']}%")
+
+                        st.markdown("---")
+                        
+                        # 3. MOTOR MACHINE LEARNING
+                        st.markdown("### 🤖 Modelo Predictivo: Machine Learning (xG y Tiros)")
+                        ml_predictor = PredictorMLEuropa()
+                        if ml_predictor.entrenar(df_hist):
+                            g_l_sim = resultados['Goles_Individuales'][datos_partido['local']]['goles']
+                            g_v_sim = resultados['Goles_Individuales'][datos_partido['visita']]['goles']
+                            
+                            preds_ml = ml_predictor.predecir_mercados_completos(
+                                datos_partido['local'], 
+                                datos_partido['visita'], 
+                                g_l_sim, 
+                                g_v_sim,
+                                e_loc,  
+                                e_vis
+                            )
+                            
+                            if "Resultado_1X2" in preds_ml:
+                                ml_c1, ml_c2, ml_c3 = st.columns(3)
+                                ml_c1.metric("Local (ML)", f"{preds_ml['Resultado_1X2']['Gana Local']}%")
+                                ml_c2.metric("Empate (ML)", f"{preds_ml['Resultado_1X2']['Empate']}%")
+                                ml_c3.metric("Visita (ML)", f"{preds_ml['Resultado_1X2']['Gana Visita']}%")
+                                
+                                ml_c4, ml_c5, ml_c6 = st.columns(3)
+                                ml_c4.metric("Over 2.5 Goles (ML)", f"{preds_ml['Goles_Over_Under']['Over 2.5']}%")
+                                ml_c5.metric("Over 9.5 Córners (ML)", f"{preds_ml['Corners_Totales']['Over 9.5 Corners']}%")
+                                ml_c6.metric("Over 4.5 Tarjetas (ML)", f"{preds_ml['Tarjetas_Totales']['Over 4.5 Tarjetas']}%")
+                        else:
+                            st.warning("⚠️ El modelo ML requiere más datos históricos para entrenar de forma segura.")
+
+                        st.markdown("---")
+                        
+                        # 4. GESTIÓN DE CUOTAS Y VALOR ESPERADO (KELLY)
+                        st.markdown("### ⚙️ Filtro Financiero: Cuotas y Valor (EV+)")
+                        cuotas_automaticas = obtener_cuotas_partido(datos_partido["fixture_id"])
+                        
+                        mercados_keys = {
+                            "Gana Local": "1", "Empate": "X", "Gana Visita": "2", 
+                            "Over 2.5 Goles": "Over 2.5", "Under 2.5 Goles": "Under 2.5",
+                            "Over 9.5 Corners": "Over 9.5 Corners", "Under 9.5 Corners": "Under 9.5 Corners",
+                            "Over 4.5 Tarjetas": "Over 4.5 Tarjetas", "Under 4.5 Tarjetas": "Under 4.5 Tarjetas"
+                        }
+                        
+                        cuotas_usuario = {}
+                        cols_cuotas = st.columns(3)
+                        
+                        for i, (nombre_m, llave) in enumerate(mercados_keys.items()):
+                            val_default = cuotas_automaticas.get(llave) if cuotas_automaticas and cuotas_automaticas.get(llave) else 0.0
+                            with cols_cuotas[i % 3]:
+                                cuotas_usuario[llave] = st.number_input(
+                                    f"{nombre_m}", 
+                                    min_value=0.0, 
+                                    value=float(val_default), 
+                                    step=0.05,
+                                    format="%.2f",
+                                    key=f"cuota_{nombre_liga}_{llave}"
+                                )
+
+                        # Analizamos las apuestas usando las probabilidades de Montecarlo como base fuerte
+                        df_apuestas = analizar_apuestas(resultados, datos_partido["fixture_id"], cuotas_personalizadas=cuotas_usuario)
+                        
+                        if not df_apuestas.empty:
+                            def color_veredicto(val):
+                                if '🔥' in str(val): return 'color: #00ff00; font-weight: bold'
+                                elif '✅' in str(val): return 'color: #adff2f'
+                                elif '⚠️' in str(val): return 'color: #ffa500'
+                                elif '❌' in str(val): return 'color: #ff4d4d'
+                                return ''
+                                
+                            st.dataframe(
+                                df_apuestas.style.map(color_veredicto, subset=['Veredicto']), 
+                                use_container_width=True,
+                                hide_index=True
+                            )
 
 # ==========================================
 # PESTAÑA 6: ESCÁNER GLOBAL EV+
 # ==========================================
 with tabs[5]:
     st.subheader("🌐 Escáner Global de Valor (Las 5 Ligas en Simultáneo)")
-    st.info("Este módulo recorre las jornadas activas de las 5 ligas europeas en busca de ineficiencias en las cuotas de las casas de apuestas.")
+    st.info("Este módulo recorre las jornadas activas de las 5 ligas europeas en busca de ineficiencias en las cuotas de las casas de apuestas (EV+).")
     
     if st.button("🚀 Escanear Todas las Ligas de Europa", type="primary"):
         with st.spinner("Escaneando Premier League, La Liga, Serie A, Bundesliga y Ligue 1..."):
-            # Aquí puedes unificar la iteración sobre los fixtures de los 5 IDs de Ligas
-            st.success("¡Simulación global lista! (Configura tus cuotas en cada pestaña para afinar el filtro EV+).")
+            
+            # Aquí implementaremos el bucle masivo en el siguiente paso.
+            # Este bucle llamará a obtener_proximos_partidos_europa() por cada ID,
+            # correrá Montecarlo y Odds Engine de fondo, y concatenará los DataFrames de df_apuestas
+            # filtrando solo los veredictos 🔥 y ✅.
+            
+            st.success("¡Estructura de simulación global lista para ser conectada al motor de escaneo masivo!")
