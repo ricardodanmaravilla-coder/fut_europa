@@ -18,7 +18,7 @@ LIGAS_A_DESCARGAR = {
 }
 
 # Probamos con la temporada actual (2026) o la anterior (2025)
-TEMPORADAS = [2026, 2025]
+TEMPORADAS = [2021, 2020]
 
 def descargar_liga_segura(nombre_liga, league_id, archivo_salida):
     print(f"\n[INICIO] Conectando con API-Sports para: {nombre_liga} (ID: {league_id})...")
