@@ -1,0 +1,1141 @@
+Fecha,Local,Visitante,Goles_Local,Goles_Visita,Corners_Local,Corners_Visita,Tarjetas_Local,Tarjetas_Visita,xG_Local,xG_Visita,TirosGol_Local,TirosGol_Visita,Atajadas_Local,Atajadas_Visita,Arbitro
+2020-09-12,Eibar,Celta Vigo,0,0,3.0,3.0,6.0,4.0,0.52,0.96,1.0,3.0,3.0,1.0,Valentín Pizarro
+2020-09-12,Granada CF,Athletic Club,2,0,1.0,2.0,3.0,4.0,0.84,0.64,2.0,2.0,2.0,0.0,Antonio Mateu
+2020-09-12,Cadiz,Osasuna,0,2,6.0,2.0,2.0,2.0,1.16,1.28,3.0,4.0,2.0,3.0,Isidro Díaz de Mera
+2020-09-13,Alaves,Real Betis,0,1,6.0,4.0,3.0,3.0,0.84,1.28,2.0,4.0,3.0,2.0,Pablo González
+2020-09-13,Valladolid,Real Sociedad,1,1,5.0,3.0,4.0,1.0,1.16,0.64,3.0,2.0,1.0,1.0,Mario Melero
+2020-09-13,Villarreal,Huesca,1,1,6.0,6.0,1.0,1.0,1.48,0.96,4.0,3.0,2.0,3.0,Javier Estrada
+2020-09-13,Valencia,Levante,4,2,3.0,4.0,1.0,4.0,2.76,2.56,8.0,8.0,6.0,4.0,José Sánchez
+2020-09-19,Villarreal,Eibar,2,1,4.0,3.0,1.0,1.0,2.76,1.28,8.0,4.0,3.0,5.0,Jorge Figueroa
+2020-09-19,Getafe,Osasuna,1,0,4.0,1.0,4.0,2.0,0.52,0.96,1.0,3.0,3.0,1.0,Alejandro Hernández
+2020-09-19,Celta Vigo,Valencia,2,1,6.0,6.0,3.0,1.0,2.12,0.96,6.0,3.0,2.0,4.0,Jesús Gil
+2020-09-20,Huesca,Cadiz,0,2,2.0,1.0,3.0,3.0,0.52,1.28,1.0,4.0,2.0,0.0,César Soto
+2020-09-20,Real Betis,Valladolid,2,0,5.0,3.0,3.0,0.0,2.12,0.64,6.0,2.0,2.0,4.0,Santiago Jaime
+2020-09-20,Granada CF,Alaves,2,1,4.0,4.0,0.0,3.0,1.16,0.96,3.0,3.0,2.0,1.0,Carlos Del Cerro
+2020-09-20,Real Sociedad,Real Madrid,0,0,1.0,11.0,2.0,2.0,0.52,1.28,1.0,4.0,4.0,1.0,Juan Martínez
+2020-09-26,Alaves,Getafe,0,0,1.0,5.0,2.0,2.0,0.2,1.28,0.0,4.0,4.0,0.0,Javier Alberola
+2020-09-26,Valencia,Huesca,1,1,4.0,4.0,0.0,1.0,0.84,1.28,2.0,4.0,3.0,1.0,José Munuera
+2020-09-26,Elche,Real Sociedad,0,3,2.0,11.0,3.0,1.0,0.84,2.24,2.0,7.0,4.0,2.0,Isidro Díaz de Mera
+2020-09-26,Real Betis,Real Madrid,2,3,8.0,3.0,7.0,2.0,1.8,1.28,5.0,4.0,2.0,3.0,Ricardo De Burgos
+2020-09-27,Osasuna,Levante,1,3,3.0,7.0,2.0,0.0,1.48,1.6,4.0,5.0,2.0,2.0,Mario Melero
+2020-09-27,Eibar,Athletic Club,1,2,5.0,4.0,1.0,1.0,0.52,1.6,1.0,5.0,3.0,0.0,Adrián Cordero
+2020-09-27,Atletico Madrid,Granada CF,6,1,1.0,1.0,3.0,2.0,3.4,1.92,10.0,6.0,6.0,4.0,Javier Estrada
+2020-09-27,Valladolid,Celta Vigo,1,1,4.0,1.0,3.0,4.0,1.48,0.32,4.0,1.0,0.0,3.0,José Sánchez
+2020-09-27,Cadiz,Sevilla,1,3,6.0,5.0,4.0,2.0,1.8,1.6,5.0,5.0,2.0,4.0,David Medié
+2020-09-27,Barcelona,Villarreal,4,0,8.0,4.0,0.0,1.0,3.08,0.32,9.0,1.0,1.0,6.0,Guillermo Cuadra
+2020-09-29,Real Sociedad,Valencia,0,1,9.0,3.0,1.0,5.0,1.16,1.6,3.0,5.0,4.0,3.0,Jorge Figueroa
+2020-09-29,Getafe,Real Betis,3,0,1.0,4.0,4.0,6.0,1.48,0.64,4.0,2.0,2.0,1.0,Juan Martínez
+2020-09-30,Villarreal,Alaves,3,1,2.0,0.0,0.0,2.0,2.12,0.96,6.0,3.0,2.0,2.0,David Medié
+2020-09-30,Huesca,Atletico Madrid,0,0,5.0,7.0,1.0,0.0,1.16,0.64,3.0,2.0,2.0,3.0,Adrián Cordero
+2020-09-30,Real Madrid,Valladolid,1,0,4.0,7.0,2.0,1.0,1.8,1.6,5.0,5.0,5.0,4.0,César Soto
+2020-09-30,Eibar,Elche,0,1,3.0,2.0,2.0,2.0,1.48,0.64,4.0,2.0,1.0,4.0,Santiago Jaime
+2020-10-01,Athletic Club,Cadiz,0,1,5.0,2.0,3.0,9.0,1.48,0.32,4.0,1.0,1.0,4.0,Pablo González
+2020-10-01,Sevilla,Levante,1,0,2.0,4.0,6.0,2.0,0.84,0.32,2.0,1.0,1.0,1.0,Javier Estrada
+2020-10-01,Celta Vigo,Barcelona,0,3,3.0,7.0,5.0,7.0,1.16,1.28,3.0,4.0,2.0,3.0,Carlos Del Cerro
+2020-10-03,Valladolid,Eibar,1,2,3.0,4.0,2.0,5.0,1.16,1.6,3.0,5.0,3.0,2.0,Isidro Díaz de Mera
+2020-10-03,Atletico Madrid,Villarreal,0,0,9.0,1.0,1.0,2.0,0.2,0.64,0.0,2.0,2.0,0.0,Alejandro Hernández
+2020-10-03,Real Sociedad,Getafe,3,0,5.0,4.0,3.0,3.0,2.12,0.32,6.0,1.0,1.0,3.0,Antonio Mateu
+2020-10-03,Elche,Huesca,0,0,0.0,5.0,0.0,2.0,0.2,1.28,0.0,4.0,4.0,0.0,Mario Melero
+2020-10-03,Valencia,Real Betis,0,2,4.0,7.0,2.0,2.0,0.84,2.56,2.0,8.0,6.0,2.0,Guillermo Cuadra
+2020-10-04,Osasuna,Celta Vigo,2,0,6.0,5.0,3.0,3.0,1.8,0.96,5.0,3.0,3.0,2.0,Ricardo De Burgos
+2020-10-04,Alaves,Athletic Club,1,0,0.0,6.0,4.0,3.0,1.16,0.0,3.0,0.0,0.0,2.0,José Sánchez
+2020-10-04,Levante,Real Madrid,0,2,4.0,6.0,2.0,1.0,1.48,0.96,4.0,3.0,1.0,4.0,José Munuera
+2020-10-04,Cadiz,Granada CF,1,1,2.0,5.0,2.0,2.0,1.48,1.6,4.0,5.0,4.0,3.0,Javier Alberola
+2020-10-04,Barcelona,Sevilla,1,1,6.0,5.0,1.0,1.0,1.8,0.32,5.0,1.0,0.0,4.0,Jesús Gil
+2020-10-17,Granada CF,Sevilla,1,0,5.0,1.0,4.0,6.0,1.16,0.96,3.0,3.0,3.0,2.0,Pablo González
+2020-10-17,Celta Vigo,Atletico Madrid,0,2,8.0,4.0,3.0,4.0,1.8,1.28,5.0,4.0,2.0,5.0,Juan Martínez
+2020-10-17,Real Madrid,Cadiz,0,1,4.0,11.0,2.0,0.0,0.84,1.6,2.0,5.0,3.0,2.0,Santiago Jaime
+2020-10-17,Getafe,Barcelona,1,0,7.0,2.0,4.0,3.0,1.48,0.32,4.0,1.0,1.0,3.0,César Soto
+2020-10-18,Eibar,Osasuna,0,0,6.0,7.0,2.0,5.0,2.12,0.64,6.0,2.0,3.0,6.0,David Medié
+2020-10-18,Athletic Club,Levante,2,0,9.0,3.0,3.0,1.0,1.8,0.32,5.0,1.0,1.0,2.0,Javier Alberola
+2020-10-18,Villarreal,Valencia,2,1,3.0,7.0,3.0,1.0,2.12,0.96,6.0,3.0,2.0,4.0,Carlos Del Cerro
+2020-10-18,Alaves,Elche,0,2,2.0,6.0,2.0,5.0,0.84,0.96,2.0,3.0,1.0,2.0,Adrián Cordero
+2020-10-18,Huesca,Valladolid,2,2,3.0,1.0,1.0,2.0,2.44,0.96,7.0,3.0,1.0,5.0,Jorge Figueroa
+2020-10-18,Real Betis,Real Sociedad,0,3,6.0,2.0,2.0,1.0,0.52,1.6,1.0,5.0,2.0,1.0,Javier Estrada
+2020-10-23,Elche,Valencia,2,1,0.0,7.0,3.0,2.0,0.84,1.28,2.0,4.0,2.0,0.0,César Soto
+2020-10-24,Barcelona,Real Madrid,1,3,7.0,7.0,3.0,2.0,1.48,2.88,4.0,9.0,6.0,3.0,Juan Martínez
+2020-10-24,Sevilla,Eibar,0,1,13.0,3.0,0.0,3.0,1.16,0.32,3.0,1.0,0.0,3.0,Alejandro Hernández
+2020-10-24,Osasuna,Athletic Club,1,0,2.0,5.0,3.0,2.0,0.84,1.6,2.0,5.0,5.0,1.0,Guillermo Cuadra
+2020-10-24,Atletico Madrid,Real Betis,2,0,8.0,5.0,2.0,2.0,2.12,0.96,6.0,3.0,3.0,4.0,Antonio Mateu
+2020-10-25,Valladolid,Alaves,0,2,2.0,4.0,3.0,0.0,0.52,1.28,1.0,4.0,1.0,1.0,José Munuera
+2020-10-25,Cadiz,Villarreal,0,0,0.0,5.0,2.0,2.0,0.2,0.64,0.0,2.0,2.0,0.0,Ricardo De Burgos
+2020-10-25,Getafe,Granada CF,0,1,6.0,1.0,4.0,2.0,0.52,0.64,1.0,2.0,1.0,1.0,Jesús Gil
+2020-10-25,Real Sociedad,Huesca,4,1,4.0,5.0,2.0,1.0,2.12,1.28,6.0,4.0,3.0,2.0,Isidro Díaz de Mera
+2020-10-26,Levante,Celta Vigo,1,1,3.0,2.0,2.0,2.0,1.16,0.96,3.0,3.0,2.0,2.0,Mario Melero
+2020-10-30,Eibar,Cadiz,0,2,7.0,2.0,1.0,1.0,1.16,1.28,3.0,4.0,2.0,3.0,Antonio Mateu
+2020-10-31,Real Madrid,Huesca,4,1,6.0,3.0,0.0,2.0,2.12,0.64,6.0,2.0,1.0,2.0,Pablo González
+2020-10-31,Athletic Club,Sevilla,2,1,6.0,1.0,5.0,5.0,1.8,0.96,5.0,3.0,1.0,3.0,Carlos Del Cerro
+2020-10-31,Osasuna,Atletico Madrid,1,3,3.0,2.0,1.0,2.0,1.16,1.92,3.0,6.0,3.0,2.0,Javier Estrada
+2020-10-31,Alaves,Barcelona,1,1,2.0,14.0,6.0,3.0,1.16,2.88,3.0,9.0,7.0,2.0,Alejandro Hernández
+2020-11-01,Real Betis,Elche,3,1,1.0,1.0,2.0,1.0,3.4,0.64,10.0,2.0,1.0,7.0,David Medié
+2020-11-01,Celta Vigo,Real Sociedad,1,4,2.0,3.0,4.0,5.0,0.84,2.24,2.0,7.0,3.0,1.0,Adrián Cordero
+2020-11-01,Granada CF,Levante,1,1,2.0,8.0,4.0,3.0,0.84,1.28,2.0,4.0,3.0,1.0,Santiago Jaime
+2020-11-01,Valencia,Getafe,2,2,0.0,3.0,10.0,7.0,1.8,1.6,5.0,5.0,3.0,3.0,Jorge Figueroa
+2020-11-02,Villarreal,Valladolid,2,0,6.0,4.0,1.0,3.0,1.8,0.32,5.0,1.0,1.0,3.0,Javier Alberola
+2020-11-06,Elche,Celta Vigo,1,1,3.0,3.0,3.0,5.0,0.52,1.92,1.0,6.0,5.0,0.0,Ricardo De Burgos
+2020-11-07,Huesca,Eibar,1,1,4.0,3.0,2.0,0.0,2.12,0.96,6.0,3.0,2.0,4.0,Mario Melero
+2020-11-07,Barcelona,Real Betis,5,2,9.0,5.0,2.0,4.0,3.4,1.92,10.0,6.0,4.0,4.0,Guillermo Cuadra
+2020-11-07,Sevilla,Osasuna,1,0,3.0,0.0,2.0,3.0,0.52,0.64,1.0,2.0,2.0,0.0,Juan Martínez
+2020-11-07,Atletico Madrid,Cadiz,4,0,2.0,7.0,1.0,1.0,2.44,0.96,7.0,3.0,3.0,3.0,Adrián Cordero
+2020-11-08,Getafe,Villarreal,1,3,3.0,3.0,3.0,4.0,1.8,1.6,5.0,5.0,2.0,3.0,José Munuera
+2020-11-08,Real Sociedad,Granada CF,2,0,15.0,0.0,4.0,1.0,3.08,0.32,9.0,1.0,1.0,7.0,Carlos Del Cerro
+2020-11-08,Levante,Alaves,1,1,12.0,1.0,1.0,8.0,1.8,0.64,5.0,2.0,1.0,4.0,Isidro Díaz de Mera
+2020-11-08,Valladolid,Athletic Club,2,1,2.0,11.0,4.0,2.0,1.48,0.64,4.0,2.0,1.0,2.0,César Soto
+2020-11-08,Valencia,Real Madrid,4,1,1.0,8.0,3.0,2.0,1.48,1.92,4.0,6.0,5.0,1.0,Jesús Gil
+2020-11-20,Osasuna,Huesca,1,1,4.0,3.0,2.0,3.0,2.44,1.6,7.0,5.0,4.0,6.0,Valentín Pizarro
+2020-11-21,Levante,Elche,1,1,5.0,4.0,1.0,4.0,1.8,1.6,5.0,5.0,4.0,4.0,Jorge Figueroa
+2020-11-21,Villarreal,Real Madrid,1,1,4.0,2.0,1.0,2.0,0.52,0.32,1.0,1.0,3.0,3.0,Alejandro Hernández
+2020-11-21,Sevilla,Celta Vigo,4,2,3.0,2.0,2.0,2.0,3.4,2.24,10.0,7.0,5.0,6.0,César Soto
+2020-11-21,Atletico Madrid,Barcelona,1,0,8.0,8.0,4.0,0.0,0.84,1.28,2.0,4.0,4.0,1.0,José Munuera
+2020-11-22,Eibar,Getafe,0,0,3.0,4.0,5.0,4.0,1.8,0.96,5.0,3.0,3.0,4.0,Pablo González
+2020-11-22,Cadiz,Real Sociedad,0,1,1.0,6.0,2.0,1.0,0.2,1.28,0.0,4.0,2.0,0.0,Javier Estrada
+2020-11-22,Granada CF,Valladolid,1,3,5.0,3.0,4.0,3.0,2.12,0.96,6.0,3.0,0.0,5.0,David Medié
+2020-11-22,Alaves,Valencia,2,2,4.0,5.0,1.0,1.0,1.16,1.6,3.0,5.0,3.0,1.0,Santiago Jaime
+2020-11-23,Athletic Club,Real Betis,4,0,6.0,3.0,1.0,1.0,3.08,0.32,9.0,1.0,1.0,6.0,Javier Alberola
+2020-11-27,Valladolid,Levante,1,1,3.0,11.0,0.0,3.0,1.48,0.96,4.0,3.0,2.0,3.0,Valentín Pizarro
+2020-11-28,Elche,Cadiz,1,1,1.0,9.0,8.0,2.0,1.16,0.64,3.0,2.0,1.0,2.0,Carlos Del Cerro
+2020-11-28,Valencia,Atletico Madrid,0,1,2.0,7.0,2.0,5.0,0.84,1.92,2.0,6.0,5.0,3.0,Ricardo De Burgos
+2020-11-28,Huesca,Sevilla,0,1,1.0,10.0,4.0,3.0,0.52,1.28,1.0,4.0,3.0,1.0,Guillermo Cuadra
+2020-11-28,Real Madrid,Alaves,1,2,12.0,9.0,2.0,3.0,3.08,1.92,9.0,6.0,4.0,7.0,Adrián Cordero
+2020-11-29,Barcelona,Osasuna,4,0,5.0,3.0,1.0,0.0,3.72,1.6,11.0,5.0,5.0,6.0,Antonio Mateu
+2020-11-29,Getafe,Athletic Club,1,1,3.0,2.0,2.0,4.0,1.16,0.64,3.0,2.0,1.0,2.0,Mario Melero
+2020-11-29,Celta Vigo,Granada CF,3,1,8.0,0.0,7.0,3.0,2.76,0.64,8.0,2.0,1.0,4.0,Isidro Díaz de Mera
+2020-11-29,Real Sociedad,Villarreal,1,1,4.0,4.0,5.0,3.0,1.48,0.64,4.0,2.0,1.0,3.0,Jesús Gil
+2020-11-30,Real Betis,Eibar,0,2,6.0,2.0,2.0,1.0,1.16,1.92,3.0,6.0,4.0,3.0,Juan Martínez
+2020-12-04,Athletic Club,Celta Vigo,0,2,4.0,5.0,2.0,1.0,0.2,1.28,0.0,4.0,2.0,0.0,Jorge Figueroa
+2020-12-05,Levante,Getafe,3,0,5.0,5.0,2.0,11.0,2.76,0.0,8.0,0.0,0.0,5.0,David Medié
+2020-12-05,Sevilla,Real Madrid,0,1,4.0,3.0,1.0,3.0,0.84,0.96,2.0,3.0,2.0,2.0,José Sánchez
+2020-12-05,Atletico Madrid,Valladolid,2,0,4.0,4.0,4.0,2.0,1.48,0.96,4.0,3.0,3.0,2.0,Pablo González
+2020-12-05,Cadiz,Barcelona,2,1,5.0,13.0,0.0,2.0,1.16,2.56,3.0,8.0,8.0,2.0,César Soto
+2020-12-06,Granada CF,Huesca,3,3,4.0,2.0,2.0,0.0,2.12,2.24,6.0,7.0,4.0,3.0,Javier Alberola
+2020-12-06,Osasuna,Real Betis,0,2,2.0,5.0,3.0,2.0,0.2,1.6,0.0,5.0,3.0,0.0,Alejandro Hernández
+2020-12-06,Villarreal,Elche,0,0,4.0,0.0,3.0,2.0,1.16,0.0,3.0,0.0,0.0,3.0,Santiago Jaime
+2020-12-06,Alaves,Real Sociedad,0,0,2.0,3.0,3.0,0.0,0.52,1.6,1.0,5.0,5.0,1.0,José Munuera
+2020-12-07,Eibar,Valencia,0,0,8.0,0.0,3.0,2.0,1.16,1.28,3.0,4.0,4.0,3.0,Javier Estrada
+2020-12-11,Valladolid,Osasuna,3,2,3.0,3.0,4.0,5.0,2.12,1.92,6.0,6.0,4.0,3.0,Adrián Cordero
+2020-12-12,Valencia,Athletic Club,2,2,0.0,10.0,2.0,6.0,0.84,1.6,2.0,5.0,3.0,0.0,Carlos Del Cerro
+2020-12-12,Getafe,Sevilla,0,1,5.0,3.0,2.0,3.0,0.84,0.0,2.0,0.0,0.0,1.0,Juan Martínez
+2020-12-12,Huesca,Alaves,1,0,5.0,2.0,1.0,4.0,1.16,0.32,3.0,1.0,1.0,2.0,Mario Melero
+2020-12-12,Real Madrid,Atletico Madrid,2,0,3.0,6.0,1.0,3.0,1.16,0.32,3.0,1.0,1.0,2.0,Antonio Mateu
+2020-12-13,Real Sociedad,Eibar,1,1,5.0,4.0,4.0,3.0,0.84,1.28,2.0,4.0,3.0,1.0,Isidro Díaz de Mera
+2020-12-13,Real Betis,Villarreal,1,1,4.0,8.0,2.0,3.0,1.8,0.64,5.0,2.0,1.0,4.0,Valentín Pizarro
+2020-12-13,Elche,Granada CF,0,1,6.0,5.0,4.0,2.0,0.52,1.6,1.0,5.0,4.0,1.0,Pablo González
+2020-12-13,Barcelona,Levante,1,0,12.0,4.0,2.0,1.0,4.36,0.96,13.0,3.0,3.0,12.0,Ricardo De Burgos
+2020-12-14,Celta Vigo,Cadiz,4,0,1.0,5.0,2.0,1.0,1.48,0.64,4.0,2.0,2.0,0.0,Guillermo Cuadra
+2020-12-15,Real Madrid,Athletic Club,3,1,6.0,6.0,1.0,5.0,1.8,1.28,5.0,4.0,3.0,2.0,Jesús Gil
+2020-12-16,Barcelona,Real Sociedad,2,1,2.0,3.0,3.0,3.0,1.48,1.6,4.0,5.0,4.0,2.0,José Sánchez
+2020-12-18,Athletic Club,Huesca,2,0,5.0,5.0,0.0,5.0,1.16,0.32,3.0,1.0,1.0,1.0,Valentín Pizarro
+2020-12-19,Atletico Madrid,Elche,3,1,2.0,4.0,1.0,2.0,2.12,0.96,6.0,3.0,2.0,3.0,Javier Estrada
+2020-12-19,Barcelona,Valencia,2,2,8.0,3.0,4.0,2.0,3.08,1.28,9.0,4.0,2.0,7.0,Alejandro Hernández
+2020-12-19,Levante,Real Sociedad,2,1,3.0,4.0,2.0,1.0,1.8,1.6,5.0,5.0,4.0,3.0,César Soto
+2020-12-19,Osasuna,Villarreal,1,3,2.0,2.0,4.0,2.0,0.52,1.92,1.0,6.0,3.0,0.0,Jorge Figueroa
+2020-12-19,Sevilla,Valladolid,1,1,7.0,7.0,3.0,4.0,1.16,1.6,3.0,5.0,4.0,2.0,Jesús Gil
+2020-12-20,Celta Vigo,Alaves,2,0,3.0,5.0,2.0,2.0,1.16,0.64,3.0,2.0,2.0,1.0,Javier Alberola
+2020-12-20,Granada CF,Real Betis,2,0,1.0,10.0,3.0,4.0,1.16,0.32,3.0,1.0,1.0,1.0,José Sánchez
+2020-12-20,Cadiz,Getafe,0,2,2.0,4.0,2.0,7.0,0.52,1.28,1.0,4.0,2.0,1.0,Santiago Jaime
+2020-12-20,Eibar,Real Madrid,1,3,4.0,4.0,1.0,0.0,1.16,1.6,3.0,5.0,1.0,2.0,José Munuera
+2020-12-22,Valencia,Sevilla,0,1,3.0,5.0,3.0,2.0,1.48,0.96,4.0,3.0,2.0,4.0,Valentín Pizarro
+2020-12-22,Elche,Osasuna,2,2,4.0,4.0,1.0,4.0,0.84,1.92,2.0,6.0,4.0,0.0,Ricardo De Burgos
+2020-12-22,Real Sociedad,Atletico Madrid,0,2,5.0,5.0,3.0,3.0,0.52,0.96,1.0,3.0,1.0,1.0,Guillermo Cuadra
+2020-12-22,Huesca,Levante,1,1,10.0,3.0,2.0,3.0,0.84,0.32,2.0,1.0,0.0,1.0,Isidro Díaz de Mera
+2020-12-22,Villarreal,Athletic Club,1,1,6.0,4.0,1.0,1.0,2.12,0.96,6.0,3.0,2.0,5.0,David Medié
+2020-12-22,Valladolid,Barcelona,0,3,4.0,5.0,1.0,2.0,1.8,3.2,5.0,10.0,7.0,5.0,Mario Melero
+2020-12-23,Getafe,Celta Vigo,1,1,1.0,4.0,3.0,3.0,1.16,0.32,3.0,1.0,0.0,2.0,Pablo González
+2020-12-23,Real Madrid,Granada CF,2,0,8.0,1.0,2.0,1.0,2.12,0.32,6.0,1.0,1.0,4.0,Juan Martínez
+2020-12-23,Alaves,Eibar,2,1,2.0,7.0,4.0,2.0,1.16,1.28,3.0,4.0,3.0,1.0,Carlos Del Cerro
+2020-12-23,Real Betis,Cadiz,1,0,5.0,5.0,1.0,1.0,0.52,0.96,1.0,3.0,3.0,0.0,Antonio Mateu
+2020-12-29,Sevilla,Villarreal,2,0,4.0,7.0,1.0,4.0,1.16,0.64,3.0,2.0,2.0,1.0,César Soto
+2020-12-29,Barcelona,Eibar,1,1,5.0,7.0,0.0,2.0,1.8,0.96,5.0,3.0,2.0,4.0,Javier Alberola
+2020-12-29,Levante,Real Betis,4,3,3.0,6.0,5.0,2.0,1.8,2.24,5.0,7.0,4.0,1.0,Javier Estrada
+2020-12-29,Cadiz,Valladolid,0,0,1.0,6.0,3.0,2.0,1.16,0.32,3.0,1.0,1.0,3.0,Alejandro Hernández
+2020-12-30,Granada CF,Valencia,2,1,6.0,6.0,6.0,8.0,1.8,1.92,5.0,6.0,5.0,3.0,Adrián Cordero
+2020-12-30,Atletico Madrid,Getafe,1,0,5.0,2.0,2.0,3.0,1.16,0.64,3.0,2.0,2.0,2.0,Antonio Mateu
+2020-12-30,Celta Vigo,Huesca,2,1,0.0,5.0,2.0,0.0,2.12,1.92,6.0,6.0,5.0,4.0,José Munuera
+2020-12-30,Elche,Real Madrid,1,1,2.0,3.0,1.0,4.0,1.16,1.92,3.0,6.0,5.0,2.0,Jorge Figueroa
+2020-12-31,Athletic Club,Real Sociedad,0,1,2.0,4.0,5.0,4.0,0.2,0.96,0.0,3.0,2.0,0.0,José Sánchez
+2020-12-31,Osasuna,Alaves,1,1,5.0,4.0,5.0,4.0,1.16,0.32,3.0,1.0,0.0,2.0,Santiago Jaime
+2021-01-02,Villarreal,Levante,2,1,3.0,5.0,1.0,1.0,2.44,0.64,7.0,2.0,1.0,5.0,Pablo González
+2021-01-02,Real Betis,Sevilla,1,1,2.0,1.0,5.0,2.0,1.16,0.64,3.0,2.0,1.0,2.0,Carlos Del Cerro
+2021-01-02,Getafe,Valladolid,0,1,5.0,9.0,3.0,2.0,1.48,0.64,4.0,2.0,2.0,5.0,Isidro Díaz de Mera
+2021-01-02,Real Madrid,Celta Vigo,2,0,1.0,5.0,4.0,2.0,0.84,0.32,2.0,1.0,3.0,3.0,Ricardo De Burgos
+2021-01-03,Athletic Club,Elche,1,0,5.0,4.0,2.0,1.0,0.84,0.64,2.0,2.0,1.0,1.0,Mario Melero
+2021-01-03,Alaves,Atletico Madrid,1,2,1.0,5.0,2.0,2.0,0.52,1.28,1.0,4.0,2.0,1.0,Juan Martínez
+2021-01-03,Eibar,Granada CF,2,0,4.0,2.0,2.0,1.0,2.44,0.96,7.0,3.0,3.0,5.0,Antonio Mateu
+2021-01-03,Real Sociedad,Osasuna,1,1,7.0,2.0,1.0,1.0,0.84,0.64,2.0,2.0,1.0,1.0,Valentín Pizarro
+2021-01-03,Huesca,Barcelona,0,1,2.0,6.0,1.0,0.0,1.48,2.24,4.0,7.0,5.0,4.0,Guillermo Cuadra
+2021-01-04,Valencia,Cadiz,1,1,9.0,7.0,2.0,2.0,1.48,0.64,4.0,2.0,1.0,3.0,David Medié
+2021-01-06,Athletic Club,Barcelona,2,3,3.0,4.0,2.0,1.0,1.16,2.88,3.0,9.0,6.0,2.0,Carlos Del Cerro
+2021-01-08,Celta Vigo,Villarreal,0,4,3.0,4.0,1.0,0.0,1.16,1.92,3.0,6.0,2.0,3.0,Javier Estrada
+2021-01-09,Sevilla,Real Sociedad,3,2,2.0,9.0,0.0,3.0,2.44,1.28,7.0,4.0,2.0,4.0,Javier Alberola
+2021-01-09,Granada CF,Barcelona,0,4,4.0,1.0,4.0,3.0,1.48,1.28,4.0,4.0,0.0,4.0,Ricardo De Burgos
+2021-01-09,Osasuna,Real Madrid,0,0,2.0,4.0,1.0,1.0,0.84,0.32,2.0,1.0,1.0,2.0,César Soto
+2021-01-10,Levante,Eibar,2,1,4.0,9.0,2.0,0.0,0.84,1.28,2.0,4.0,3.0,0.0,Javier Estrada
+2021-01-10,Cadiz,Alaves,3,1,4.0,1.0,1.0,6.0,2.44,0.64,7.0,2.0,1.0,4.0,José Sánchez
+2021-01-10,Valladolid,Valencia,0,1,0.0,4.0,2.0,3.0,1.48,1.92,4.0,6.0,5.0,4.0,Guillermo Cuadra
+2021-01-11,Elche,Getafe,1,3,1.0,7.0,6.0,2.0,1.48,2.24,4.0,7.0,4.0,3.0,José Munuera
+2021-01-11,Huesca,Real Betis,0,2,3.0,6.0,2.0,4.0,1.16,1.6,3.0,5.0,3.0,3.0,Adrián Cordero
+2021-01-12,Granada CF,Osasuna,2,0,4.0,4.0,1.0,4.0,0.84,0.96,2.0,3.0,3.0,1.0,Pablo González
+2021-01-12,Atletico Madrid,Sevilla,2,0,3.0,12.0,2.0,0.0,1.48,0.64,4.0,2.0,2.0,2.0,Javier Estrada
+2021-01-19,Valladolid,Elche,2,2,4.0,5.0,3.0,3.0,0.84,0.96,2.0,3.0,1.0,0.0,Santiago Jaime
+2021-01-19,Cadiz,Levante,2,2,5.0,2.0,3.0,1.0,0.84,1.6,2.0,5.0,3.0,0.0,Carlos Del Cerro
+2021-01-19,Alaves,Sevilla,1,2,3.0,2.0,3.0,3.0,1.16,0.96,3.0,3.0,1.0,2.0,Isidro Díaz de Mera
+2021-01-20,Getafe,Huesca,1,0,3.0,8.0,2.0,3.0,1.8,0.96,5.0,3.0,3.0,4.0,David Medié
+2021-01-20,Real Betis,Celta Vigo,2,1,5.0,6.0,2.0,3.0,1.48,0.96,4.0,3.0,2.0,2.0,Juan Martínez
+2021-01-20,Villarreal,Granada CF,2,2,3.0,0.0,2.0,6.0,1.16,0.64,3.0,2.0,0.0,1.0,Valentín Pizarro
+2021-01-21,Valencia,Osasuna,1,1,9.0,4.0,1.0,3.0,1.16,1.6,3.0,5.0,4.0,3.0,Alejandro Hernández
+2021-01-21,Eibar,Atletico Madrid,1,2,3.0,3.0,3.0,2.0,0.84,1.28,2.0,4.0,2.0,1.0,Mario Melero
+2021-01-22,Levante,Valladolid,2,2,8.0,2.0,0.0,1.0,1.16,0.96,3.0,3.0,1.0,1.0,José Munuera
+2021-01-23,Huesca,Villarreal,0,0,1.0,2.0,3.0,1.0,0.52,0.64,1.0,2.0,2.0,1.0,Javier Alberola
+2021-01-23,Sevilla,Cadiz,3,0,7.0,6.0,1.0,3.0,2.44,0.96,7.0,3.0,3.0,4.0,Guillermo Cuadra
+2021-01-23,Real Sociedad,Real Betis,2,2,8.0,3.0,2.0,2.0,2.12,1.28,6.0,4.0,2.0,3.0,César Soto
+2021-01-23,Alaves,Real Madrid,1,4,4.0,4.0,5.0,3.0,1.48,2.24,4.0,7.0,2.0,4.0,Alejandro Hernández
+2021-01-24,Osasuna,Granada CF,3,1,1.0,5.0,7.0,3.0,1.48,0.32,4.0,1.0,0.0,1.0,Javier Estrada
+2021-01-24,Elche,Barcelona,0,2,0.0,7.0,0.0,2.0,0.84,2.56,2.0,8.0,6.0,2.0,Valentín Pizarro
+2021-01-24,Celta Vigo,Eibar,1,1,0.0,6.0,4.0,3.0,1.48,0.64,4.0,2.0,1.0,3.0,Pablo González
+2021-01-24,Atletico Madrid,Valencia,3,1,7.0,7.0,2.0,0.0,1.8,1.28,5.0,4.0,3.0,2.0,Ricardo De Burgos
+2021-01-25,Athletic Club,Getafe,5,1,4.0,4.0,4.0,4.0,2.76,0.64,8.0,2.0,1.0,3.0,Adrián Cordero
+2021-01-29,Valladolid,Huesca,1,3,6.0,7.0,2.0,2.0,1.48,1.6,4.0,5.0,2.0,3.0,Ricardo De Burgos
+2021-01-30,Eibar,Sevilla,0,2,6.0,2.0,4.0,3.0,2.12,1.28,6.0,4.0,2.0,6.0,José Sánchez
+2021-01-30,Real Madrid,Levante,1,2,3.0,7.0,3.0,2.0,0.84,2.56,2.0,8.0,6.0,1.0,David Medié
+2021-01-30,Valencia,Elche,1,0,4.0,10.0,1.0,7.0,1.48,0.32,4.0,1.0,1.0,2.0,Pablo González
+2021-01-30,Villarreal,Real Sociedad,1,1,1.0,7.0,1.0,3.0,0.84,0.96,2.0,3.0,2.0,1.0,Isidro Díaz de Mera
+2021-01-31,Getafe,Alaves,0,0,5.0,2.0,3.0,3.0,0.52,0.32,1.0,1.0,1.0,0.0,Santiago Jaime
+2021-01-31,Cadiz,Atletico Madrid,2,4,2.0,2.0,1.0,5.0,2.12,1.28,6.0,4.0,0.0,4.0,Jesús Gil
+2021-01-31,Granada CF,Celta Vigo,0,0,6.0,5.0,2.0,4.0,1.8,0.32,5.0,1.0,1.0,5.0,Carlos Del Cerro
+2021-01-31,Barcelona,Athletic Club,2,1,7.0,3.0,2.0,3.0,2.12,0.64,6.0,2.0,2.0,4.0,Antonio Mateu
+2021-02-01,Real Betis,Osasuna,1,0,3.0,4.0,1.0,1.0,1.48,1.6,4.0,5.0,5.0,2.0,Javier Alberola
+2021-02-05,Alaves,Valladolid,1,0,11.0,1.0,4.0,4.0,1.8,0.32,5.0,1.0,1.0,4.0,César Soto
+2021-02-06,Levante,Granada CF,2,2,6.0,2.0,1.0,3.0,2.44,1.6,7.0,5.0,3.0,5.0,Adrián Cordero
+2021-02-06,Huesca,Real Madrid,1,2,3.0,9.0,2.0,1.0,0.84,2.24,2.0,7.0,5.0,1.0,Javier Estrada
+2021-02-06,Elche,Villarreal,2,2,4.0,2.0,1.0,2.0,0.84,1.28,2.0,4.0,2.0,0.0,Mario Melero
+2021-02-06,Sevilla,Getafe,3,0,3.0,1.0,1.0,6.0,1.8,0.32,5.0,1.0,1.0,2.0,Juan Martínez
+2021-02-07,Real Sociedad,Cadiz,4,1,5.0,1.0,0.0,4.0,2.12,0.32,6.0,1.0,0.0,2.0,Valentín Pizarro
+2021-02-07,Athletic Club,Valencia,1,1,6.0,6.0,2.0,1.0,0.84,0.64,2.0,2.0,1.0,2.0,José Munuera
+2021-02-07,Osasuna,Eibar,2,1,2.0,1.0,1.0,1.0,1.48,0.96,4.0,3.0,2.0,2.0,Jorge Figueroa
+2021-02-07,Real Betis,Barcelona,2,3,3.0,5.0,1.0,3.0,1.8,1.28,5.0,4.0,2.0,3.0,Carlos Del Cerro
+2021-02-08,Atletico Madrid,Celta Vigo,2,2,1.0,4.0,2.0,2.0,0.84,0.64,2.0,2.0,3.0,3.0,Guillermo Cuadra
+2021-02-09,Real Madrid,Getafe,2,0,8.0,1.0,1.0,1.0,1.48,0.0,4.0,0.0,0.0,2.0,Javier Alberola
+2021-02-12,Celta Vigo,Elche,3,1,3.0,6.0,3.0,2.0,2.12,0.64,6.0,2.0,1.0,3.0,Ricardo De Burgos
+2021-02-13,Granada CF,Atletico Madrid,1,2,7.0,3.0,0.0,5.0,0.52,1.28,1.0,4.0,2.0,0.0,Antonio Mateu
+2021-02-13,Sevilla,Huesca,1,0,6.0,6.0,3.0,4.0,1.48,1.6,4.0,5.0,5.0,4.0,David Medié
+2021-02-13,Eibar,Valladolid,1,1,7.0,3.0,2.0,3.0,0.84,0.32,2.0,1.0,0.0,1.0,Isidro Díaz de Mera
+2021-02-13,Barcelona,Alaves,5,1,5.0,4.0,0.0,2.0,3.08,0.64,9.0,2.0,1.0,4.0,Jorge Figueroa
+2021-02-14,Getafe,Real Sociedad,0,1,2.0,5.0,3.0,3.0,0.2,0.64,0.0,2.0,1.0,0.0,Pablo González
+2021-02-14,Real Madrid,Valencia,2,0,6.0,1.0,0.0,3.0,2.44,0.32,7.0,1.0,1.0,5.0,José Sánchez
+2021-02-14,Levante,Osasuna,0,1,2.0,1.0,1.0,2.0,1.48,0.64,4.0,2.0,1.0,4.0,Santiago Jaime
+2021-02-14,Villarreal,Real Betis,1,2,7.0,3.0,3.0,2.0,1.8,1.28,5.0,4.0,2.0,4.0,Jesús Gil
+2021-02-15,Cadiz,Athletic Club,0,4,5.0,8.0,3.0,2.0,0.84,2.56,2.0,8.0,3.0,2.0,Alejandro Hernández
+2021-02-17,Levante,Atletico Madrid,1,1,1.0,8.0,1.0,3.0,1.48,1.92,4.0,6.0,5.0,3.0,José Munuera
+2021-02-19,Real Betis,Getafe,1,0,5.0,2.0,7.0,4.0,1.8,0.32,5.0,1.0,1.0,4.0,Javier Estrada
+2021-02-20,Elche,Eibar,1,0,1.0,4.0,2.0,1.0,0.84,0.96,2.0,3.0,3.0,1.0,Adrián Cordero
+2021-02-20,Atletico Madrid,Levante,0,2,12.0,2.0,2.0,3.0,3.72,0.32,11.0,1.0,0.0,10.0,Mario Melero
+2021-02-20,Valencia,Celta Vigo,2,0,6.0,1.0,2.0,5.0,1.16,0.64,3.0,2.0,2.0,1.0,Valentín Pizarro
+2021-02-20,Valladolid,Real Madrid,0,1,4.0,5.0,4.0,2.0,1.8,0.64,5.0,2.0,1.0,5.0,Guillermo Cuadra
+2021-02-21,Barcelona,Cadiz,1,1,8.0,0.0,0.0,2.0,1.48,0.32,4.0,1.0,0.0,3.0,Juan Martínez
+2021-02-21,Real Sociedad,Alaves,4,0,4.0,3.0,3.0,2.0,1.48,0.64,4.0,2.0,2.0,0.0,José Munuera
+2021-02-21,Huesca,Granada CF,3,2,5.0,2.0,3.0,5.0,2.12,1.6,6.0,5.0,3.0,4.0,César Soto
+2021-02-21,Athletic Club,Villarreal,1,1,6.0,0.0,2.0,2.0,2.76,0.64,8.0,2.0,1.0,7.0,Carlos Del Cerro
+2021-02-22,Osasuna,Sevilla,0,2,3.0,5.0,2.0,2.0,0.2,1.6,0.0,5.0,3.0,0.0,Javier Alberola
+2021-02-24,Barcelona,Elche,3,0,6.0,3.0,1.0,1.0,1.8,0.32,5.0,1.0,1.0,2.0,Isidro Díaz de Mera
+2021-02-26,Levante,Athletic Club,1,1,2.0,10.0,3.0,3.0,1.48,1.6,4.0,5.0,4.0,3.0,Isidro Díaz de Mera
+2021-02-27,Eibar,Huesca,1,1,6.0,2.0,2.0,2.0,1.16,0.32,3.0,1.0,0.0,2.0,Pablo González
+2021-02-27,Sevilla,Barcelona,0,2,3.0,3.0,5.0,2.0,0.84,1.6,2.0,5.0,3.0,2.0,Alejandro Hernández
+2021-02-27,Alaves,Osasuna,0,1,5.0,2.0,3.0,4.0,0.52,0.96,1.0,3.0,1.0,1.0,José Sánchez
+2021-02-27,Getafe,Valencia,3,0,3.0,6.0,5.0,4.0,1.48,0.0,4.0,0.0,0.0,1.0,Jorge Figueroa
+2021-02-28,Celta Vigo,Valladolid,1,1,3.0,5.0,3.0,5.0,0.84,0.96,2.0,3.0,2.0,1.0,David Medié
+2021-02-28,Cadiz,Real Betis,0,1,3.0,7.0,1.0,2.0,1.16,1.28,3.0,4.0,3.0,3.0,Antonio Mateu
+2021-02-28,Granada CF,Elche,2,1,5.0,5.0,3.0,2.0,1.48,1.28,4.0,4.0,3.0,2.0,Santiago Jaime
+2021-02-28,Villarreal,Atletico Madrid,0,2,10.0,2.0,2.0,3.0,2.12,1.6,6.0,5.0,4.0,6.0,Ricardo De Burgos
+2021-03-01,Real Madrid,Real Sociedad,1,1,13.0,4.0,0.0,1.0,1.16,0.64,3.0,2.0,1.0,1.0,Jesús Gil
+2021-03-05,Valencia,Villarreal,2,1,5.0,3.0,4.0,3.0,1.48,1.6,4.0,5.0,4.0,2.0,Javier Estrada
+2021-03-06,Valladolid,Getafe,2,1,1.0,6.0,2.0,4.0,1.16,0.64,3.0,2.0,1.0,1.0,Mario Melero
+2021-03-06,Elche,Sevilla,2,1,6.0,3.0,4.0,0.0,1.16,0.96,3.0,3.0,2.0,1.0,Valentín Pizarro
+2021-03-06,Cadiz,Eibar,1,0,0.0,12.0,2.0,2.0,0.84,0.32,2.0,1.0,1.0,1.0,Carlos Del Cerro
+2021-03-06,Osasuna,Barcelona,0,2,3.0,4.0,0.0,2.0,1.16,1.92,3.0,6.0,4.0,3.0,Guillermo Cuadra
+2021-03-07,Huesca,Celta Vigo,3,4,6.0,3.0,0.0,2.0,2.44,2.24,7.0,7.0,3.0,2.0,José Munuera
+2021-03-07,Atletico Madrid,Real Madrid,1,1,1.0,6.0,5.0,1.0,1.8,2.56,5.0,8.0,7.0,4.0,Alejandro Hernández
+2021-03-07,Real Sociedad,Levante,1,0,7.0,5.0,0.0,2.0,2.76,0.32,8.0,1.0,1.0,6.0,César Soto
+2021-03-07,Athletic Club,Granada CF,2,1,6.0,9.0,2.0,2.0,1.8,0.96,5.0,3.0,2.0,3.0,Juan Martínez
+2021-03-08,Real Betis,Alaves,3,2,12.0,1.0,0.0,3.0,2.76,0.96,8.0,3.0,1.0,4.0,Javier Alberola
+2021-03-10,Atletico Madrid,Athletic Club,2,1,5.0,4.0,2.0,2.0,1.8,0.64,5.0,2.0,1.0,3.0,Jesús Gil
+2021-03-12,Levante,Valencia,1,0,3.0,3.0,3.0,4.0,1.16,0.64,3.0,2.0,2.0,2.0,Guillermo Cuadra
+2021-03-13,Alaves,Cadiz,1,1,2.0,5.0,5.0,3.0,1.16,0.32,3.0,1.0,0.0,1.0,Isidro Díaz de Mera
+2021-03-13,Real Madrid,Elche,2,1,6.0,1.0,1.0,1.0,1.48,0.64,4.0,2.0,1.0,2.0,Jorge Figueroa
+2021-03-13,Osasuna,Valladolid,0,0,7.0,3.0,2.0,3.0,0.84,0.64,2.0,2.0,2.0,2.0,Ricardo De Burgos
+2021-03-13,Getafe,Atletico Madrid,0,0,3.0,11.0,3.0,5.0,0.84,2.24,2.0,7.0,7.0,2.0,José Sánchez
+2021-03-14,Celta Vigo,Athletic Club,0,0,1.0,3.0,3.0,1.0,1.16,0.32,3.0,1.0,1.0,3.0,Santiago Jaime
+2021-03-14,Granada CF,Real Sociedad,1,0,4.0,6.0,2.0,3.0,0.84,0.32,2.0,1.0,1.0,1.0,Pablo González
+2021-03-14,Eibar,Villarreal,1,3,7.0,2.0,2.0,4.0,2.44,2.56,7.0,8.0,5.0,6.0,David Medié
+2021-03-14,Sevilla,Real Betis,1,0,3.0,6.0,3.0,7.0,1.16,0.96,3.0,3.0,2.0,2.0,Antonio Mateu
+2021-03-15,Barcelona,Huesca,4,1,7.0,3.0,0.0,2.0,1.8,1.28,5.0,4.0,3.0,1.0,Adrián Cordero
+2021-03-17,Sevilla,Elche,2,0,4.0,1.0,2.0,1.0,2.76,1.6,8.0,5.0,5.0,6.0,Javier Alberola
+2021-03-19,Real Betis,Levante,2,0,4.0,1.0,2.0,0.0,2.12,0.32,6.0,1.0,1.0,4.0,Jesús Gil
+2021-03-20,Athletic Club,Eibar,1,1,10.0,1.0,1.0,1.0,1.48,0.64,4.0,2.0,1.0,3.0,Valentín Pizarro
+2021-03-20,Celta Vigo,Real Madrid,1,3,1.0,7.0,3.0,4.0,1.16,1.28,3.0,4.0,1.0,2.0,Mario Melero
+2021-03-20,Huesca,Osasuna,0,0,5.0,1.0,1.0,2.0,1.16,0.64,3.0,2.0,2.0,3.0,Carlos Del Cerro
+2021-03-20,Valladolid,Sevilla,1,1,2.0,8.0,3.0,1.0,0.84,1.28,2.0,4.0,3.0,1.0,Javier Estrada
+2021-03-21,Getafe,Elche,1,1,4.0,8.0,3.0,7.0,1.8,0.64,5.0,2.0,1.0,4.0,Alejandro Hernández
+2021-03-21,Valencia,Granada CF,2,1,3.0,4.0,0.0,3.0,3.08,0.96,9.0,3.0,2.0,6.0,Javier Alberola
+2021-03-21,Villarreal,Cadiz,2,1,5.0,6.0,3.0,3.0,1.48,0.96,4.0,3.0,2.0,2.0,César Soto
+2021-03-21,Atletico Madrid,Alaves,1,0,5.0,5.0,3.0,3.0,1.48,0.96,4.0,3.0,3.0,3.0,Juan Martínez
+2021-03-21,Real Sociedad,Barcelona,1,6,1.0,1.0,3.0,2.0,1.8,3.2,5.0,10.0,4.0,4.0,José Munuera
+2021-04-02,Levante,Huesca,0,2,8.0,2.0,2.0,2.0,1.16,0.64,3.0,2.0,0.0,3.0,Jorge Figueroa
+2021-04-03,Granada CF,Villarreal,0,3,3.0,5.0,2.0,2.0,0.84,1.92,2.0,6.0,2.0,2.0,Guillermo Cuadra
+2021-04-03,Real Madrid,Eibar,2,0,6.0,9.0,0.0,2.0,2.76,1.28,8.0,4.0,4.0,6.0,Isidro Díaz de Mera
+2021-04-03,Osasuna,Getafe,0,0,2.0,4.0,2.0,3.0,0.52,0.64,1.0,2.0,2.0,2.0,Pablo González
+2021-04-04,Alaves,Celta Vigo,1,3,6.0,2.0,4.0,7.0,2.44,1.92,7.0,6.0,3.0,6.0,Antonio Mateu
+2021-04-04,Elche,Real Betis,1,1,7.0,2.0,1.0,4.0,1.16,0.96,3.0,3.0,2.0,2.0,Adrián Cordero
+2021-04-04,Cadiz,Valencia,2,1,4.0,13.0,2.0,2.0,0.84,1.92,2.0,6.0,5.0,0.0,David Medié
+2021-04-04,Sevilla,Atletico Madrid,1,0,3.0,2.0,2.0,4.0,1.8,1.28,5.0,4.0,4.0,4.0,Jesús Gil
+2021-04-05,Barcelona,Valladolid,1,0,4.0,1.0,3.0,5.0,3.4,0.64,10.0,2.0,2.0,9.0,Santiago Jaime
+2021-04-07,Real Sociedad,Athletic Club,1,1,3.0,6.0,3.0,1.0,0.84,0.64,2.0,2.0,1.0,2.0,José Sánchez
+2021-04-09,Huesca,Elche,3,1,6.0,6.0,2.0,2.0,1.8,0.64,5.0,2.0,2.0,2.0,Javier Alberola
+2021-04-10,Getafe,Cadiz,0,1,10.0,4.0,3.0,2.0,1.48,0.96,4.0,3.0,3.0,3.0,Ricardo De Burgos
+2021-04-10,Athletic Club,Alaves,0,0,6.0,6.0,2.0,2.0,1.48,0.0,4.0,0.0,0.0,4.0,Mario Melero
+2021-04-10,Eibar,Levante,0,1,6.0,3.0,3.0,2.0,1.48,0.32,4.0,1.0,0.0,4.0,Javier Estrada
+2021-04-10,Real Madrid,Barcelona,2,1,5.0,6.0,5.0,4.0,1.16,1.28,3.0,4.0,3.0,1.0,Jesús Gil
+2021-04-11,Villarreal,Osasuna,1,2,6.0,5.0,1.0,1.0,2.12,1.28,6.0,4.0,2.0,6.0,José Munuera
+2021-04-11,Valencia,Real Sociedad,2,2,4.0,5.0,7.0,4.0,0.84,1.6,2.0,5.0,3.0,0.0,Valentín Pizarro
+2021-04-11,Valladolid,Granada CF,1,2,2.0,4.0,4.0,2.0,1.16,1.92,3.0,6.0,4.0,2.0,Carlos Del Cerro
+2021-04-11,Real Betis,Atletico Madrid,1,1,5.0,5.0,1.0,1.0,1.48,1.28,4.0,4.0,3.0,4.0,Guillermo Cuadra
+2021-04-12,Celta Vigo,Sevilla,3,4,5.0,2.0,3.0,2.0,1.8,1.92,5.0,6.0,2.0,2.0,Alejandro Hernández
+2021-04-18,Real Sociedad,Sevilla,1,2,7.0,3.0,3.0,2.0,0.84,2.24,2.0,7.0,4.0,1.0,Santiago Jaime
+2021-04-18,Osasuna,Elche,2,0,4.0,5.0,2.0,1.0,1.16,0.64,3.0,2.0,2.0,2.0,Jorge Figueroa
+2021-04-18,Atletico Madrid,Eibar,5,0,8.0,3.0,0.0,1.0,2.44,0.0,7.0,0.0,0.0,2.0,César Soto
+2021-04-18,Alaves,Huesca,1,0,7.0,3.0,1.0,2.0,0.84,0.32,2.0,1.0,1.0,1.0,Alejandro Hernández
+2021-04-18,Real Betis,Valencia,2,2,6.0,3.0,3.0,1.0,1.8,0.96,5.0,3.0,1.0,3.0,Javier Alberola
+2021-04-18,Cadiz,Celta Vigo,0,0,4.0,7.0,0.0,1.0,0.84,1.28,2.0,4.0,4.0,2.0,Pablo González
+2021-04-18,Levante,Villarreal,1,5,4.0,5.0,2.0,1.0,1.16,2.24,3.0,7.0,4.0,2.0,Ricardo De Burgos
+2021-04-18,Getafe,Real Madrid,0,0,6.0,6.0,3.0,1.0,2.12,0.64,6.0,2.0,1.0,6.0,José Sánchez
+2021-04-21,Levante,Sevilla,0,1,2.0,3.0,4.0,1.0,0.52,0.96,1.0,3.0,2.0,1.0,Valentín Pizarro
+2021-04-21,Osasuna,Valencia,3,1,5.0,6.0,1.0,2.0,3.08,1.6,9.0,5.0,4.0,6.0,Mario Melero
+2021-04-21,Real Betis,Athletic Club,0,0,5.0,4.0,5.0,2.0,0.84,1.28,2.0,4.0,4.0,2.0,David Medié
+2021-04-21,Alaves,Villarreal,2,1,3.0,8.0,2.0,1.0,1.48,1.6,4.0,5.0,3.0,2.0,Adrián Cordero
+2021-04-21,Elche,Valladolid,1,1,4.0,6.0,5.0,3.0,1.16,1.28,3.0,4.0,3.0,2.0,José Sánchez
+2021-04-21,Cadiz,Real Madrid,0,3,7.0,3.0,4.0,3.0,1.16,1.28,3.0,4.0,1.0,3.0,Antonio Mateu
+2021-04-22,Atletico Madrid,Huesca,2,0,8.0,1.0,2.0,0.0,4.04,0.64,12.0,2.0,2.0,10.0,José Munuera
+2021-04-22,Real Sociedad,Celta Vigo,2,1,2.0,4.0,4.0,5.0,1.16,0.96,3.0,3.0,2.0,1.0,Jesús Gil
+2021-04-22,Granada CF,Eibar,4,1,4.0,7.0,1.0,1.0,1.48,0.96,4.0,3.0,2.0,0.0,Santiago Jaime
+2021-04-22,Barcelona,Getafe,5,2,3.0,1.0,2.0,0.0,2.12,0.32,6.0,1.0,0.0,2.0,Jorge Figueroa
+2021-04-24,Elche,Levante,1,0,4.0,2.0,3.0,4.0,1.16,0.32,3.0,1.0,1.0,2.0,David Medié
+2021-04-24,Valladolid,Cadiz,1,1,5.0,7.0,1.0,3.0,2.12,0.64,6.0,2.0,1.0,5.0,Javier Alberola
+2021-04-24,Valencia,Alaves,1,1,7.0,2.0,4.0,2.0,0.84,0.64,2.0,2.0,1.0,1.0,Guillermo Cuadra
+2021-04-24,Real Madrid,Real Betis,0,0,8.0,2.0,1.0,2.0,1.8,0.64,5.0,2.0,2.0,5.0,Javier Estrada
+2021-04-25,Huesca,Getafe,0,2,1.0,0.0,2.0,4.0,0.52,1.28,1.0,4.0,2.0,1.0,Juan Martínez
+2021-04-25,Villarreal,Barcelona,1,2,6.0,1.0,4.0,3.0,1.48,1.6,4.0,5.0,3.0,3.0,Carlos Del Cerro
+2021-04-25,Sevilla,Granada CF,2,1,5.0,5.0,2.0,3.0,1.48,0.64,4.0,2.0,1.0,2.0,Ricardo De Burgos
+2021-04-25,Celta Vigo,Osasuna,2,1,2.0,8.0,1.0,4.0,0.84,0.96,2.0,3.0,2.0,0.0,César Soto
+2021-04-25,Athletic Club,Atletico Madrid,2,1,4.0,11.0,4.0,2.0,1.16,0.96,3.0,3.0,2.0,1.0,Pablo González
+2021-04-26,Eibar,Real Sociedad,0,1,2.0,3.0,5.0,1.0,1.8,0.64,5.0,2.0,1.0,5.0,Jorge Figueroa
+2021-04-28,Athletic Club,Valladolid,2,2,5.0,7.0,1.0,1.0,2.44,1.28,7.0,4.0,2.0,5.0,Adrián Cordero
+2021-04-29,Barcelona,Granada CF,1,2,6.0,1.0,0.0,4.0,1.48,0.64,4.0,2.0,0.0,3.0,Pablo González
+2021-04-30,Celta Vigo,Levante,2,0,1.0,5.0,2.0,2.0,1.8,0.64,5.0,2.0,2.0,3.0,Santiago Jaime
+2021-05-01,Eibar,Alaves,3,0,10.0,5.0,0.0,2.0,1.48,0.64,4.0,2.0,2.0,1.0,José Munuera
+2021-05-01,Elche,Atletico Madrid,0,1,3.0,2.0,3.0,3.0,0.52,1.28,1.0,4.0,3.0,1.0,Mario Melero
+2021-05-01,Huesca,Real Sociedad,1,0,2.0,7.0,2.0,2.0,1.16,0.96,3.0,3.0,3.0,3.0,Antonio Mateu
+2021-05-01,Real Madrid,Osasuna,2,0,7.0,0.0,0.0,2.0,2.12,0.64,6.0,2.0,2.0,4.0,Guillermo Cuadra
+2021-05-02,Valladolid,Real Betis,1,1,3.0,2.0,2.0,5.0,0.84,1.28,2.0,4.0,3.0,1.0,Valentín Pizarro
+2021-05-02,Villarreal,Getafe,1,0,4.0,4.0,1.0,2.0,1.16,0.96,3.0,3.0,3.0,2.0,Javier Estrada
+2021-05-02,Granada CF,Cadiz,0,1,6.0,5.0,9.0,2.0,0.84,1.28,2.0,4.0,3.0,2.0,Isidro Díaz de Mera
+2021-05-02,Valencia,Barcelona,2,3,2.0,1.0,2.0,1.0,1.48,2.24,4.0,7.0,3.0,2.0,José Sánchez
+2021-05-03,Sevilla,Athletic Club,0,1,6.0,2.0,1.0,0.0,1.16,0.64,3.0,2.0,1.0,3.0,Jesús Gil
+2021-05-07,Real Sociedad,Elche,2,0,7.0,0.0,1.0,5.0,1.16,0.0,3.0,0.0,0.0,1.0,Adrián Cordero
+2021-05-08,Alaves,Levante,2,2,8.0,3.0,2.0,1.0,1.8,0.96,5.0,3.0,1.0,3.0,Carlos Del Cerro
+2021-05-08,Barcelona,Atletico Madrid,0,0,5.0,7.0,3.0,3.0,2.44,1.92,7.0,6.0,6.0,7.0,Antonio Mateu
+2021-05-08,Cadiz,Huesca,2,1,3.0,3.0,4.0,0.0,0.52,1.6,1.0,5.0,4.0,0.0,Alejandro Hernández
+2021-05-08,Athletic Club,Osasuna,2,2,10.0,4.0,1.0,2.0,1.16,1.28,3.0,4.0,2.0,1.0,Valentín Pizarro
+2021-05-09,Getafe,Eibar,0,1,4.0,2.0,1.0,2.0,0.84,0.96,2.0,3.0,2.0,2.0,Javier Alberola
+2021-05-09,Valencia,Valladolid,3,0,1.0,9.0,1.0,1.0,1.16,0.64,3.0,2.0,2.0,0.0,Jesús Gil
+2021-05-09,Villarreal,Celta Vigo,2,4,5.0,3.0,8.0,5.0,2.44,1.92,7.0,6.0,2.0,5.0,David Medié
+2021-05-09,Real Madrid,Sevilla,2,2,7.0,3.0,1.0,2.0,2.44,0.96,7.0,3.0,1.0,5.0,Juan Martínez
+2021-05-10,Real Betis,Granada CF,2,1,9.0,2.0,2.0,4.0,1.8,1.6,5.0,5.0,5.0,3.0,César Soto
+2021-05-11,Osasuna,Cadiz,3,2,3.0,5.0,2.0,2.0,1.48,1.28,4.0,4.0,2.0,1.0,Santiago Jaime
+2021-05-11,Elche,Alaves,0,2,7.0,5.0,2.0,4.0,1.48,0.64,4.0,2.0,0.0,3.0,Pablo González
+2021-05-11,Levante,Barcelona,3,3,8.0,6.0,2.0,2.0,2.12,1.6,6.0,5.0,2.0,3.0,José Munuera
+2021-05-12,Sevilla,Valencia,1,0,3.0,5.0,2.0,2.0,1.48,0.64,4.0,2.0,2.0,3.0,Javier Estrada
+2021-05-12,Celta Vigo,Getafe,1,0,1.0,5.0,1.0,3.0,0.52,1.28,1.0,4.0,4.0,0.0,Mario Melero
+2021-05-12,Huesca,Athletic Club,1,0,5.0,0.0,0.0,1.0,2.12,0.96,6.0,3.0,3.0,5.0,Jorge Figueroa
+2021-05-12,Atletico Madrid,Real Sociedad,2,1,1.0,7.0,1.0,1.0,1.48,2.24,4.0,7.0,6.0,2.0,Guillermo Cuadra
+2021-05-13,Valladolid,Villarreal,0,2,3.0,6.0,3.0,1.0,0.84,0.96,2.0,3.0,1.0,2.0,Ricardo De Burgos
+2021-05-13,Eibar,Real Betis,1,1,5.0,4.0,3.0,1.0,1.48,1.28,4.0,4.0,3.0,3.0,Isidro Díaz de Mera
+2021-05-13,Granada CF,Real Madrid,1,4,2.0,3.0,3.0,3.0,1.8,2.24,5.0,7.0,3.0,4.0,Jesús Gil
+2021-05-16,Barcelona,Celta Vigo,1,2,7.0,1.0,5.0,2.0,1.48,1.28,4.0,4.0,2.0,3.0,Ricardo De Burgos
+2021-05-16,Atletico Madrid,Osasuna,2,1,8.0,0.0,2.0,2.0,3.08,0.64,9.0,2.0,1.0,7.0,Juan Martínez
+2021-05-16,Athletic Club,Real Madrid,0,1,4.0,11.0,5.0,1.0,0.52,0.64,1.0,2.0,1.0,1.0,Antonio Mateu
+2021-05-16,Valencia,Eibar,4,1,2.0,10.0,1.0,1.0,1.8,2.56,5.0,8.0,7.0,1.0,Valentín Pizarro
+2021-05-16,Villarreal,Sevilla,4,0,3.0,6.0,0.0,5.0,1.8,1.6,5.0,5.0,5.0,1.0,Guillermo Cuadra
+2021-05-16,Alaves,Granada CF,4,2,6.0,1.0,2.0,4.0,3.08,0.64,9.0,2.0,0.0,5.0,José Sánchez
+2021-05-16,Real Betis,Huesca,1,0,2.0,5.0,1.0,7.0,0.84,0.0,2.0,0.0,0.0,1.0,Pablo González
+2021-05-16,Getafe,Levante,2,1,3.0,4.0,7.0,0.0,1.16,0.32,3.0,1.0,0.0,1.0,Adrián Cordero
+2021-05-16,Real Sociedad,Valladolid,4,1,2.0,4.0,2.0,6.0,3.08,1.6,9.0,5.0,4.0,5.0,Carlos Del Cerro
+2021-05-16,Cadiz,Elche,1,3,1.0,8.0,3.0,4.0,1.16,1.6,3.0,5.0,2.0,3.0,César Soto
+2021-05-21,Levante,Cadiz,2,2,7.0,0.0,0.0,2.0,1.48,0.64,4.0,2.0,0.0,2.0,Javier Estrada
+2021-05-22,Celta Vigo,Real Betis,2,3,8.0,4.0,6.0,9.0,1.48,1.6,4.0,5.0,2.0,2.0,"Jesus Gil Manzano, Spain"
+2021-05-22,Real Madrid,Villarreal,2,1,6.0,1.0,1.0,1.0,1.48,0.64,4.0,2.0,1.0,2.0,"Jose Luis Munuera Montero, Spain"
+2021-05-22,Eibar,Barcelona,0,1,6.0,3.0,0.0,3.0,1.16,0.96,3.0,3.0,2.0,3.0,"Santiago Jaime Latre, Spain"
+2021-05-22,Valladolid,Atletico Madrid,1,2,4.0,6.0,4.0,6.0,1.48,0.96,4.0,3.0,1.0,3.0,"Jose Maria Sanchez Martinez, Spain"
+2021-05-22,Huesca,Valencia,0,0,9.0,3.0,2.0,1.0,2.76,1.28,8.0,4.0,4.0,8.0,"Guillermo Cuadra Fernandez, Spain"
+2021-05-22,Osasuna,Real Sociedad,0,1,3.0,3.0,1.0,0.0,0.52,0.32,1.0,1.0,0.0,1.0,"Jorge Figueroa Vazquez, Spain"
+2021-05-22,Elche,Athletic Club,2,0,3.0,1.0,3.0,0.0,1.16,0.64,3.0,2.0,2.0,1.0,"Carlos Del Cerro Grande, Spain"
+2021-05-23,Granada CF,Getafe,0,0,6.0,3.0,4.0,2.0,1.16,0.64,3.0,2.0,2.0,2.0,"David Medie Jimenez, Spain"
+2021-05-23,Sevilla,Alaves,1,0,6.0,4.0,1.0,0.0,0.84,0.64,2.0,2.0,2.0,1.0,"Isidro Diaz de Mera Escuderos, Spain"
+2022-08-12,Osasuna,Sevilla,2,1,5.0,2.0,5.0,3.0,1.8,0.96,5.0,3.0,2.0,3.0,Carlos del Cerro
+2022-08-13,Celta Vigo,Espanyol,2,2,3.0,3.0,5.0,2.0,1.16,0.64,3.0,2.0,0.0,1.0,Miguel Ortiz
+2022-08-13,Valladolid,Villarreal,0,3,4.0,5.0,1.0,0.0,2.12,1.28,6.0,4.0,1.0,6.0,Mario Melero
+2022-08-13,Barcelona,Rayo Vallecano,0,0,8.0,0.0,5.0,6.0,2.12,0.64,6.0,2.0,2.0,5.0,Alejandro Hernández
+2022-08-14,Cadiz,Real Sociedad,0,1,3.0,6.0,4.0,2.0,0.84,2.24,2.0,7.0,6.0,1.0,Isidro Díaz de Mera
+2022-08-14,Valencia,Girona,1,0,4.0,4.0,4.0,3.0,0.84,0.32,2.0,1.0,1.0,2.0,Jorge Figueroa
+2022-08-14,Almeria,Real Madrid,1,2,2.0,15.0,3.0,1.0,2.12,4.8,6.0,15.0,13.0,5.0,Juan Martínez
+2022-08-15,Athletic Club,Mallorca,0,0,7.0,2.0,0.0,6.0,2.12,0.64,6.0,2.0,2.0,6.0,Javier Iglesias
+2022-08-15,Getafe,Atletico Madrid,0,3,3.0,6.0,2.0,1.0,0.2,1.6,0.0,5.0,2.0,0.0,José Sánchez
+2022-08-15,Real Betis,Elche,3,0,8.0,4.0,3.0,8.0,2.76,0.64,8.0,2.0,1.0,5.0,Guillermo Cuadra
+2022-08-19,Espanyol,Rayo Vallecano,0,2,9.0,2.0,4.0,7.0,0.52,0.96,1.0,3.0,1.0,1.0,Jorge Figueroa
+2022-08-19,Sevilla,Valladolid,1,1,12.0,2.0,5.0,4.0,0.84,0.96,2.0,3.0,2.0,1.0,Juan Pulido
+2022-08-20,Osasuna,Cadiz,2,0,2.0,2.0,2.0,7.0,1.16,0.64,3.0,2.0,2.0,2.0,Antonio Mateu
+2022-08-20,Mallorca,Real Betis,1,2,5.0,2.0,7.0,8.0,2.44,0.96,7.0,3.0,1.0,6.0,Pablo González
+2022-08-20,Celta Vigo,Real Madrid,1,4,2.0,2.0,2.0,2.0,0.84,2.24,2.0,7.0,3.0,1.0,Jesús Gil
+2022-08-21,Athletic Club,Valencia,1,0,6.0,3.0,5.0,2.0,0.84,0.0,2.0,0.0,0.0,1.0,César Soto
+2022-08-21,Atletico Madrid,Villarreal,0,2,5.0,6.0,4.0,2.0,1.8,1.6,5.0,5.0,3.0,5.0,Ricardo De Burgos
+2022-08-21,Real Sociedad,Barcelona,1,4,3.0,6.0,2.0,1.0,1.8,2.24,5.0,7.0,3.0,4.0,José Munuera
+2022-08-22,Elche,Almeria,1,1,6.0,5.0,1.0,6.0,1.16,2.24,3.0,7.0,6.0,2.0,Isidro Díaz de Mera
+2022-08-22,Girona,Getafe,3,1,5.0,2.0,2.0,8.0,2.12,0.96,6.0,3.0,2.0,4.0,Alejandro Muñiz
+2022-08-26,Girona,Celta Vigo,0,1,2.0,4.0,2.0,1.0,1.16,1.92,3.0,6.0,5.0,3.0,Carlos del Cerro
+2022-08-26,Real Betis,Osasuna,1,0,2.0,4.0,2.0,3.0,0.52,0.64,1.0,2.0,2.0,0.0,Juan Martínez
+2022-08-27,Elche,Real Sociedad,0,1,4.0,6.0,3.0,3.0,1.8,1.6,5.0,5.0,4.0,5.0,Javier Iglesias
+2022-08-27,Rayo Vallecano,Mallorca,0,2,7.0,3.0,1.0,3.0,0.2,1.28,0.0,4.0,2.0,0.0,José Sánchez
+2022-08-27,Almeria,Sevilla,2,1,5.0,2.0,5.0,8.0,1.8,1.6,5.0,5.0,4.0,3.0,Jesús Gil
+2022-08-28,Getafe,Villarreal,0,0,1.0,4.0,1.0,5.0,0.84,1.92,2.0,6.0,6.0,2.0,Jorge Figueroa
+2022-08-28,Barcelona,Valladolid,4,0,14.0,4.0,1.0,2.0,3.08,0.96,9.0,3.0,2.0,5.0,Ricardo De Burgos
+2022-08-28,Espanyol,Real Madrid,1,3,7.0,7.0,3.0,1.0,1.48,1.92,4.0,6.0,3.0,3.0,Mario Melero
+2022-08-29,Cadiz,Athletic Club,0,4,0.0,6.0,2.0,1.0,1.16,2.56,3.0,8.0,5.0,3.0,Miguel Ortiz
+2022-08-29,Valencia,Atletico Madrid,0,1,6.0,2.0,4.0,3.0,0.84,2.24,2.0,7.0,6.0,2.0,Guillermo Cuadra
+2022-09-02,Celta Vigo,Cadiz,3,0,2.0,2.0,1.0,2.0,1.8,0.0,5.0,0.0,0.0,2.0,Juan Pulido
+2022-09-03,Mallorca,Girona,1,1,6.0,3.0,4.0,2.0,1.48,1.28,4.0,4.0,3.0,3.0,Isidro Díaz de Mera
+2022-09-03,Real Madrid,Real Betis,2,1,9.0,2.0,0.0,1.0,1.8,1.28,5.0,4.0,3.0,2.0,José Sánchez
+2022-09-03,Real Sociedad,Atletico Madrid,1,1,7.0,6.0,5.0,4.0,1.8,2.24,5.0,7.0,6.0,4.0,César Soto
+2022-09-03,Sevilla,Barcelona,0,3,4.0,4.0,2.0,4.0,1.48,2.24,4.0,7.0,2.0,4.0,Antonio Mateu
+2022-09-04,Osasuna,Rayo Vallecano,2,1,4.0,0.0,2.0,2.0,2.12,0.96,6.0,3.0,2.0,3.0,Alejandro Muñiz
+2022-09-04,Athletic Club,Espanyol,0,1,4.0,2.0,3.0,2.0,0.84,0.64,2.0,2.0,1.0,3.0,Juan Martínez
+2022-09-04,Villarreal,Elche,4,0,6.0,4.0,1.0,3.0,3.4,0.0,10.0,0.0,0.0,6.0,Miguel Ortiz
+2022-09-04,Valencia,Getafe,5,1,9.0,1.0,5.0,8.0,3.08,1.28,9.0,4.0,3.0,4.0,José Munuera
+2022-09-05,Valladolid,Almeria,1,0,2.0,8.0,1.0,6.0,2.12,0.32,6.0,1.0,0.0,5.0,Pablo González
+2022-09-09,Girona,Valladolid,2,1,3.0,12.0,0.0,2.0,1.8,1.28,5.0,4.0,3.0,3.0,César Soto
+2022-09-10,Rayo Vallecano,Valencia,2,1,7.0,7.0,5.0,2.0,2.12,1.28,6.0,4.0,3.0,5.0,Jesús Gil
+2022-09-10,Espanyol,Sevilla,2,3,9.0,3.0,3.0,7.0,1.8,2.24,5.0,7.0,4.0,3.0,Guillermo Cuadra
+2022-09-10,Cadiz,Barcelona,0,4,5.0,6.0,0.0,3.0,0.2,2.56,0.0,8.0,4.0,0.0,Carlos del Cerro
+2022-09-10,Atletico Madrid,Celta Vigo,4,1,4.0,7.0,2.0,3.0,1.48,0.96,4.0,3.0,2.0,1.0,Alejandro Hernández
+2022-09-11,Real Madrid,Mallorca,4,1,4.0,3.0,3.0,5.0,2.44,0.64,7.0,2.0,1.0,3.0,Jorge Figueroa
+2022-09-11,Elche,Athletic Club,1,4,5.0,5.0,3.0,0.0,0.84,2.56,2.0,8.0,5.0,1.0,Mario Melero
+2022-09-11,Getafe,Real Sociedad,2,1,3.0,7.0,4.0,1.0,1.16,1.92,3.0,6.0,5.0,1.0,Juan Pulido
+2022-09-11,Real Betis,Villarreal,1,0,9.0,8.0,1.0,1.0,1.8,0.96,5.0,3.0,2.0,4.0,Ricardo De Burgos
+2022-09-12,Almeria,Osasuna,0,1,5.0,10.0,0.0,2.0,0.84,1.28,2.0,4.0,3.0,2.0,Javier Iglesias
+2022-09-16,Valladolid,Cadiz,0,1,8.0,2.0,1.0,4.0,2.12,0.32,6.0,1.0,0.0,6.0,José Sánchez
+2022-09-17,Mallorca,Almeria,1,0,5.0,2.0,3.0,6.0,0.84,0.96,2.0,3.0,2.0,1.0,Juan Martínez
+2022-09-17,Barcelona,Elche,3,0,6.0,0.0,2.0,4.0,3.08,0.32,9.0,1.0,1.0,6.0,Alejandro Muñiz
+2022-09-17,Valencia,Celta Vigo,3,0,5.0,4.0,3.0,4.0,2.44,0.64,7.0,2.0,2.0,4.0,Pablo González
+2022-09-17,Athletic Club,Rayo Vallecano,3,2,2.0,7.0,1.0,2.0,2.44,0.64,7.0,2.0,0.0,4.0,Antonio Mateu
+2022-09-18,Osasuna,Getafe,0,2,8.0,1.0,9.0,5.0,1.48,1.28,4.0,4.0,2.0,4.0,Isidro Díaz de Mera
+2022-09-18,Villarreal,Sevilla,1,1,6.0,4.0,1.0,5.0,2.44,0.32,7.0,1.0,0.0,6.0,Alejandro Hernández
+2022-09-18,Real Betis,Girona,2,1,2.0,4.0,0.0,3.0,1.16,0.96,3.0,3.0,2.0,1.0,Miguel Ortiz
+2022-09-18,Real Sociedad,Espanyol,2,1,4.0,2.0,3.0,0.0,2.12,1.28,6.0,4.0,3.0,4.0,Carlos del Cerro
+2022-09-18,Atletico Madrid,Real Madrid,1,2,8.0,1.0,6.0,2.0,1.48,0.96,4.0,3.0,1.0,3.0,José Munuera
+2022-09-30,Athletic Club,Almeria,4,0,11.0,2.0,1.0,3.0,1.48,0.64,4.0,2.0,2.0,0.0,Juan Pulido
+2022-10-01,Cadiz,Villarreal,0,0,6.0,5.0,4.0,3.0,0.84,1.92,2.0,6.0,7.0,2.0,Javier Iglesias
+2022-10-01,Getafe,Valladolid,2,3,4.0,2.0,2.0,5.0,2.12,2.24,6.0,7.0,4.0,4.0,Alejandro Muñiz
+2022-10-01,Sevilla,Atletico Madrid,0,2,5.0,7.0,3.0,2.0,1.16,1.92,3.0,6.0,4.0,3.0,Ricardo De Burgos
+2022-10-01,Mallorca,Barcelona,0,1,5.0,5.0,2.0,4.0,1.16,0.96,3.0,3.0,2.0,3.0,Jesús Gil
+2022-10-02,Espanyol,Valencia,2,2,6.0,4.0,4.0,3.0,1.8,1.6,5.0,5.0,3.0,3.0,Valentín Pizarro
+2022-10-02,Celta Vigo,Real Betis,1,0,5.0,3.0,4.0,5.0,1.48,1.28,4.0,4.0,4.0,3.0,César Soto
+2022-10-02,Girona,Real Sociedad,3,5,2.0,2.0,3.0,1.0,2.76,1.6,8.0,5.0,0.0,5.0,Mario Melero
+2022-10-02,Real Madrid,Osasuna,1,1,10.0,2.0,1.0,4.0,1.48,0.64,4.0,2.0,1.0,3.0,Guillermo Cuadra
+2022-10-03,Rayo Vallecano,Elche,2,1,13.0,3.0,1.0,8.0,2.12,0.64,6.0,2.0,1.0,4.0,Jorge Figueroa
+2022-10-07,Osasuna,Valencia,1,2,7.0,5.0,7.0,8.0,0.84,2.24,2.0,7.0,5.0,1.0,Miguel Ortiz
+2022-10-08,Almeria,Rayo Vallecano,3,1,7.0,6.0,6.0,2.0,1.48,1.28,4.0,4.0,3.0,1.0,Pablo González
+2022-10-08,Atletico Madrid,Girona,2,1,8.0,3.0,3.0,1.0,2.44,1.28,7.0,4.0,3.0,5.0,Juan Martínez
+2022-10-08,Sevilla,Athletic Club,1,1,5.0,7.0,4.0,2.0,1.16,1.28,3.0,4.0,3.0,2.0,Jesús Gil
+2022-10-08,Getafe,Real Madrid,0,1,4.0,4.0,1.0,1.0,0.84,1.28,2.0,4.0,3.0,2.0,Antonio Mateu
+2022-10-09,Valladolid,Real Betis,0,0,3.0,1.0,1.0,3.0,1.16,0.32,3.0,1.0,1.0,3.0,Carlos del Cerro
+2022-10-09,Cadiz,Espanyol,2,2,8.0,3.0,4.0,4.0,1.16,1.92,3.0,6.0,4.0,1.0,Alejandro Hernández
+2022-10-09,Real Sociedad,Villarreal,1,0,9.0,3.0,5.0,3.0,1.8,0.32,5.0,1.0,1.0,4.0,César Soto
+2022-10-09,Barcelona,Celta Vigo,1,0,6.0,3.0,2.0,4.0,1.8,0.96,5.0,3.0,4.0,4.0,José Munuera
+2022-10-10,Elche,Mallorca,1,1,5.0,7.0,6.0,7.0,0.84,1.28,2.0,4.0,3.0,1.0,Valentín Pizarro
+2022-10-14,Rayo Vallecano,Getafe,0,0,4.0,1.0,2.0,3.0,1.16,0.96,3.0,3.0,3.0,3.0,Mario Melero
+2022-10-15,Girona,Cadiz,1,1,6.0,2.0,5.0,4.0,2.12,0.64,6.0,2.0,1.0,5.0,Ricardo De Burgos
+2022-10-15,Valencia,Elche,2,2,6.0,1.0,3.0,6.0,2.76,1.92,8.0,6.0,4.0,5.0,Juan Pulido
+2022-10-15,Mallorca,Sevilla,0,1,1.0,3.0,2.0,3.0,1.8,0.32,5.0,1.0,0.0,4.0,Javier Iglesias
+2022-10-15,Athletic Club,Atletico Madrid,0,1,6.0,1.0,0.0,6.0,1.16,0.32,3.0,1.0,0.0,3.0,Jorge Figueroa
+2022-10-16,Celta Vigo,Real Sociedad,1,2,1.0,6.0,7.0,7.0,1.16,1.92,3.0,6.0,4.0,2.0,Guillermo Cuadra
+2022-10-16,Real Madrid,Barcelona,3,1,2.0,3.0,2.0,2.0,1.48,1.6,4.0,5.0,4.0,1.0,José Sánchez
+2022-10-16,Espanyol,Valladolid,1,0,6.0,4.0,1.0,4.0,1.16,0.64,3.0,2.0,2.0,2.0,Antonio Mateu
+2022-10-16,Real Betis,Almeria,3,1,9.0,3.0,1.0,1.0,2.12,1.6,6.0,5.0,4.0,3.0,Alejandro Muñiz
+2022-10-17,Villarreal,Osasuna,2,0,8.0,4.0,2.0,6.0,3.08,0.96,9.0,3.0,3.0,7.0,Pablo González
+2022-10-18,Sevilla,Valencia,1,1,11.0,6.0,6.0,6.0,1.8,1.6,5.0,5.0,4.0,4.0,César Soto
+2022-10-18,Getafe,Athletic Club,2,2,7.0,4.0,6.0,4.0,1.48,1.28,4.0,4.0,2.0,2.0,José Munuera
+2022-10-18,Atletico Madrid,Rayo Vallecano,1,1,3.0,4.0,3.0,0.0,1.48,1.28,4.0,4.0,3.0,3.0,Javier Iglesias
+2022-10-19,Valladolid,Celta Vigo,4,1,3.0,7.0,1.0,1.0,2.44,1.6,7.0,5.0,4.0,3.0,Valentín Pizarro
+2022-10-19,Cadiz,Real Betis,0,0,4.0,9.0,1.0,4.0,1.16,0.96,3.0,3.0,3.0,3.0,Antonio Mateu
+2022-10-19,Real Sociedad,Mallorca,1,0,10.0,7.0,1.0,2.0,2.44,0.96,7.0,3.0,3.0,7.0,Miguel Ortiz
+2022-10-19,Elche,Real Madrid,0,3,8.0,2.0,1.0,1.0,1.16,2.24,3.0,7.0,3.0,3.0,Jesús Gil
+2022-10-20,Almeria,Girona,3,2,4.0,5.0,1.0,3.0,2.44,1.6,7.0,5.0,3.0,4.0,Guillermo Cuadra
+2022-10-20,Osasuna,Espanyol,1,0,9.0,2.0,1.0,2.0,1.8,0.96,5.0,3.0,3.0,4.0,Mario Melero
+2022-10-20,Barcelona,Villarreal,3,0,8.0,0.0,0.0,1.0,1.8,0.32,5.0,1.0,1.0,2.0,Carlos del Cerro
+2022-10-22,Rayo Vallecano,Cadiz,5,1,10.0,1.0,3.0,8.0,3.72,0.0,11.0,0.0,0.0,7.0,Alejandro Muñiz
+2022-10-22,Valladolid,Real Sociedad,1,0,4.0,10.0,2.0,3.0,0.84,0.64,2.0,2.0,2.0,1.0,Jorge Figueroa
+2022-10-22,Valencia,Mallorca,1,2,5.0,3.0,3.0,5.0,1.16,1.6,3.0,5.0,3.0,2.0,José Sánchez
+2022-10-22,Real Madrid,Sevilla,3,1,4.0,3.0,1.0,4.0,2.12,0.64,6.0,2.0,1.0,3.0,Alejandro Hernández
+2022-10-23,Espanyol,Elche,2,2,5.0,3.0,2.0,3.0,1.8,1.28,5.0,4.0,2.0,3.0,José Munuera
+2022-10-23,Real Betis,Atletico Madrid,1,2,7.0,4.0,2.0,3.0,1.48,0.96,4.0,3.0,1.0,3.0,Jesús Gil
+2022-10-23,Villarreal,Almeria,2,1,10.0,4.0,8.0,1.0,1.8,1.28,5.0,4.0,3.0,3.0,Ricardo De Burgos
+2022-10-23,Girona,Osasuna,1,1,3.0,5.0,2.0,3.0,0.52,0.64,1.0,2.0,1.0,0.0,Juan Pulido
+2022-10-23,Barcelona,Athletic Club,4,0,1.0,2.0,2.0,2.0,2.44,0.96,7.0,3.0,1.0,3.0,Juan Martínez
+2022-10-24,Celta Vigo,Getafe,1,1,10.0,0.0,1.0,1.0,1.8,0.32,5.0,1.0,0.0,5.0,Pablo González
+2022-10-28,Mallorca,Espanyol,1,1,4.0,4.0,6.0,1.0,1.8,0.64,5.0,2.0,1.0,4.0,Isidro Díaz de Mera
+2022-10-29,Almeria,Celta Vigo,3,1,6.0,4.0,4.0,2.0,1.8,0.96,5.0,3.0,2.0,2.0,Carlos del Cerro
+2022-10-29,Cadiz,Atletico Madrid,3,2,5.0,3.0,2.0,4.0,2.44,2.56,7.0,8.0,6.0,4.0,José Sánchez
+2022-10-29,Sevilla,Rayo Vallecano,0,1,6.0,6.0,6.0,1.0,1.48,1.6,4.0,5.0,4.0,5.0,Antonio Mateu
+2022-10-29,Valencia,Barcelona,0,1,3.0,10.0,4.0,5.0,0.84,0.64,2.0,2.0,1.0,2.0,Ricardo De Burgos
+2022-10-30,Osasuna,Valladolid,2,0,1.0,8.0,1.0,3.0,3.4,0.64,10.0,2.0,2.0,8.0,Guillermo Cuadra
+2022-10-30,Real Madrid,Girona,1,1,7.0,1.0,5.0,3.0,2.12,0.64,6.0,2.0,1.0,5.0,Mario Melero
+2022-10-30,Athletic Club,Villarreal,1,0,6.0,2.0,2.0,1.0,2.44,0.96,7.0,3.0,3.0,6.0,Miguel Ortiz
+2022-10-30,Real Sociedad,Real Betis,0,2,5.0,3.0,4.0,4.0,2.44,1.28,7.0,4.0,2.0,7.0,Javier Iglesias
+2022-10-31,Elche,Getafe,0,1,6.0,2.0,0.0,5.0,1.8,0.96,5.0,3.0,2.0,5.0,César Soto
+2022-11-04,Girona,Athletic Club,2,1,7.0,1.0,1.0,1.0,3.4,2.24,10.0,7.0,6.0,8.0,Valentín Pizarro
+2022-11-05,Getafe,Cadiz,0,0,5.0,5.0,10.0,4.0,0.84,1.28,2.0,4.0,4.0,1.0,Alejandro Hernández
+2022-11-05,Valladolid,Elche,2,1,8.0,4.0,2.0,0.0,3.72,0.64,11.0,2.0,1.0,9.0,Ricardo De Burgos
+2022-11-05,Celta Vigo,Osasuna,1,2,2.0,3.0,1.0,5.0,1.8,1.28,5.0,4.0,2.0,4.0,Jorge Figueroa
+2022-11-05,Barcelona,Almeria,2,0,9.0,1.0,2.0,1.0,4.36,0.32,13.0,1.0,1.0,10.0,Pablo González
+2022-11-06,Atletico Madrid,Espanyol,1,1,12.0,2.0,3.0,7.0,2.44,0.64,7.0,2.0,1.0,7.0,Juan Pulido
+2022-11-06,Real Sociedad,Valencia,1,1,1.0,11.0,4.0,0.0,1.48,0.96,4.0,3.0,2.0,3.0,José Munuera
+2022-11-06,Villarreal,Mallorca,0,2,5.0,2.0,4.0,6.0,0.84,1.6,2.0,5.0,3.0,2.0,Alejandro Muñiz
+2022-11-06,Real Betis,Sevilla,1,1,1.0,4.0,8.0,7.0,1.48,1.92,4.0,6.0,4.0,4.0,José Sánchez
+2022-11-07,Rayo Vallecano,Real Madrid,3,2,4.0,5.0,4.0,5.0,2.44,0.64,7.0,2.0,0.0,4.0,Juan Martínez
+2022-11-08,Elche,Girona,1,2,2.0,5.0,3.0,2.0,0.84,0.96,2.0,3.0,1.0,1.0,Pablo González
+2022-11-08,Athletic Club,Valladolid,3,0,10.0,2.0,3.0,1.0,2.12,0.0,6.0,0.0,0.0,3.0,Isidro Díaz de Mera
+2022-11-08,Osasuna,Barcelona,1,2,3.0,6.0,4.0,8.0,1.16,0.96,3.0,3.0,1.0,2.0,Jesús Gil
+2022-11-09,Sevilla,Real Sociedad,1,2,2.0,1.0,6.0,2.0,1.16,2.88,3.0,9.0,7.0,2.0,Carlos del Cerro
+2022-11-09,Almeria,Getafe,1,0,7.0,6.0,10.0,4.0,1.16,0.96,3.0,3.0,2.0,2.0,Alejandro Muñiz
+2022-11-09,Espanyol,Villarreal,0,1,4.0,7.0,1.0,3.0,2.12,0.96,6.0,3.0,4.0,6.0,Javier Iglesias
+2022-11-09,Mallorca,Atletico Madrid,1,0,2.0,5.0,5.0,3.0,1.16,1.6,3.0,5.0,5.0,2.0,Mario Melero
+2022-11-10,Rayo Vallecano,Celta Vigo,0,0,5.0,3.0,7.0,1.0,1.16,0.96,3.0,3.0,3.0,3.0,José Munuera
+2022-11-10,Valencia,Real Betis,3,0,5.0,5.0,1.0,5.0,2.44,0.32,7.0,1.0,1.0,4.0,Miguel Ortiz
+2022-11-10,Real Madrid,Cadiz,2,1,7.0,1.0,3.0,3.0,1.8,1.6,5.0,5.0,4.0,3.0,César Soto
+2022-12-29,Girona,Rayo Vallecano,2,2,2.0,4.0,3.0,2.0,2.44,1.28,7.0,4.0,2.0,5.0,Jorge Figueroa
+2022-12-29,Real Betis,Athletic Club,0,0,2.0,6.0,3.0,4.0,1.8,0.0,5.0,0.0,0.0,5.0,Alejandro Hernández
+2022-12-29,Atletico Madrid,Elche,2,0,3.0,5.0,5.0,8.0,1.48,0.32,4.0,1.0,1.0,2.0,Guillermo Cuadra
+2022-12-30,Getafe,Mallorca,2,0,4.0,2.0,0.0,1.0,2.12,0.0,6.0,0.0,0.0,4.0,Javier Alberola
+2022-12-30,Celta Vigo,Sevilla,1,1,5.0,6.0,2.0,6.0,1.8,1.6,5.0,5.0,4.0,4.0,Ricardo De Burgos
+2022-12-30,Cadiz,Almeria,1,1,3.0,2.0,2.0,0.0,2.12,3.2,6.0,10.0,9.0,5.0,Juan Martínez
+2022-12-30,Valladolid,Real Madrid,0,2,5.0,9.0,4.0,0.0,1.48,2.24,4.0,7.0,5.0,4.0,José Munuera
+2022-12-31,Barcelona,Espanyol,1,1,10.0,2.0,10.0,10.0,2.12,0.32,6.0,1.0,0.0,5.0,Antonio Mateu
+2022-12-31,Villarreal,Valencia,2,1,5.0,2.0,1.0,4.0,2.76,1.28,8.0,4.0,3.0,6.0,José Sánchez
+2022-12-31,Real Sociedad,Osasuna,2,0,3.0,2.0,1.0,1.0,0.84,0.96,2.0,3.0,3.0,0.0,Valentín Pizarro
+2023-01-06,Elche,Celta Vigo,0,1,8.0,4.0,5.0,1.0,1.8,2.24,5.0,7.0,6.0,5.0,Miguel Ortiz
+2023-01-06,Valencia,Cadiz,0,1,13.0,2.0,5.0,6.0,0.84,0.64,2.0,2.0,1.0,2.0,Pablo González
+2023-01-07,Villarreal,Real Madrid,2,1,6.0,5.0,4.0,1.0,1.8,0.96,5.0,3.0,2.0,3.0,César Soto
+2023-01-07,Mallorca,Valladolid,1,0,6.0,2.0,2.0,3.0,1.48,0.32,4.0,1.0,1.0,3.0,Valentín Pizarro
+2023-01-07,Espanyol,Girona,2,2,5.0,2.0,3.0,2.0,2.12,1.6,6.0,5.0,3.0,4.0,Carlos del Cerro
+2023-01-08,Almeria,Real Sociedad,0,2,4.0,2.0,1.0,0.0,0.52,1.92,1.0,6.0,4.0,1.0,Javier Alberola
+2023-01-08,Rayo Vallecano,Real Betis,1,2,5.0,7.0,3.0,2.0,1.16,0.96,3.0,3.0,1.0,2.0,Isidro Díaz de Mera
+2023-01-08,Sevilla,Getafe,2,1,3.0,4.0,3.0,3.0,1.8,0.64,5.0,2.0,1.0,3.0,Juan Martínez
+2023-01-08,Atletico Madrid,Barcelona,0,1,7.0,4.0,4.0,5.0,1.8,0.64,5.0,2.0,1.0,3.0,José Munuera
+2023-01-09,Athletic Club,Osasuna,0,0,14.0,1.0,0.0,1.0,1.16,0.32,3.0,1.0,1.0,3.0,Mario Melero
+2023-01-13,Celta Vigo,Villarreal,1,1,13.0,3.0,0.0,2.0,2.76,0.32,8.0,1.0,0.0,7.0,Javier Alberola
+2023-01-14,Valladolid,Rayo Vallecano,0,1,4.0,8.0,2.0,2.0,0.84,1.92,2.0,6.0,5.0,2.0,Mario Melero
+2023-01-14,Girona,Sevilla,2,1,5.0,1.0,3.0,1.0,2.44,0.64,7.0,2.0,2.0,5.0,Valentín Pizarro
+2023-01-14,Osasuna,Mallorca,1,0,3.0,1.0,2.0,3.0,1.48,0.64,4.0,2.0,2.0,3.0,César Soto
+2023-01-14,Real Sociedad,Athletic Club,3,1,4.0,2.0,5.0,4.0,1.8,0.64,5.0,2.0,1.0,2.0,Guillermo Cuadra
+2023-01-15,Getafe,Espanyol,1,2,5.0,1.0,2.0,3.0,0.84,1.28,2.0,4.0,2.0,1.0,Jorge Figueroa
+2023-01-15,Almeria,Atletico Madrid,1,1,3.0,4.0,4.0,6.0,1.16,2.24,3.0,7.0,5.0,2.0,José Sánchez
+2023-01-16,Cadiz,Elche,1,1,3.0,6.0,3.0,2.0,1.16,1.6,3.0,5.0,4.0,2.0,Carlos del Cerro
+2023-01-20,Mallorca,Celta Vigo,1,0,4.0,6.0,2.0,3.0,0.54,0.53,3.0,3.0,3.0,2.0,Juan Pulido
+2023-01-21,Rayo Vallecano,Real Sociedad,0,2,3.0,4.0,1.0,1.0,0.87,1.66,2.0,7.0,5.0,2.0,Antonio Mateu
+2023-01-21,Espanyol,Real Betis,1,0,7.0,4.0,3.0,2.0,2.3,0.87,2.0,4.0,3.0,1.0,Pablo González
+2023-01-21,Atletico Madrid,Valladolid,3,0,4.0,1.0,1.0,1.0,3.4,0.52,8.0,1.0,1.0,5.0,Ricardo De Burgos
+2023-01-21,Sevilla,Cadiz,1,0,8.0,1.0,1.0,6.0,1.69,0.09,9.0,1.0,1.0,7.0,Alejandro Hernández
+2023-01-22,Villarreal,Girona,1,0,3.0,2.0,5.0,7.0,2.9,0.56,9.0,1.0,1.0,8.0,Carlos del Cerro
+2023-01-22,Elche,Osasuna,1,1,7.0,2.0,2.0,1.0,1.33,0.55,4.0,4.0,3.0,3.0,Alejandro Muñiz
+2023-01-22,Barcelona,Getafe,1,0,4.0,2.0,1.0,2.0,0.73,1.08,4.0,3.0,3.0,3.0,Javier Iglesias
+2023-01-22,Athletic Club,Real Madrid,0,2,12.0,2.0,3.0,2.0,1.21,1.12,3.0,4.0,2.0,3.0,José Sánchez
+2023-01-23,Valencia,Almeria,2,2,6.0,2.0,2.0,1.0,1.92,1.5,6.0,3.0,1.0,4.0,Jesús Gil
+2023-01-27,Almeria,Espanyol,3,1,2.0,2.0,3.0,3.0,2.12,0.81,7.0,3.0,2.0,4.0,Javier Iglesias
+2023-01-28,Cadiz,Mallorca,2,0,6.0,2.0,2.0,2.0,1.93,0.41,4.0,2.0,2.0,2.0,Ricardo De Burgos
+2023-01-28,Girona,Barcelona,0,1,4.0,2.0,2.0,3.0,1.1,1.16,2.0,3.0,2.0,2.0,Alejandro Muñiz
+2023-01-28,Sevilla,Elche,3,0,5.0,2.0,1.0,5.0,2.95,0.41,8.0,1.0,1.0,5.0,César Soto
+2023-01-28,Getafe,Real Betis,0,1,6.0,1.0,4.0,2.0,0.27,1.46,1.0,2.0,1.0,1.0,Guillermo Cuadra
+2023-01-29,Valladolid,Valencia,1,0,4.0,7.0,3.0,1.0,1.39,1.26,6.0,2.0,2.0,5.0,Jorge Figueroa
+2023-01-29,Osasuna,Atletico Madrid,0,1,5.0,4.0,1.0,0.0,0.19,1.56,4.0,5.0,4.0,4.0,Javier Alberola
+2023-01-29,Celta Vigo,Athletic Club,1,0,2.0,5.0,2.0,2.0,0.61,0.23,3.0,0.0,0.0,2.0,Isidro Díaz de Mera
+2023-01-29,Real Madrid,Real Sociedad,0,0,10.0,3.0,1.0,4.0,1.28,0.45,7.0,3.0,3.0,7.0,Mario Melero
+2023-01-30,Villarreal,Rayo Vallecano,0,1,5.0,4.0,2.0,3.0,0.66,0.92,3.0,3.0,2.0,3.0,Juan Pulido
+2023-02-01,Real Betis,Barcelona,1,2,1.0,6.0,5.0,0.0,0.61,1.87,1.0,3.0,1.0,1.0,Ricardo De Burgos
+2023-02-02,Real Madrid,Valencia,2,0,6.0,6.0,3.0,3.0,2.27,0.19,8.0,0.0,0.0,5.0,Javier Alberola
+2023-02-03,Athletic Club,Cadiz,4,1,0.0,3.0,4.0,1.0,1.84,1.57,9.0,3.0,2.0,5.0,Valentín Pizarro
+2023-02-04,Espanyol,Osasuna,1,1,4.0,3.0,5.0,7.0,1.64,0.95,4.0,3.0,2.0,3.0,Jesús Gil
+2023-02-04,Elche,Villarreal,3,1,6.0,10.0,4.0,2.0,3.0,1.54,7.0,2.0,1.0,4.0,José Munuera
+2023-02-04,Atletico Madrid,Getafe,1,1,8.0,0.0,3.0,5.0,0.74,1.19,4.0,1.0,0.0,3.0,Antonio Mateu
+2023-02-04,Real Betis,Celta Vigo,3,4,5.0,5.0,5.0,3.0,3.46,1.86,7.0,7.0,2.0,4.0,Carlos del Cerro
+2023-02-05,Mallorca,Real Madrid,1,0,1.0,12.0,5.0,5.0,0.23,0.93,1.0,1.0,1.0,1.0,Alejandro Hernández
+2023-02-05,Girona,Valencia,1,0,8.0,4.0,1.0,4.0,2.29,0.88,8.0,4.0,4.0,7.0,Javier Iglesias
+2023-02-05,Real Sociedad,Valladolid,0,1,0.0,4.0,4.0,5.0,1.24,0.7,4.0,2.0,1.0,4.0,Pablo González
+2023-02-05,Barcelona,Sevilla,3,0,8.0,3.0,0.0,2.0,2.66,0.12,7.0,1.0,1.0,4.0,José Sánchez
+2023-02-06,Rayo Vallecano,Almeria,2,0,3.0,7.0,3.0,3.0,1.08,1.21,11.0,5.0,5.0,10.0,César Soto
+2023-02-10,Cadiz,Girona,2,0,5.0,6.0,4.0,4.0,0.73,0.25,3.0,1.0,1.0,2.0,Juan Pulido
+2023-02-11,Almeria,Real Betis,2,3,8.0,2.0,2.0,3.0,2.23,2.55,9.0,7.0,4.0,7.0,Javier Alberola
+2023-02-11,Sevilla,Mallorca,2,0,8.0,2.0,4.0,2.0,2.15,0.23,6.0,0.0,0.0,3.0,Javier Iglesias
+2023-02-11,Valencia,Athletic Club,1,2,7.0,1.0,2.0,2.0,1.7,1.27,8.0,3.0,1.0,7.0,César Soto
+2023-02-12,Getafe,Rayo Vallecano,1,1,5.0,6.0,6.0,4.0,1.44,2.2,4.0,4.0,4.0,2.0,Isidro Díaz de Mera
+2023-02-12,Celta Vigo,Atletico Madrid,0,1,7.0,5.0,2.0,4.0,1.12,1.03,3.0,2.0,1.0,4.0,Jorge Figueroa
+2023-02-12,Valladolid,Osasuna,0,0,10.0,4.0,1.0,3.0,1.64,0.72,5.0,4.0,4.0,4.0,Guillermo Cuadra
+2023-02-12,Villarreal,Barcelona,0,1,6.0,2.0,4.0,4.0,1.11,1.47,2.0,4.0,3.0,2.0,Alejandro Hernández
+2023-02-13,Espanyol,Real Sociedad,2,3,4.0,3.0,6.0,1.0,1.14,1.41,6.0,5.0,2.0,4.0,Alejandro Muñiz
+2023-02-15,Real Madrid,Elche,4,0,6.0,4.0,1.0,3.0,4.21,0.57,13.0,0.0,0.0,9.0,Ricardo De Burgos
+2023-02-17,Girona,Almeria,6,2,1.0,7.0,1.0,1.0,2.97,1.8,8.0,4.0,2.0,2.0,Valentín Pizarro
+2023-02-18,Real Sociedad,Celta Vigo,1,1,3.0,7.0,3.0,7.0,1.11,1.36,3.0,4.0,4.0,2.0,Miguel Ortiz
+2023-02-18,Real Betis,Valladolid,2,1,4.0,6.0,3.0,5.0,2.37,1.0,10.0,3.0,2.0,8.0,Antonio Mateu
+2023-02-18,Mallorca,Villarreal,4,2,4.0,4.0,5.0,2.0,2.25,1.2,5.0,4.0,2.0,1.0,José Sánchez
+2023-02-18,Osasuna,Real Madrid,0,2,5.0,5.0,3.0,2.0,0.5,1.33,4.0,6.0,4.0,4.0,José Munuera
+2023-02-19,Elche,Espanyol,0,1,10.0,5.0,4.0,3.0,1.84,1.3,5.0,4.0,2.0,5.0,Carlos del Cerro
+2023-02-19,Rayo Vallecano,Sevilla,1,1,7.0,3.0,4.0,1.0,1.32,0.46,5.0,2.0,1.0,4.0,Jesús Gil
+2023-02-19,Atletico Madrid,Athletic Club,1,0,6.0,5.0,2.0,3.0,1.15,0.78,5.0,2.0,2.0,4.0,Juan Martínez
+2023-02-19,Barcelona,Cadiz,2,0,5.0,6.0,2.0,3.0,2.23,1.44,5.0,4.0,4.0,2.0,Pablo González
+2023-02-20,Getafe,Valencia,1,0,4.0,5.0,6.0,1.0,2.12,0.96,6.0,3.0,3.0,5.0,Mario Melero
+2023-02-24,Elche,Real Betis,2,3,3.0,3.0,10.0,1.0,1.0,4.18,2.0,9.0,6.0,0.0,Javier Iglesias
+2023-02-25,Espanyol,Mallorca,2,1,0.0,4.0,2.0,2.0,1.41,0.75,3.0,4.0,3.0,1.0,Javier Alberola
+2023-02-25,Cadiz,Rayo Vallecano,1,0,4.0,6.0,3.0,6.0,0.76,0.61,3.0,2.0,1.0,2.0,Alejandro Muñiz
+2023-02-25,Real Madrid,Atletico Madrid,1,1,7.0,4.0,3.0,5.0,1.64,0.32,7.0,1.0,0.0,6.0,Jesús Gil
+2023-02-25,Valencia,Real Sociedad,1,0,7.0,8.0,6.0,3.0,0.48,0.7,3.0,3.0,3.0,3.0,Alejandro Hernández
+2023-02-26,Athletic Club,Girona,2,3,11.0,3.0,5.0,5.0,1.58,1.25,3.0,4.0,3.0,1.0,Isidro Díaz de Mera
+2023-02-26,Celta Vigo,Valladolid,3,0,5.0,4.0,1.0,5.0,1.77,0.51,4.0,3.0,3.0,1.0,Ricardo De Burgos
+2023-02-26,Almeria,Barcelona,1,0,4.0,7.0,3.0,3.0,0.96,1.11,4.0,1.0,1.0,3.0,Miguel Ortiz
+2023-02-26,Sevilla,Osasuna,2,3,10.0,2.0,6.0,2.0,2.11,1.09,8.0,4.0,2.0,6.0,Juan Pulido
+2023-02-27,Villarreal,Getafe,2,1,6.0,5.0,0.0,1.0,1.55,0.59,5.0,3.0,2.0,3.0,Jorge Figueroa
+2023-03-03,Real Sociedad,Cadiz,0,0,3.0,0.0,0.0,1.0,1.21,0.63,3.0,2.0,2.0,3.0,Antonio Mateu
+2023-03-04,Getafe,Girona,3,2,3.0,3.0,5.0,4.0,1.49,0.79,6.0,7.0,5.0,3.0,Juan Martínez
+2023-03-04,Almeria,Villarreal,0,2,2.0,10.0,3.0,4.0,0.49,2.05,0.0,6.0,4.0,0.0,Pablo González
+2023-03-04,Mallorca,Elche,0,1,6.0,7.0,4.0,3.0,0.85,0.93,3.0,6.0,5.0,3.0,José Munuera
+2023-03-04,Atletico Madrid,Sevilla,6,1,7.0,3.0,1.0,6.0,3.13,1.46,8.0,1.0,0.0,2.0,Guillermo Cuadra
+2023-03-05,Valladolid,Espanyol,2,1,9.0,6.0,3.0,2.0,1.45,1.19,5.0,2.0,1.0,3.0,Valentín Pizarro
+2023-03-05,Barcelona,Valencia,1,0,5.0,2.0,3.0,1.0,1.91,0.79,4.0,1.0,1.0,3.0,Javier Alberola
+2023-03-05,Rayo Vallecano,Athletic Club,0,0,7.0,9.0,1.0,2.0,1.13,1.37,2.0,3.0,3.0,2.0,Mario Melero
+2023-03-05,Real Betis,Real Madrid,0,0,5.0,3.0,3.0,4.0,0.41,1.21,4.0,5.0,5.0,4.0,César Soto
+2023-03-06,Osasuna,Celta Vigo,0,0,6.0,4.0,0.0,2.0,0.79,1.07,5.0,0.0,0.0,5.0,José Sánchez
+2023-03-10,Cadiz,Getafe,2,2,2.0,6.0,6.0,7.0,1.79,2.75,4.0,10.0,8.0,2.0,Alejandro Hernández
+2023-03-11,Real Madrid,Espanyol,3,1,7.0,4.0,3.0,2.0,1.71,1.17,7.0,3.0,2.0,4.0,Jorge Figueroa
+2023-03-11,Elche,Valladolid,1,1,10.0,3.0,4.0,10.0,1.96,0.26,10.0,1.0,0.0,9.0,Isidro Díaz de Mera
+2023-03-11,Celta Vigo,Rayo Vallecano,3,0,3.0,7.0,2.0,3.0,2.04,1.08,6.0,3.0,3.0,4.0,Juan Pulido
+2023-03-11,Valencia,Osasuna,1,0,12.0,3.0,2.0,5.0,1.66,0.32,4.0,0.0,0.0,3.0,Javier Iglesias
+2023-03-12,Mallorca,Real Sociedad,1,1,3.0,2.0,2.0,4.0,1.38,0.51,2.0,2.0,1.0,1.0,Juan Martínez
+2023-03-12,Sevilla,Almeria,2,1,6.0,4.0,5.0,4.0,3.19,1.2,5.0,5.0,3.0,3.0,Ricardo De Burgos
+2023-03-12,Villarreal,Real Betis,1,1,2.0,4.0,3.0,2.0,1.69,1.02,4.0,3.0,2.0,3.0,Miguel Ortiz
+2023-03-12,Athletic Club,Barcelona,0,1,5.0,3.0,2.0,1.0,0.85,0.86,5.0,2.0,1.0,3.0,Jesús Gil
+2023-03-13,Girona,Atletico Madrid,0,1,1.0,3.0,2.0,3.0,0.33,2.09,4.0,4.0,3.0,4.0,Mario Melero
+2023-03-17,Valladolid,Athletic Club,1,3,2.0,9.0,2.0,2.0,1.08,2.58,3.0,6.0,3.0,2.0,Javier Alberola
+2023-03-18,Almeria,Cadiz,1,1,5.0,2.0,1.0,4.0,2.53,1.36,5.0,4.0,3.0,4.0,Carlos del Cerro
+2023-03-18,Rayo Vallecano,Girona,2,2,3.0,5.0,2.0,2.0,1.95,1.8,3.0,4.0,2.0,1.0,Pablo González
+2023-03-18,Espanyol,Celta Vigo,1,3,4.0,1.0,2.0,2.0,1.34,1.59,3.0,4.0,1.0,2.0,Guillermo Cuadra
+2023-03-18,Atletico Madrid,Valencia,3,0,4.0,2.0,2.0,0.0,2.23,0.95,6.0,1.0,1.0,3.0,José Munuera
+2023-03-19,Real Betis,Mallorca,1,0,4.0,4.0,1.0,2.0,0.76,0.18,3.0,1.0,1.0,2.0,Valentín Pizarro
+2023-03-19,Real Sociedad,Elche,2,0,5.0,3.0,2.0,1.0,1.96,0.1,4.0,3.0,3.0,2.0,José Sánchez
+2023-03-19,Osasuna,Villarreal,0,3,7.0,1.0,3.0,2.0,0.93,1.79,2.0,6.0,3.0,2.0,Alejandro Muñiz
+2023-03-19,Getafe,Sevilla,2,0,4.0,1.0,4.0,2.0,1.87,1.0,4.0,4.0,4.0,2.0,Antonio Mateu
+2023-03-19,Barcelona,Real Madrid,2,1,8.0,1.0,4.0,3.0,1.62,0.55,7.0,3.0,3.0,5.0,Ricardo De Burgos
+2023-03-31,Mallorca,Osasuna,0,0,2.0,3.0,9.0,3.0,0.47,0.48,1.0,2.0,2.0,1.0,Isidro Díaz de Mera
+2023-04-01,Girona,Espanyol,2,1,5.0,2.0,6.0,4.0,1.67,1.0,4.0,1.0,0.0,2.0,Miguel Ortiz
+2023-04-01,Athletic Club,Getafe,0,0,13.0,3.0,1.0,1.0,0.94,0.76,3.0,1.0,1.0,3.0,Javier Iglesias
+2023-04-01,Cadiz,Sevilla,0,2,8.0,4.0,3.0,4.0,1.05,1.09,3.0,5.0,3.0,3.0,César Soto
+2023-04-01,Elche,Barcelona,0,4,11.0,3.0,0.0,3.0,0.81,1.74,2.0,6.0,1.0,2.0,Carlos del Cerro
+2023-04-02,Celta Vigo,Almeria,2,2,4.0,1.0,3.0,5.0,1.84,1.07,5.0,3.0,1.0,3.0,Alejandro Hernández
+2023-04-02,Real Madrid,Valladolid,6,0,9.0,1.0,0.0,1.0,4.63,0.86,17.0,2.0,2.0,12.0,Juan Pulido
+2023-04-02,Villarreal,Real Sociedad,2,0,4.0,4.0,7.0,3.0,2.71,0.98,4.0,3.0,3.0,2.0,Jesús Gil
+2023-04-02,Atletico Madrid,Real Betis,1,0,5.0,1.0,1.0,2.0,1.66,0.57,7.0,2.0,2.0,6.0,Juan Martínez
+2023-04-03,Valencia,Rayo Vallecano,1,1,13.0,3.0,2.0,3.0,2.36,0.85,4.0,2.0,1.0,3.0,Jorge Figueroa
+2023-04-07,Sevilla,Celta Vigo,2,2,8.0,3.0,10.0,2.0,0.38,0.45,2.0,4.0,2.0,0.0,Valentín Pizarro
+2023-04-08,Osasuna,Elche,2,1,9.0,2.0,1.0,3.0,1.14,0.66,6.0,1.0,0.0,4.0,Pablo González
+2023-04-08,Espanyol,Athletic Club,1,2,8.0,7.0,8.0,4.0,0.85,2.33,2.0,7.0,5.0,1.0,José Munuera
+2023-04-08,Real Sociedad,Getafe,2,0,3.0,2.0,2.0,1.0,2.34,0.28,6.0,4.0,4.0,4.0,Mario Melero
+2023-04-08,Real Madrid,Villarreal,2,3,6.0,7.0,0.0,3.0,2.46,1.5,4.0,8.0,5.0,3.0,Javier Alberola
+2023-04-09,Valladolid,Mallorca,3,3,1.0,2.0,3.0,5.0,1.25,1.8,6.0,6.0,3.0,3.0,Alejandro Muñiz
+2023-04-09,Real Betis,Cadiz,0,2,5.0,6.0,7.0,3.0,1.23,2.99,3.0,4.0,2.0,2.0,Guillermo Cuadra
+2023-04-09,Almeria,Valencia,2,1,3.0,7.0,3.0,2.0,1.33,1.29,4.0,4.0,2.0,2.0,José Sánchez
+2023-04-09,Rayo Vallecano,Atletico Madrid,1,2,8.0,2.0,3.0,1.0,0.68,1.9,3.0,4.0,2.0,3.0,Ricardo De Burgos
+2023-04-10,Barcelona,Girona,0,0,12.0,2.0,0.0,2.0,1.31,0.6,3.0,0.0,0.0,4.0,Antonio Mateu
+2023-04-14,Rayo Vallecano,Osasuna,2,1,2.0,3.0,2.0,3.0,0.9,0.39,3.0,4.0,3.0,2.0,José Munuera
+2023-04-15,Villarreal,Valladolid,1,2,8.0,5.0,1.0,6.0,1.99,2.16,7.0,7.0,5.0,6.0,Javier Iglesias
+2023-04-15,Athletic Club,Real Sociedad,2,0,5.0,2.0,5.0,2.0,0.79,1.39,5.0,4.0,4.0,3.0,César Soto
+2023-04-15,Real Betis,Espanyol,3,1,4.0,13.0,2.0,2.0,2.09,0.63,8.0,4.0,3.0,5.0,Alejandro Hernández
+2023-04-15,Cadiz,Real Madrid,0,2,2.0,9.0,1.0,0.0,0.67,3.52,3.0,11.0,9.0,3.0,Jesús Gil
+2023-04-16,Girona,Elche,2,0,3.0,4.0,3.0,5.0,1.22,0.75,4.0,5.0,5.0,3.0,Jorge Figueroa
+2023-04-16,Getafe,Barcelona,0,0,1.0,5.0,2.0,1.0,0.52,1.59,1.0,3.0,3.0,1.0,Juan Pulido
+2023-04-16,Atletico Madrid,Almeria,2,1,9.0,2.0,3.0,3.0,2.36,0.17,7.0,1.0,0.0,5.0,Isidro Díaz de Mera
+2023-04-16,Valencia,Sevilla,0,2,6.0,2.0,3.0,4.0,0.37,0.36,3.0,3.0,1.0,3.0,Carlos del Cerro
+2023-04-17,Celta Vigo,Mallorca,0,1,7.0,5.0,4.0,1.0,0.89,1.14,3.0,2.0,1.0,3.0,Miguel Ortiz
+2023-04-21,Espanyol,Cadiz,0,0,6.0,4.0,4.0,2.0,1.16,1.42,5.0,2.0,2.0,5.0,Juan Martínez
+2023-04-22,Osasuna,Real Betis,3,2,5.0,13.0,2.0,0.0,1.55,2.17,5.0,6.0,4.0,2.0,Javier Alberola
+2023-04-22,Almeria,Athletic Club,1,2,3.0,4.0,2.0,4.0,0.81,1.67,4.0,3.0,1.0,3.0,Valentín Pizarro
+2023-04-22,Real Sociedad,Rayo Vallecano,2,1,3.0,3.0,1.0,2.0,0.56,0.49,1.0,2.0,1.0,0.0,Alejandro Muñiz
+2023-04-22,Valladolid,Girona,1,0,5.0,7.0,1.0,1.0,1.01,0.89,6.0,6.0,6.0,5.0,Mario Melero
+2023-04-22,Real Madrid,Celta Vigo,2,0,8.0,3.0,1.0,2.0,1.47,0.98,5.0,2.0,2.0,3.0,Antonio Mateu
+2023-04-23,Elche,Valencia,0,2,11.0,6.0,3.0,1.0,0.63,0.97,1.0,3.0,2.0,1.0,Guillermo Cuadra
+2023-04-23,Barcelona,Atletico Madrid,1,0,3.0,3.0,4.0,8.0,2.18,1.28,4.0,3.0,3.0,3.0,José Sánchez
+2023-04-23,Mallorca,Getafe,3,1,2.0,2.0,2.0,3.0,1.51,0.1,4.0,1.0,0.0,1.0,Pablo González
+2023-04-23,Sevilla,Villarreal,2,1,5.0,3.0,1.0,2.0,0.9,2.46,4.0,5.0,4.0,2.0,Ricardo De Burgos
+2023-04-25,Girona,Real Madrid,4,2,3.0,8.0,1.0,2.0,2.31,1.79,5.0,3.0,1.0,1.0,Javier Iglesias
+2023-04-25,Cadiz,Osasuna,0,1,11.0,2.0,0.0,3.0,1.46,1.02,4.0,4.0,3.0,4.0,Carlos del Cerro
+2023-04-25,Real Betis,Real Sociedad,0,0,2.0,4.0,1.0,3.0,0.96,0.96,1.0,3.0,3.0,1.0,Juan Martínez
+2023-04-26,Atletico Madrid,Mallorca,3,1,5.0,8.0,1.0,1.0,2.66,0.91,9.0,2.0,1.0,6.0,Juan Pulido
+2023-04-26,Getafe,Almeria,1,2,4.0,6.0,4.0,2.0,1.54,1.68,9.0,11.0,9.0,8.0,Javier Alberola
+2023-04-26,Celta Vigo,Elche,1,0,10.0,6.0,1.0,1.0,1.14,1.15,9.0,1.0,1.0,8.0,Isidro Díaz de Mera
+2023-04-26,Rayo Vallecano,Barcelona,2,1,3.0,9.0,1.0,4.0,0.73,0.87,6.0,5.0,4.0,4.0,Jesús Gil
+2023-04-27,Valencia,Valladolid,2,1,6.0,2.0,0.0,4.0,0.93,0.9,6.0,2.0,1.0,4.0,José Munuera
+2023-04-27,Villarreal,Espanyol,4,2,9.0,2.0,2.0,6.0,3.9,0.94,13.0,4.0,2.0,10.0,César Soto
+2023-04-27,Athletic Club,Sevilla,0,1,8.0,2.0,3.0,3.0,0.3,1.04,0.0,1.0,3.0,3.0,Alejandro Hernández
+2023-04-28,Osasuna,Real Sociedad,0,2,4.0,2.0,3.0,1.0,1.43,1.4,1.0,7.0,6.0,1.0,Valentín Pizarro
+2023-04-29,Elche,Rayo Vallecano,4,0,3.0,8.0,1.0,4.0,2.77,0.85,9.0,2.0,2.0,5.0,Mario Melero
+2023-04-29,Real Madrid,Almeria,4,2,7.0,0.0,2.0,2.0,2.83,1.34,8.0,3.0,1.0,4.0,Guillermo Cuadra
+2023-04-29,Barcelona,Real Betis,4,0,10.0,0.0,0.0,4.0,2.68,0.21,6.0,1.0,1.0,3.0,Carlos del Cerro
+2023-04-30,Cadiz,Valencia,2,1,5.0,6.0,6.0,2.0,1.76,1.27,4.0,4.0,2.0,1.0,Ricardo De Burgos
+2023-04-30,Villarreal,Celta Vigo,3,1,4.0,9.0,1.0,4.0,2.28,0.77,3.0,5.0,4.0,0.0,Pablo González
+2023-04-30,Espanyol,Getafe,1,0,6.0,3.0,4.0,5.0,2.43,0.51,8.0,2.0,2.0,7.0,José Sánchez
+2023-04-30,Valladolid,Atletico Madrid,2,5,9.0,1.0,2.0,1.0,1.77,1.97,6.0,6.0,1.0,4.0,Antonio Mateu
+2023-05-01,Mallorca,Athletic Club,1,1,5.0,7.0,6.0,2.0,0.97,1.76,2.0,6.0,5.0,1.0,Jorge Figueroa
+2023-05-01,Sevilla,Girona,0,2,6.0,1.0,2.0,1.0,2.18,0.79,5.0,3.0,1.0,6.0,Alejandro Muñiz
+2023-05-02,Barcelona,Osasuna,1,0,11.0,0.0,1.0,3.0,2.8,0.42,4.0,2.0,2.0,3.0,Javier Iglesias
+2023-05-02,Almeria,Elche,2,1,7.0,13.0,2.0,2.0,1.72,0.98,4.0,1.0,0.0,2.0,Alejandro Hernández
+2023-05-02,Real Sociedad,Real Madrid,2,0,2.0,6.0,1.0,7.0,1.95,0.81,4.0,5.0,4.0,2.0,Juan Pulido
+2023-05-03,Valencia,Villarreal,1,1,6.0,6.0,4.0,2.0,1.17,0.66,1.0,4.0,3.0,0.0,Jesús Gil
+2023-05-03,Atletico Madrid,Cadiz,5,1,5.0,2.0,3.0,2.0,2.86,0.05,8.0,1.0,0.0,3.0,César Soto
+2023-05-03,Getafe,Celta Vigo,1,0,1.0,5.0,7.0,7.0,2.57,0.25,4.0,1.0,1.0,3.0,Guillermo Cuadra
+2023-05-04,Sevilla,Espanyol,3,2,9.0,0.0,1.0,2.0,2.68,1.01,6.0,3.0,2.0,3.0,Javier Alberola
+2023-05-04,Girona,Mallorca,2,1,9.0,5.0,4.0,0.0,1.69,1.44,7.0,2.0,1.0,4.0,Juan Martínez
+2023-05-04,Athletic Club,Real Betis,0,1,13.0,2.0,3.0,3.0,1.55,1.23,6.0,2.0,1.0,7.0,Miguel Ortiz
+2023-05-04,Rayo Vallecano,Valladolid,2,1,3.0,4.0,1.0,1.0,1.41,0.56,6.0,4.0,3.0,4.0,Isidro Díaz de Mera
+2023-05-12,Mallorca,Cadiz,1,0,3.0,7.0,5.0,4.0,1.32,0.76,3.0,4.0,3.0,2.0,José Sánchez
+2023-05-13,Real Sociedad,Girona,2,2,7.0,4.0,5.0,5.0,2.77,1.24,6.0,6.0,4.0,4.0,Jorge Figueroa
+2023-05-13,Osasuna,Almeria,3,1,4.0,1.0,1.0,1.0,1.88,0.45,7.0,3.0,2.0,4.0,Antonio Mateu
+2023-05-13,Villarreal,Athletic Club,5,1,7.0,5.0,4.0,3.0,3.25,3.11,11.0,5.0,3.0,7.0,Carlos del Cerro
+2023-05-13,Real Madrid,Getafe,1,0,1.0,3.0,1.0,4.0,0.86,0.75,3.0,2.0,2.0,2.0,Juan Martínez
+2023-05-14,Celta Vigo,Valencia,1,2,5.0,4.0,3.0,7.0,0.75,1.3,6.0,5.0,3.0,5.0,César Soto
+2023-05-14,Elche,Atletico Madrid,1,0,3.0,5.0,2.0,0.0,1.42,1.52,4.0,4.0,4.0,3.0,Alejandro Muñiz
+2023-05-14,Valladolid,Sevilla,0,3,8.0,3.0,2.0,1.0,1.83,2.65,6.0,5.0,2.0,4.0,Miguel Ortiz
+2023-05-14,Espanyol,Barcelona,2,4,4.0,3.0,1.0,3.0,3.15,2.94,7.0,5.0,1.0,5.0,Ricardo De Burgos
+2023-05-15,Real Betis,Rayo Vallecano,3,1,6.0,5.0,3.0,4.0,1.58,1.3,5.0,4.0,4.0,1.0,Juan Pulido
+2023-05-19,Cadiz,Valladolid,2,0,4.0,3.0,4.0,6.0,2.23,0.69,4.0,2.0,2.0,2.0,Juan Martínez
+2023-05-20,Girona,Villarreal,1,2,3.0,1.0,2.0,1.0,1.23,1.95,3.0,5.0,3.0,2.0,Valentín Pizarro
+2023-05-20,Athletic Club,Celta Vigo,2,1,8.0,5.0,4.0,1.0,1.0,0.45,3.0,3.0,2.0,1.0,Mario Melero
+2023-05-20,Getafe,Elche,1,1,5.0,6.0,3.0,1.0,1.51,1.22,5.0,4.0,3.0,4.0,Javier Iglesias
+2023-05-20,Almeria,Mallorca,3,0,4.0,6.0,1.0,2.0,1.6,0.77,3.0,3.0,3.0,0.0,Carlos del Cerro
+2023-05-20,Barcelona,Real Sociedad,1,2,8.0,2.0,4.0,4.0,1.56,2.0,4.0,6.0,4.0,3.0,Javier Alberola
+2023-05-21,Rayo Vallecano,Espanyol,1,2,4.0,4.0,2.0,2.0,2.02,1.64,5.0,6.0,4.0,4.0,Alejandro Hernández
+2023-05-21,Atletico Madrid,Osasuna,3,0,8.0,10.0,0.0,2.0,1.94,0.69,5.0,2.0,2.0,2.0,Pablo González
+2023-05-21,Valencia,Real Madrid,1,0,2.0,9.0,5.0,4.0,1.0,1.39,6.0,5.0,5.0,5.0,Ricardo De Burgos
+2023-05-21,Sevilla,Real Betis,0,0,4.0,3.0,2.0,4.0,1.13,0.12,4.0,0.0,0.0,4.0,Jesús Gil
+2023-05-23,Celta Vigo,Girona,1,1,9.0,3.0,1.0,1.0,1.19,1.24,7.0,4.0,3.0,6.0,Antonio Mateu
+2023-05-23,Real Sociedad,Almeria,1,0,10.0,2.0,0.0,3.0,1.85,0.11,2.0,2.0,2.0,1.0,Pablo González
+2023-05-23,Valladolid,Barcelona,3,1,2.0,6.0,1.0,0.0,2.32,1.77,4.0,6.0,6.0,2.0,César Soto
+2023-05-24,Villarreal,Cadiz,2,0,7.0,6.0,1.0,2.0,2.4,1.73,7.0,8.0,8.0,5.0,Juan Pulido
+2023-05-24,Real Madrid,Rayo Vallecano,2,1,5.0,2.0,1.0,3.0,1.29,0.68,3.0,6.0,5.0,1.0,Jesús Gil
+2023-05-24,Elche,Sevilla,1,1,9.0,5.0,1.0,6.0,1.5,0.69,7.0,3.0,2.0,6.0,Isidro Díaz de Mera
+2023-05-24,Espanyol,Atletico Madrid,3,3,16.0,1.0,2.0,3.0,3.11,2.29,13.0,7.0,4.0,10.0,Mario Melero
+2023-05-24,Real Betis,Getafe,0,1,2.0,5.0,4.0,5.0,1.22,0.49,4.0,2.0,1.0,4.0,Ricardo De Burgos
+2023-05-25,Mallorca,Valencia,1,0,2.0,4.0,4.0,2.0,0.54,1.96,3.0,5.0,5.0,2.0,Alejandro Hernández
+2023-05-25,Osasuna,Athletic Club,2,0,3.0,6.0,3.0,3.0,0.81,0.67,3.0,5.0,5.0,1.0,Alejandro Muñiz
+2023-05-27,Sevilla,Real Madrid,1,2,1.0,1.0,4.0,4.0,1.2,0.77,1.0,3.0,1.0,0.0,César Soto
+2023-05-28,Barcelona,Mallorca,3,0,14.0,3.0,1.0,3.0,3.64,0.09,9.0,1.0,1.0,5.0,Jorge Figueroa
+2023-05-28,Atletico Madrid,Real Sociedad,2,1,6.0,4.0,2.0,2.0,0.69,1.21,5.0,5.0,4.0,3.0,Juan Pulido
+2023-05-28,Athletic Club,Elche,0,1,19.0,3.0,1.0,1.0,2.57,0.96,8.0,2.0,1.0,7.0,Valentín Pizarro
+2023-05-28,Valencia,Espanyol,2,2,10.0,3.0,0.0,3.0,2.68,1.14,4.0,5.0,3.0,2.0,Jesús Gil
+2023-05-28,Getafe,Osasuna,2,1,1.0,1.0,4.0,1.0,2.65,0.63,6.0,2.0,1.0,4.0,Antonio Mateu
+2023-05-28,Girona,Real Betis,1,2,8.0,5.0,0.0,1.0,1.08,2.46,3.0,7.0,6.0,2.0,Isidro Díaz de Mera
+2023-05-28,Almeria,Valladolid,0,0,2.0,4.0,0.0,4.0,1.59,0.48,7.0,2.0,2.0,7.0,Javier Alberola
+2023-05-28,Cadiz,Celta Vigo,1,0,3.0,3.0,9.0,6.0,1.7,0.61,3.0,4.0,4.0,1.0,Ricardo De Burgos
+2023-05-28,Rayo Vallecano,Villarreal,2,1,4.0,6.0,3.0,4.0,1.36,0.43,4.0,2.0,1.0,2.0,Javier Iglesias
+2023-06-04,Villarreal,Atletico Madrid,2,2,12.0,1.0,3.0,4.0,1.59,1.81,7.0,3.0,1.0,5.0,Ricardo De Burgos
+2023-06-04,Real Madrid,Athletic Club,1,1,5.0,6.0,2.0,2.0,1.76,2.36,2.0,9.0,8.0,1.0,Isidro Díaz de Mera
+2023-06-04,Real Sociedad,Sevilla,2,1,5.0,2.0,0.0,1.0,1.8,0.43,6.0,4.0,3.0,4.0,Carlos del Cerro
+2023-06-04,Osasuna,Girona,2,1,5.0,2.0,1.0,5.0,1.8,0.92,7.0,6.0,5.0,5.0,Miguel Ortiz
+2023-06-04,Mallorca,Rayo Vallecano,3,0,2.0,6.0,1.0,1.0,2.25,1.12,4.0,4.0,4.0,0.0,Antonio Mateu
+2023-06-04,Celta Vigo,Barcelona,2,1,2.0,4.0,2.0,2.0,0.66,1.25,9.0,2.0,1.0,7.0,Juan Pulido
+2023-06-04,Espanyol,Almeria,3,3,7.0,5.0,2.0,4.0,0.59,1.79,8.0,4.0,1.0,5.0,César Soto
+2023-06-04,Real Betis,Valencia,1,1,4.0,4.0,3.0,2.0,0.63,1.17,3.0,3.0,2.0,2.0,Javier Alberola
+2023-06-04,Valladolid,Getafe,0,0,6.0,1.0,1.0,3.0,0.9,0.5,0.0,1.0,1.0,0.0,José Munuera
+2023-06-04,Elche,Cadiz,1,1,7.0,4.0,4.0,3.0,1.58,2.55,5.0,3.0,2.0,4.0,Jesús Gil
+2023-08-11,Almeria,Rayo Vallecano,0,2,8.0,3.0,1.0,3.0,1.39,2.07,5.0,4.0,2.0,5.0,"Antonio Alberola Rojas, Spain"
+2023-08-11,Sevilla,Valencia,1,2,8.0,1.0,5.0,2.0,0.72,1.12,3.0,3.0,1.0,2.0,"Jose Maria Sanchez Martinez, Spain"
+2023-08-12,Real Sociedad,Girona,1,1,4.0,1.0,2.0,5.0,0.99,1.15,2.0,1.0,0.0,1.0,"Francisco Hernandez Maeso, Spain"
+2023-08-12,Las Palmas,Mallorca,1,1,3.0,6.0,3.0,2.0,0.92,1.61,2.0,2.0,1.0,1.0,"Victor Garcia Verdura, Spain"
+2023-08-12,Athletic Club,Real Madrid,0,2,7.0,5.0,3.0,1.0,0.45,0.99,1.0,8.0,6.0,1.0,"Jesus Gil Manzano, Spain"
+2023-08-13,Celta Vigo,Osasuna,0,2,7.0,2.0,1.0,1.0,0.96,0.95,1.0,5.0,3.0,0.0,"Pablo Gonzales Fuertes, Spain"
+2023-08-13,Villarreal,Real Betis,1,2,9.0,4.0,1.0,3.0,0.91,1.05,5.0,5.0,3.0,4.0,"Miguel Angel Ortiz Arias, Spain"
+2023-08-13,Getafe,Barcelona,0,0,3.0,4.0,10.0,4.0,0.57,1.49,2.0,4.0,3.0,2.0,"Cesar Soto Grado, Spain"
+2023-08-14,Cadiz,Alaves,1,0,2.0,4.0,5.0,2.0,0.66,0.25,3.0,2.0,2.0,2.0,"Isidro Diaz de Mera Escuderos, Spain"
+2023-08-14,Atletico Madrid,Granada CF,3,1,3.0,3.0,3.0,1.0,2.42,0.94,6.0,4.0,3.0,3.0,"Juan Luis Pulido Santana, Spain"
+2023-08-18,Mallorca,Villarreal,0,1,6.0,5.0,2.0,4.0,0.38,1.95,1.0,3.0,3.0,1.0,"Javier Alberola Rojas, Spain"
+2023-08-18,Valencia,Las Palmas,1,0,6.0,4.0,1.0,1.0,1.54,0.52,4.0,1.0,1.0,3.0,"Javier Iglesias Villanueva, Spain"
+2023-08-19,Real Sociedad,Celta Vigo,1,1,9.0,7.0,2.0,1.0,0.71,1.13,2.0,6.0,6.0,1.0,"Miguel Angel Ortiz Arias, Spain"
+2023-08-19,Almeria,Real Madrid,1,3,4.0,5.0,1.0,0.0,1.33,1.98,8.0,9.0,6.0,7.0,"Jose Maria Sanchez Martinez, Spain"
+2023-08-19,Osasuna,Athletic Club,0,2,5.0,3.0,3.0,7.0,1.28,1.56,7.0,2.0,0.0,7.0,"José Luis Munuera Montero, Spain"
+2023-08-20,Girona,Getafe,3,0,3.0,2.0,2.0,5.0,1.42,0.7,6.0,2.0,2.0,3.0,"Jorge Figueroa Vazquez, Spain"
+2023-08-20,Barcelona,Cadiz,2,0,10.0,2.0,4.0,3.0,3.48,1.15,10.0,1.0,1.0,8.0,"Alejandro Muniz Ruiz, Spain"
+2023-08-20,Real Betis,Atletico Madrid,0,0,2.0,7.0,2.0,1.0,0.74,0.4,0.0,1.0,1.0,0.0,"Ricardo De Burgos Bengoetxea, Spain"
+2023-08-21,Alaves,Sevilla,4,3,4.0,4.0,1.0,2.0,1.85,0.64,7.0,2.0,0.0,3.0,"Guillermo Cuadra Fernandez, Spain"
+2023-08-21,Granada CF,Rayo Vallecano,0,2,5.0,6.0,4.0,1.0,1.19,2.14,7.0,9.0,7.0,7.0,"Pablo Gonzales Fuertes, Spain"
+2023-08-25,Las Palmas,Real Sociedad,0,0,5.0,7.0,1.0,4.0,0.91,1.0,5.0,1.0,1.0,5.0,"Guillermo Cuadra Fernandez, Spain"
+2023-08-25,Celta Vigo,Real Madrid,0,1,3.0,5.0,2.0,3.0,1.24,1.36,4.0,3.0,2.0,4.0,"Isidro Diaz de Mera Escuderos, Spain"
+2023-08-26,Cadiz,Almeria,1,1,7.0,3.0,2.0,7.0,1.58,0.26,3.0,2.0,1.0,2.0,"Victor Garcia Verdura, Spain"
+2023-08-26,Granada CF,Mallorca,3,2,5.0,3.0,2.0,7.0,1.43,2.62,4.0,5.0,3.0,1.0,"Francisco Hernandez Maeso, Spain"
+2023-08-26,Sevilla,Girona,1,2,6.0,6.0,2.0,1.0,1.47,1.38,4.0,3.0,1.0,4.0,"Jesus Gil Manzano, Spain"
+2023-08-27,Villarreal,Barcelona,3,4,2.0,6.0,3.0,3.0,1.86,3.07,6.0,11.0,7.0,3.0,"Alejandro Hernandez, Spain"
+2023-08-27,Valencia,Osasuna,1,2,6.0,3.0,3.0,4.0,1.69,1.23,4.0,2.0,0.0,3.0,"Juan Luis Pulido Santana, Spain"
+2023-08-27,Athletic Club,Real Betis,4,2,5.0,3.0,4.0,2.0,2.87,0.44,6.0,4.0,3.0,2.0,"Cesar Soto Grado, Spain"
+2023-08-28,Getafe,Alaves,1,0,4.0,5.0,1.0,2.0,2.26,0.69,4.0,2.0,1.0,3.0,"Juan Martinez Munuera, Spain"
+2023-08-28,Rayo Vallecano,Atletico Madrid,0,7,8.0,3.0,4.0,3.0,0.56,3.45,3.0,10.0,3.0,3.0,"José Luis Munuera Montero, Spain"
+2023-09-01,Cadiz,Villarreal,3,1,7.0,3.0,5.0,6.0,2.09,0.32,4.0,3.0,2.0,1.0,"Juan Luis Pulido Santana, Spain"
+2023-09-01,Almeria,Celta Vigo,2,3,6.0,5.0,1.0,1.0,2.98,1.54,5.0,8.0,4.0,3.0,"Ricardo De Burgos Bengoetxea, Spain"
+2023-09-02,Real Sociedad,Granada CF,5,3,2.0,5.0,1.0,5.0,2.32,0.75,6.0,5.0,3.0,2.0,"Javier Iglesias Villanueva, Spain"
+2023-09-02,Real Madrid,Getafe,2,1,11.0,1.0,2.0,6.0,2.79,0.39,12.0,2.0,1.0,10.0,"Mario Melero Lopez, Spain"
+2023-09-02,Alaves,Valencia,1,0,1.0,2.0,4.0,2.0,1.3,0.76,1.0,4.0,4.0,1.0,"Pablo Gonzales Fuertes, Spain"
+2023-09-02,Real Betis,Rayo Vallecano,1,0,2.0,3.0,3.0,5.0,1.07,1.43,5.0,6.0,6.0,5.0,"Alejandro Muniz Ruiz, Spain"
+2023-09-03,Girona,Las Palmas,1,0,3.0,5.0,3.0,3.0,1.03,1.06,6.0,5.0,5.0,5.0,"Mateo Busquets Ferrer, Spain"
+2023-09-03,Mallorca,Athletic Club,0,0,3.0,5.0,0.0,1.0,0.38,0.62,2.0,3.0,3.0,1.0,"Jorge Figueroa Vazquez, Spain"
+2023-09-03,Osasuna,Barcelona,1,2,8.0,5.0,3.0,3.0,0.77,2.0,3.0,4.0,2.0,2.0,"Miguel Angel Ortiz Arias, Spain"
+2023-09-15,Rayo Vallecano,Alaves,2,0,5.0,3.0,2.0,3.0,2.58,0.67,11.0,1.0,1.0,9.0,"Victor Garcia Verdura, Spain"
+2023-09-16,Athletic Club,Cadiz,3,0,5.0,4.0,1.0,4.0,2.87,0.29,9.0,4.0,4.0,5.0,"Guillermo Cuadra Fernandez, Spain"
+2023-09-16,Valencia,Atletico Madrid,3,0,5.0,8.0,1.0,5.0,1.84,0.75,8.0,3.0,3.0,5.0,"Jesus Gil Manzano, Spain"
+2023-09-16,Celta Vigo,Mallorca,0,1,10.0,1.0,1.0,3.0,1.35,0.78,4.0,4.0,2.0,4.0,"José Luis Munuera Montero, Spain"
+2023-09-16,Barcelona,Real Betis,5,0,9.0,5.0,1.0,2.0,2.42,0.85,9.0,2.0,2.0,4.0,"Jose Maria Sanchez Martinez, Spain"
+2023-09-17,Getafe,Osasuna,3,2,6.0,3.0,8.0,2.0,0.5,1.13,6.0,3.0,1.0,3.0,"Alejandro Hernandez, Spain"
+2023-09-17,Villarreal,Almeria,2,1,6.0,6.0,2.0,3.0,0.9,1.51,4.0,7.0,6.0,2.0,"Francisco Hernandez Maeso, Spain"
+2023-09-17,Sevilla,Las Palmas,1,0,7.0,3.0,3.0,5.0,1.75,1.06,9.0,2.0,2.0,8.0,"Juan Martinez Munuera, Spain"
+2023-09-17,Real Madrid,Real Sociedad,2,1,4.0,3.0,3.0,2.0,2.05,1.66,8.0,5.0,4.0,6.0,"Cesar Soto Grado, Spain"
+2023-09-18,Granada CF,Girona,2,4,4.0,5.0,3.0,3.0,1.62,2.77,5.0,7.0,3.0,3.0,"Isidro Diaz de Mera Escuderos, Spain"
+2023-09-22,Alaves,Athletic Club,0,2,3.0,4.0,2.0,2.0,1.15,1.73,5.0,3.0,1.0,5.0,"Alejandro Muniz Ruiz, Spain"
+2023-09-23,Girona,Mallorca,5,3,6.0,5.0,1.0,5.0,3.22,1.79,10.0,5.0,2.0,4.0,"Pablo Gonzales Fuertes, Spain"
+2023-09-23,Osasuna,Sevilla,0,0,7.0,4.0,2.0,3.0,1.42,0.77,2.0,3.0,3.0,2.0,"Javier Iglesias Villanueva, Spain"
+2023-09-23,Barcelona,Celta Vigo,3,2,2.0,3.0,2.0,1.0,1.59,1.54,6.0,7.0,5.0,3.0,"Mario Melero Lopez, Spain"
+2023-09-23,Almeria,Valencia,2,2,7.0,3.0,4.0,2.0,2.67,0.76,10.0,5.0,3.0,8.0,"Mateo Busquets Ferrer, Spain"
+2023-09-24,Real Sociedad,Getafe,4,3,2.0,1.0,3.0,2.0,1.95,1.47,6.0,7.0,4.0,2.0,"Juan Luis Pulido Santana, Spain"
+2023-09-24,Rayo Vallecano,Villarreal,1,1,2.0,8.0,2.0,5.0,1.21,1.64,6.0,6.0,5.0,5.0,"Jorge Figueroa Vazquez, Spain"
+2023-09-24,Las Palmas,Granada CF,1,0,6.0,7.0,8.0,4.0,0.6,0.04,3.0,1.0,1.0,2.0,"Ricardo De Burgos Bengoetxea, Spain"
+2023-09-24,Real Betis,Cadiz,1,1,11.0,8.0,2.0,3.0,1.86,0.22,7.0,1.0,0.0,6.0,"Miguel Angel Ortiz Arias, Spain"
+2023-09-24,Atletico Madrid,Real Madrid,3,1,6.0,11.0,1.0,3.0,1.29,1.01,4.0,5.0,4.0,1.0,"Javier Alberola Rojas, Spain"
+2023-09-26,Sevilla,Almeria,5,1,9.0,4.0,3.0,2.0,2.22,1.78,9.0,1.0,0.0,4.0,"Guillermo Cuadra Fernandez, Spain"
+2023-09-26,Mallorca,Barcelona,2,2,7.0,2.0,6.0,1.0,0.79,1.89,5.0,4.0,2.0,3.0,"Alejandro Ruiz Aguilera, Spain"
+2023-09-27,Athletic Club,Getafe,2,2,5.0,4.0,7.0,6.0,0.74,1.36,4.0,5.0,3.0,2.0,"Isidro Diaz de Mera Escuderos, Spain"
+2023-09-27,Villarreal,Girona,1,2,5.0,6.0,3.0,2.0,1.91,2.15,3.0,5.0,3.0,2.0,"Jose Maria Sanchez Martinez, Spain"
+2023-09-27,Real Madrid,Las Palmas,2,0,7.0,2.0,0.0,1.0,1.76,0.72,9.0,2.0,2.0,7.0,"José Luis Munuera Montero, Spain"
+2023-09-27,Valencia,Real Sociedad,0,1,0.0,2.0,6.0,7.0,0.37,0.18,2.0,1.0,0.0,2.0,"Alejandro Hernandez, Spain"
+2023-09-27,Cadiz,Rayo Vallecano,0,0,1.0,2.0,5.0,8.0,0.59,0.26,2.0,4.0,4.0,2.0,"Francisco Hernandez Maeso, Spain"
+2023-09-28,Celta Vigo,Alaves,1,1,2.0,8.0,8.0,3.0,0.56,2.7,0.0,11.0,8.0,0.0,"Cesar Soto Grado, Spain"
+2023-09-28,Granada CF,Real Betis,1,1,5.0,7.0,2.0,1.0,1.78,0.88,7.0,3.0,2.0,6.0,"Victor Garcia Verdura, Spain"
+2023-09-28,Osasuna,Atletico Madrid,0,2,7.0,2.0,5.0,4.0,0.94,1.44,2.0,3.0,1.0,2.0,"Juan Martinez Munuera, Spain"
+2023-09-29,Barcelona,Sevilla,1,0,13.0,3.0,2.0,3.0,2.43,1.11,4.0,3.0,3.0,4.0,"Miguel Angel Ortiz Arias, Spain"
+2023-09-30,Getafe,Villarreal,0,0,6.0,4.0,2.0,6.0,0.83,0.14,9.0,0.0,0.0,9.0,"Mateo Busquets Ferrer, Spain"
+2023-09-30,Rayo Vallecano,Mallorca,2,2,5.0,0.0,2.0,5.0,2.3,1.47,5.0,4.0,2.0,3.0,"Mario Melero Lopez, Spain"
+2023-09-30,Girona,Real Madrid,0,3,1.0,4.0,2.0,4.0,1.59,2.38,3.0,7.0,4.0,3.0,"Juan Luis Pulido Santana, Spain"
+2023-09-30,Real Sociedad,Athletic Club,3,0,5.0,7.0,2.0,2.0,1.45,1.82,5.0,3.0,3.0,2.0,"Jesus Gil Manzano, Spain"
+2023-10-01,Almeria,Granada CF,3,3,1.0,5.0,2.0,1.0,2.92,2.89,5.0,4.0,1.0,2.0,"Pablo Gonzales Fuertes, Spain"
+2023-10-01,Alaves,Osasuna,0,2,4.0,2.0,4.0,3.0,1.5,1.12,3.0,3.0,1.0,3.0,"Jorge Figueroa Vazquez, Spain"
+2023-10-01,Atletico Madrid,Cadiz,3,2,5.0,3.0,1.0,3.0,2.76,0.84,9.0,4.0,2.0,6.0,"Javier Iglesias Villanueva, Spain"
+2023-10-01,Real Betis,Valencia,3,0,5.0,3.0,2.0,2.0,1.62,0.66,7.0,2.0,2.0,4.0,"Ricardo De Burgos Bengoetxea, Spain"
+2023-10-02,Las Palmas,Celta Vigo,2,1,4.0,5.0,2.0,1.0,1.7,1.54,5.0,3.0,2.0,4.0,"Javier Alberola Rojas, Spain"
+2023-10-06,Athletic Club,Almeria,3,0,6.0,2.0,2.0,0.0,1.92,0.1,9.0,1.0,1.0,6.0,"Victor Garcia Verdura, Spain"
+2023-10-07,Cadiz,Girona,0,1,5.0,5.0,3.0,3.0,0.43,1.21,2.0,5.0,4.0,2.0,"Juan Martinez Munuera, Spain"
+2023-10-07,Real Madrid,Osasuna,4,0,5.0,4.0,2.0,2.0,3.46,0.46,9.0,1.0,1.0,5.0,"Guillermo Cuadra Fernandez, Spain"
+2023-10-07,Mallorca,Valencia,1,1,3.0,6.0,2.0,1.0,0.58,0.55,5.0,3.0,2.0,4.0,"Francisco Hernandez Maeso, Spain"
+2023-10-07,Sevilla,Rayo Vallecano,2,2,12.0,2.0,5.0,2.0,1.03,1.05,6.0,4.0,2.0,5.0,"Isidro Diaz de Mera Escuderos, Spain"
+2023-10-08,Villarreal,Las Palmas,1,2,7.0,2.0,4.0,4.0,0.99,1.12,4.0,5.0,3.0,3.0,"Alejandro Muniz Ruiz, Spain"
+2023-10-08,Atletico Madrid,Real Sociedad,2,1,1.0,4.0,3.0,3.0,2.33,1.24,5.0,4.0,3.0,3.0,"José Luis Munuera Montero, Spain"
+2023-10-08,Celta Vigo,Getafe,2,2,13.0,1.0,1.0,11.0,2.89,0.74,11.0,2.0,0.0,9.0,"Jose Maria Sanchez Martinez, Spain"
+2023-10-08,Alaves,Real Betis,1,1,5.0,3.0,3.0,5.0,1.38,0.93,5.0,2.0,1.0,5.0,"Alejandro Hernandez, Spain"
+2023-10-08,Granada CF,Barcelona,2,2,1.0,11.0,5.0,1.0,0.73,3.32,2.0,10.0,8.0,0.0,"Cesar Soto Grado, Spain"
+2023-10-20,Osasuna,Granada CF,2,0,1.0,7.0,3.0,6.0,2.14,0.65,6.0,3.0,3.0,4.0,"Mateo Busquets Ferrer, Spain"
+2023-10-21,Real Sociedad,Mallorca,1,0,2.0,5.0,3.0,3.0,1.35,1.95,6.0,7.0,6.0,5.0,"Jorge Figueroa Vazquez, Spain"
+2023-10-21,Getafe,Real Betis,1,1,4.0,8.0,5.0,2.0,1.49,1.16,3.0,3.0,2.0,2.0,"Cesar Soto Grado, Spain"
+2023-10-21,Sevilla,Real Madrid,1,1,4.0,6.0,5.0,2.0,1.35,2.13,7.0,5.0,3.0,6.0,"Ricardo De Burgos Bengoetxea, Spain"
+2023-10-21,Celta Vigo,Atletico Madrid,0,3,7.0,5.0,5.0,2.0,0.76,1.84,3.0,7.0,4.0,3.0,"Guillermo Cuadra Fernandez, Spain"
+2023-10-22,Las Palmas,Rayo Vallecano,0,1,10.0,5.0,4.0,5.0,1.33,1.35,6.0,4.0,3.0,6.0,"Javier Iglesias Villanueva, Spain"
+2023-10-22,Girona,Almeria,5,2,9.0,6.0,1.0,2.0,1.88,0.99,8.0,5.0,3.0,3.0,"Miguel Angel Ortiz Arias, Spain"
+2023-10-22,Villarreal,Alaves,1,1,9.0,3.0,4.0,3.0,1.53,1.66,3.0,7.0,6.0,2.0,"Jesus Gil Manzano, Spain"
+2023-10-22,Barcelona,Athletic Club,1,0,4.0,7.0,3.0,3.0,1.45,0.5,7.0,3.0,3.0,6.0,"Juan Martinez Munuera, Spain"
+2023-10-23,Valencia,Cadiz,2,0,4.0,5.0,0.0,5.0,1.44,0.54,4.0,4.0,4.0,2.0,"Pablo Gonzales Fuertes, Spain"
+2023-10-27,Girona,Celta Vigo,1,0,10.0,1.0,3.0,2.0,0.58,0.18,2.0,2.0,2.0,1.0,"Isidro Diaz de Mera Escuderos, Spain"
+2023-10-28,Almeria,Las Palmas,1,2,3.0,2.0,3.0,1.0,0.24,0.74,4.0,3.0,1.0,3.0,"Francisco Hernandez Maeso, Spain"
+2023-10-28,Barcelona,Real Madrid,1,2,6.0,3.0,2.0,1.0,1.55,1.07,3.0,4.0,2.0,2.0,"Jesus Gil Manzano, Spain"
+2023-10-28,Mallorca,Getafe,0,0,7.0,3.0,0.0,1.0,0.9,0.23,4.0,0.0,0.0,4.0,"Pablo Gonzales Fuertes, Spain"
+2023-10-28,Cadiz,Sevilla,2,2,2.0,4.0,6.0,4.0,1.09,1.38,5.0,10.0,8.0,3.0,"Cesar Soto Grado, Spain"
+2023-10-29,Real Betis,Osasuna,2,1,6.0,3.0,3.0,4.0,1.23,0.4,2.0,1.0,3.0,3.0,"Jose Maria Sanchez Martinez, Spain"
+2023-10-29,Rayo Vallecano,Real Sociedad,2,2,4.0,5.0,3.0,2.0,0.95,1.91,7.0,3.0,1.0,5.0,"Mateo Busquets Ferrer, Spain"
+2023-10-29,Athletic Club,Valencia,2,2,10.0,4.0,3.0,1.0,1.86,1.86,7.0,5.0,2.0,5.0,"Jorge Figueroa Vazquez, Spain"
+2023-10-29,Atletico Madrid,Alaves,2,1,4.0,4.0,3.0,2.0,1.35,0.47,7.0,1.0,0.0,5.0,"Alejandro Muniz Ruiz, Spain"
+2023-10-30,Granada CF,Villarreal,2,3,4.0,1.0,0.0,4.0,2.27,1.39,8.0,5.0,2.0,6.0,"Javier Iglesias Villanueva, Spain"
+2023-11-03,Las Palmas,Atletico Madrid,2,1,3.0,4.0,0.0,3.0,0.41,1.24,3.0,5.0,4.0,1.0,"Mario Melero Lopez, Spain"
+2023-11-04,Osasuna,Girona,2,4,2.0,7.0,5.0,3.0,1.42,2.23,3.0,4.0,0.0,2.0,"José Luis Munuera Montero, Spain"
+2023-11-04,Real Betis,Mallorca,2,0,6.0,1.0,1.0,6.0,2.26,0.62,3.0,1.0,1.0,1.0,"Miguel Angel Ortiz Arias, Spain"
+2023-11-04,Celta Vigo,Sevilla,1,1,4.0,6.0,4.0,5.0,2.1,0.89,3.0,5.0,4.0,2.0,"Alejandro Hernandez, Spain"
+2023-11-04,Real Sociedad,Barcelona,0,1,8.0,3.0,3.0,3.0,0.95,1.23,6.0,4.0,3.0,6.0,"Javier Alberola Rojas, Spain"
+2023-11-05,Alaves,Almeria,1,0,12.0,6.0,2.0,3.0,2.44,0.63,3.0,3.0,3.0,2.0,"Juan Luis Pulido Santana, Spain"
+2023-11-05,Valencia,Granada CF,1,0,0.0,4.0,3.0,5.0,1.43,0.32,2.0,1.0,1.0,1.0,"Victor Garcia Verdura, Spain"
+2023-11-05,Villarreal,Athletic Club,2,3,9.0,3.0,4.0,4.0,2.14,2.21,6.0,7.0,4.0,4.0,"Guillermo Cuadra Fernandez, Spain"
+2023-11-05,Real Madrid,Rayo Vallecano,0,0,11.0,1.0,3.0,5.0,2.21,0.1,5.0,0.0,0.0,5.0,"Juan Martinez Munuera, Spain"
+2023-11-06,Getafe,Cadiz,1,0,6.0,3.0,9.0,1.0,1.19,0.54,3.0,2.0,2.0,2.0,"Ricardo De Burgos Bengoetxea, Spain"
+2023-11-10,Athletic Club,Celta Vigo,4,3,7.0,2.0,2.0,2.0,4.6,2.24,12.0,5.0,2.0,8.0,"Juan Luis Pulido Santana, Spain"
+2023-11-11,Rayo Vallecano,Girona,1,2,8.0,3.0,1.0,2.0,1.75,4.59,9.0,7.0,4.0,8.0,"Pablo Gonzales Fuertes, Spain"
+2023-11-11,Almeria,Real Sociedad,1,3,5.0,5.0,3.0,2.0,0.44,2.41,2.0,6.0,3.0,1.0,"Isidro Diaz de Mera Escuderos, Spain"
+2023-11-11,Granada CF,Getafe,1,1,3.0,5.0,4.0,2.0,1.69,2.27,6.0,6.0,5.0,5.0,"Alejandro Muniz Ruiz, Spain"
+2023-11-11,Osasuna,Las Palmas,1,1,8.0,3.0,1.0,1.0,0.97,0.45,3.0,1.0,0.0,2.0,"Jorge Figueroa Vazquez, Spain"
+2023-11-11,Real Madrid,Valencia,5,1,4.0,4.0,1.0,3.0,1.75,1.71,7.0,4.0,3.0,2.0,"Jose Maria Sanchez Martinez, Spain"
+2023-11-12,Barcelona,Alaves,2,1,2.0,1.0,2.0,1.0,1.56,1.69,6.0,1.0,0.0,4.0,"Mateo Busquets Ferrer, Spain"
+2023-11-12,Sevilla,Real Betis,1,1,9.0,5.0,1.0,1.0,0.68,1.79,4.0,6.0,5.0,3.0,"Jesus Gil Manzano, Spain"
+2023-11-12,Atletico Madrid,Villarreal,3,1,6.0,3.0,0.0,2.0,3.79,0.87,10.0,7.0,6.0,7.0,"Francisco Hernandez Maeso, Spain"
+2023-11-24,Alaves,Granada CF,3,1,6.0,2.0,1.0,3.0,0.83,1.14,5.0,4.0,3.0,3.0,"Javier Alberola Rojas, Spain"
+2023-11-25,Rayo Vallecano,Barcelona,1,1,1.0,4.0,3.0,4.0,0.74,1.04,4.0,4.0,4.0,3.0,"José Luis Munuera Montero, Spain"
+2023-11-25,Valencia,Celta Vigo,0,0,5.0,7.0,3.0,2.0,0.52,0.78,0.0,1.0,1.0,0.0,"Cesar Soto Grado, Spain"
+2023-11-25,Getafe,Almeria,2,1,3.0,6.0,2.0,4.0,1.17,1.87,5.0,4.0,4.0,3.0,"Alejandro Hernandez, Spain"
+2023-11-25,Atletico Madrid,Mallorca,1,0,7.0,3.0,1.0,1.0,1.75,0.99,3.0,1.0,1.0,2.0,"Juan Martinez Munuera, Spain"
+2023-11-26,Villarreal,Osasuna,3,1,2.0,4.0,1.0,1.0,2.52,1.02,3.0,7.0,6.0,0.0,"Ricardo De Burgos Bengoetxea, Spain"
+2023-11-26,Real Sociedad,Sevilla,2,1,4.0,4.0,2.0,5.0,0.7,0.59,8.0,2.0,1.0,7.0,"Miguel Angel Ortiz Arias, Spain"
+2023-11-26,Cadiz,Real Madrid,0,3,4.0,4.0,3.0,3.0,1.21,1.59,4.0,5.0,3.0,4.0,"Guillermo Cuadra Fernandez, Spain"
+2023-11-26,Real Betis,Las Palmas,1,0,7.0,6.0,1.0,2.0,1.44,0.63,6.0,4.0,4.0,6.0,"Victor Garcia Verdura, Spain"
+2023-11-27,Girona,Athletic Club,1,1,2.0,6.0,1.0,1.0,1.27,1.42,2.0,6.0,5.0,1.0,"Mario Melero Lopez, Spain"
+2023-11-29,Mallorca,Cadiz,1,1,7.0,0.0,2.0,3.0,1.07,0.31,3.0,3.0,2.0,2.0,"Javier Iglesias Villanueva, Spain"
+2023-12-01,Las Palmas,Getafe,2,0,4.0,4.0,0.0,7.0,1.56,0.89,6.0,4.0,4.0,4.0,"Mateo Busquets Ferrer, Spain"
+2023-12-02,Girona,Valencia,2,1,3.0,2.0,3.0,3.0,1.64,0.98,5.0,3.0,2.0,3.0,"Ignacio Iglesias Villanueva, Spain"
+2023-12-02,Athletic Club,Rayo Vallecano,4,0,7.0,2.0,1.0,2.0,1.23,0.51,4.0,3.0,3.0,1.0,"Alejandro Hernandez, Spain"
+2023-12-02,Real Madrid,Granada CF,2,0,6.0,0.0,2.0,1.0,1.81,0.1,4.0,0.0,0.0,2.0,"Pablo Gonzales Fuertes, Spain"
+2023-12-02,Osasuna,Real Sociedad,1,1,1.0,8.0,3.0,3.0,0.69,1.77,3.0,5.0,4.0,2.0,"Juan Luis Pulido Santana, Spain"
+2023-12-03,Mallorca,Alaves,0,0,5.0,4.0,4.0,2.0,0.8,0.32,3.0,4.0,4.0,3.0,"Jorge Figueroa Vazquez, Spain"
+2023-12-03,Almeria,Real Betis,0,0,4.0,6.0,0.0,5.0,2.41,0.5,8.0,2.0,2.0,8.0,"Alejandro Muniz Ruiz, Spain"
+2023-12-03,Sevilla,Villarreal,1,1,8.0,4.0,3.0,3.0,1.81,1.23,4.0,4.0,3.0,3.0,"Isidro Diaz de Mera Escuderos, Spain"
+2023-12-03,Barcelona,Atletico Madrid,1,0,7.0,2.0,5.0,4.0,2.55,0.62,2.0,4.0,3.0,1.0,"Jose Maria Sanchez Martinez, Spain"
+2023-12-04,Celta Vigo,Cadiz,1,1,12.0,1.0,1.0,8.0,2.47,0.2,7.0,1.0,0.0,6.0,"Jesus Gil Manzano, Spain"
+2023-12-08,Getafe,Valencia,1,0,7.0,0.0,4.0,8.0,0.74,0.14,6.0,0.0,0.0,5.0,"Guillermo Cuadra Fernandez, Spain"
+2023-12-09,Alaves,Las Palmas,0,1,12.0,3.0,3.0,4.0,1.92,0.38,5.0,2.0,1.0,3.0,"José Luis Munuera Montero, Spain"
+2023-12-09,Real Betis,Real Madrid,1,1,7.0,6.0,2.0,1.0,1.39,1.03,6.0,2.0,1.0,5.0,"Cesar Soto Grado, Spain"
+2023-12-09,Villarreal,Real Sociedad,0,3,5.0,3.0,2.0,1.0,2.29,1.47,4.0,5.0,2.0,4.0,"Mario Melero Lopez, Spain"
+2023-12-09,Mallorca,Sevilla,1,0,4.0,12.0,2.0,2.0,0.48,0.63,3.0,5.0,5.0,2.0,"Javier Alberola Rojas, Spain"
+2023-12-10,Atletico Madrid,Almeria,2,1,3.0,15.0,1.0,0.0,2.17,1.36,4.0,6.0,5.0,2.0,"Ricardo De Burgos Bengoetxea, Spain"
+2023-12-10,Cadiz,Osasuna,1,1,2.0,4.0,1.0,2.0,0.87,1.68,5.0,5.0,3.0,4.0,"Juan Martinez Munuera, Spain"
+2023-12-10,Barcelona,Girona,2,4,8.0,3.0,1.0,2.0,3.74,2.48,11.0,7.0,3.0,9.0,"Isidro Diaz de Mera Escuderos, Spain"
+2023-12-11,Granada CF,Athletic Club,1,1,1.0,8.0,0.0,2.0,0.7,1.06,3.0,4.0,3.0,2.0,"Miguel Angel Ortiz Arias, Spain"
+2023-12-11,Rayo Vallecano,Celta Vigo,0,0,8.0,1.0,3.0,0.0,1.27,0.15,4.0,2.0,2.0,4.0,"Victor Garcia Verdura, Spain"
+2023-12-15,Osasuna,Rayo Vallecano,1,0,9.0,1.0,2.0,3.0,1.18,0.63,4.0,3.0,3.0,3.0,"Javier Iglesias Villanueva, Spain"
+2023-12-16,Celta Vigo,Granada CF,1,0,7.0,1.0,8.0,2.0,1.37,0.53,4.0,2.0,2.0,3.0,"Jose Maria Sanchez Martinez, Spain"
+2023-12-16,Athletic Club,Atletico Madrid,2,0,3.0,7.0,0.0,1.0,2.42,0.39,7.0,3.0,4.0,5.0,"Jesus Gil Manzano, Spain"
+2023-12-16,Sevilla,Getafe,0,3,4.0,2.0,3.0,3.0,0.97,2.39,4.0,7.0,4.0,4.0,"Juan Luis Pulido Santana, Spain"
+2023-12-16,Valencia,Barcelona,1,1,4.0,6.0,1.0,2.0,0.54,3.24,4.0,8.0,6.0,3.0,"Miguel Angel Ortiz Arias, Spain"
+2023-12-17,Almeria,Mallorca,0,0,4.0,4.0,3.0,1.0,0.3,1.88,1.0,2.0,2.0,1.0,"Pablo Gonzales Fuertes, Spain"
+2023-12-17,Real Sociedad,Real Betis,0,0,2.0,7.0,3.0,4.0,1.12,1.11,4.0,3.0,3.0,4.0,"Mateo Busquets Ferrer, Spain"
+2023-12-17,Las Palmas,Cadiz,1,1,4.0,6.0,1.0,3.0,0.69,1.38,2.0,5.0,4.0,1.0,"Alejandro Muniz Ruiz, Spain"
+2023-12-17,Real Madrid,Villarreal,4,1,14.0,0.0,2.0,3.0,2.32,0.75,9.0,1.0,0.0,5.0,"Jorge Figueroa Vazquez, Spain"
+2023-12-18,Girona,Alaves,3,0,3.0,2.0,0.0,1.0,1.57,0.64,4.0,2.0,2.0,1.0,"Francisco Hernandez Maeso, Spain"
+2023-12-19,Rayo Vallecano,Valencia,0,1,7.0,1.0,1.0,7.0,0.31,0.26,1.0,3.0,2.0,1.0,"Javier Alberola Rojas, Spain"
+2023-12-19,Atletico Madrid,Getafe,3,3,1.0,12.0,5.0,3.0,2.04,2.05,4.0,9.0,6.0,1.0,"José Luis Munuera Montero, Spain"
+2023-12-19,Granada CF,Sevilla,0,3,6.0,4.0,2.0,1.0,0.94,0.49,3.0,5.0,2.0,3.0,"Mateo Busquets Ferrer, Spain"
+2023-12-20,Barcelona,Almeria,3,2,12.0,0.0,3.0,3.0,3.69,1.21,11.0,5.0,3.0,8.0,"Guillermo Cuadra Fernandez, Spain"
+2023-12-20,Athletic Club,Las Palmas,1,0,5.0,2.0,1.0,3.0,3.56,0.33,10.0,1.0,1.0,8.0,"Juan Martinez Munuera, Spain"
+2023-12-20,Villarreal,Celta Vigo,3,2,4.0,7.0,2.0,4.0,2.37,1.28,8.0,5.0,2.0,5.0,"Cesar Soto Grado, Spain"
+2023-12-21,Real Betis,Girona,1,1,7.0,6.0,2.0,2.0,1.55,1.7,4.0,4.0,3.0,3.0,"Ricardo De Burgos Bengoetxea, Spain"
+2023-12-21,Cadiz,Real Sociedad,0,0,7.0,5.0,3.0,1.0,1.01,0.49,2.0,1.0,1.0,3.0,"Javier Iglesias Villanueva, Spain"
+2023-12-21,Alaves,Real Madrid,0,1,3.0,3.0,3.0,3.0,0.59,0.59,2.0,4.0,3.0,2.0,"Isidro Diaz de Mera Escuderos, Spain"
+2023-12-21,Mallorca,Osasuna,3,2,6.0,0.0,3.0,1.0,1.09,1.64,8.0,7.0,5.0,5.0,"Mario Melero Lopez, Spain"
+2023-12-23,Atletico Madrid,Sevilla,1,0,6.0,5.0,9.0,3.0,0.95,0.29,4.0,2.0,2.0,3.0,"Cesar Soto Grado, Spain"
+2024-01-02,Getafe,Rayo Vallecano,0,2,2.0,3.0,12.0,3.0,0.39,1.97,0.0,7.0,6.0,0.0,"Jorge Figueroa Vazquez, Spain"
+2024-01-02,Real Sociedad,Alaves,1,1,6.0,4.0,7.0,4.0,1.25,0.97,6.0,2.0,1.0,4.0,"Victor Garcia Verdura, Spain"
+2024-01-02,Valencia,Villarreal,3,1,4.0,3.0,2.0,5.0,2.77,0.75,8.0,4.0,3.0,5.0,"Jesus Gil Manzano, Spain"
+2024-01-03,Granada CF,Cadiz,2,0,5.0,6.0,3.0,6.0,2.97,0.81,8.0,2.0,2.0,6.0,"Juan Luis Pulido Santana, Spain"
+2024-01-03,Celta Vigo,Real Betis,2,1,8.0,7.0,2.0,2.0,2.73,1.47,6.0,3.0,2.0,4.0,"Miguel Angel Ortiz Arias, Spain"
+2024-01-03,Real Madrid,Mallorca,1,0,5.0,4.0,2.0,3.0,1.71,0.57,5.0,0.0,0.0,4.0,"Alejandro Muniz Ruiz, Spain"
+2024-01-03,Girona,Atletico Madrid,4,3,7.0,8.0,0.0,1.0,2.42,2.29,9.0,12.0,9.0,5.0,"Alejandro Hernandez, Spain"
+2024-01-04,Osasuna,Almeria,1,0,5.0,4.0,1.0,2.0,1.27,0.21,2.0,0.0,0.0,1.0,"Cesar Soto Grado, Spain"
+2024-01-04,Sevilla,Athletic Club,0,2,5.0,4.0,3.0,1.0,0.69,1.35,2.0,6.0,3.0,2.0,"Jose Maria Sanchez Martinez, Spain"
+2024-01-04,Las Palmas,Barcelona,1,2,5.0,10.0,7.0,2.0,0.67,2.51,3.0,5.0,3.0,2.0,"Pablo González Fuertes, Spain"
+2024-01-12,Sevilla,Alaves,2,3,5.0,4.0,4.0,3.0,2.2,1.99,4.0,8.0,5.0,2.0,"Alejandro Hernandez, Spain"
+2024-01-13,Las Palmas,Villarreal,3,0,4.0,6.0,4.0,3.0,0.66,1.92,3.0,3.0,3.0,0.0,"Javier Iglesias Villanueva, Spain"
+2024-01-13,Mallorca,Celta Vigo,1,1,10.0,1.0,4.0,1.0,1.82,0.65,6.0,2.0,1.0,5.0,"Victor Garcia Verdura, Spain"
+2024-01-13,Athletic Club,Real Sociedad,2,1,5.0,5.0,1.0,4.0,1.65,1.22,3.0,1.0,0.0,2.0,"José Luis Munuera Montero, Spain"
+2024-01-13,Real Betis,Granada CF,1,0,13.0,1.0,3.0,4.0,1.8,0.5,6.0,2.0,2.0,5.0,"Guillermo Cuadra Fernandez, Spain"
+2024-01-14,Almeria,Girona,0,0,4.0,3.0,4.0,6.0,1.75,0.25,3.0,1.0,2.0,3.0,"Mateo Busquets Ferrer, Spain"
+2024-01-14,Cadiz,Valencia,1,4,3.0,1.0,4.0,2.0,1.18,1.92,2.0,5.0,1.0,1.0,"Isidro Diaz de Mera Escuderos, Spain"
+2024-01-19,Alaves,Cadiz,1,0,4.0,4.0,0.0,4.0,2.04,0.35,3.0,1.0,1.0,2.0,"Alejandro Muniz Ruiz, Spain"
+2024-01-20,Rayo Vallecano,Las Palmas,0,2,12.0,0.0,6.0,1.0,1.57,0.71,3.0,5.0,3.0,3.0,"Mario Melero Lopez, Spain"
+2024-01-20,Villarreal,Mallorca,1,1,4.0,6.0,4.0,2.0,1.92,0.42,5.0,2.0,1.0,4.0,"Miguel Angel Ortiz Arias, Spain"
+2024-01-20,Valencia,Athletic Club,1,0,4.0,2.0,0.0,3.0,0.89,0.49,1.0,3.0,3.0,0.0,"Juan Luis Pulido Santana, Spain"
+2024-01-20,Celta Vigo,Real Sociedad,0,1,6.0,3.0,1.0,2.0,0.26,0.78,2.0,2.0,1.0,2.0,"Jorge Figueroa Vazquez, Spain"
+2024-01-21,Osasuna,Getafe,3,2,1.0,4.0,5.0,4.0,0.9,1.33,7.0,7.0,5.0,4.0,"Jose Maria Sanchez Martinez, Spain"
+2024-01-21,Real Madrid,Almeria,3,2,6.0,3.0,3.0,5.0,2.25,0.89,6.0,2.0,0.0,3.0,"Francisco Hernandez Maeso, Spain"
+2024-01-21,Real Betis,Barcelona,2,4,3.0,4.0,1.0,2.0,1.55,2.98,5.0,4.0,0.0,2.0,"Jesus Gil Manzano, Spain"
+2024-01-21,Girona,Sevilla,5,1,4.0,5.0,0.0,2.0,2.29,0.66,8.0,3.0,2.0,3.0,"Pablo González Fuertes, Spain"
+2024-01-22,Granada CF,Atletico Madrid,0,1,6.0,2.0,2.0,2.0,0.65,1.19,2.0,5.0,4.0,1.0,"Juan Martinez Munuera, Spain"
+2024-01-26,Almeria,Alaves,0,3,11.0,3.0,1.0,2.0,1.46,1.87,7.0,3.0,0.0,7.0,"Miguel Angel Ortiz Arias, Spain"
+2024-01-27,Real Sociedad,Rayo Vallecano,0,0,2.0,2.0,2.0,4.0,0.19,0.11,3.0,0.0,0.0,3.0,"Alejandro Hernandez, Spain"
+2024-01-27,Las Palmas,Real Madrid,1,2,1.0,6.0,3.0,3.0,0.73,2.3,2.0,5.0,3.0,1.0,"Cesar Soto Grado, Spain"
+2024-01-27,Barcelona,Villarreal,3,5,10.0,0.0,3.0,4.0,2.21,2.18,10.0,6.0,1.0,7.0,"José Luis Munuera Montero, Spain"
+2024-01-27,Mallorca,Real Betis,0,1,5.0,4.0,2.0,1.0,1.46,0.37,1.0,2.0,1.0,1.0,"Javier Iglesias Villanueva, Spain"
+2024-01-28,Celta Vigo,Girona,0,1,5.0,7.0,1.0,1.0,0.62,0.96,5.0,6.0,5.0,5.0,"Mario Melero Lopez, Spain"
+2024-01-28,Cadiz,Athletic Club,0,0,6.0,8.0,4.0,2.0,0.36,0.24,2.0,0.0,0.0,2.0,"Mateo Busquets Ferrer, Spain"
+2024-01-28,Sevilla,Osasuna,1,1,2.0,4.0,5.0,0.0,0.83,1.39,5.0,4.0,3.0,4.0,"Guillermo Cuadra Fernandez, Spain"
+2024-01-28,Atletico Madrid,Valencia,2,0,3.0,6.0,2.0,0.0,2.38,0.53,8.0,3.0,3.0,7.0,"Ricardo De Burgos Bengoetxea, Spain"
+2024-01-29,Getafe,Granada CF,2,0,4.0,3.0,2.0,1.0,1.32,1.97,4.0,3.0,3.0,3.0,"Victor Garcia Verdura, Spain"
+2024-01-31,Barcelona,Osasuna,1,0,6.0,6.0,1.0,4.0,1.86,1.02,4.0,1.0,1.0,3.0,"Jorge Figueroa Vazquez, Spain"
+2024-01-31,Atletico Madrid,Rayo Vallecano,2,1,5.0,6.0,0.0,3.0,0.9,0.41,3.0,2.0,1.0,1.0,"Cesar Soto Grado, Spain"
+2024-02-01,Getafe,Real Madrid,0,2,2.0,6.0,1.0,2.0,0.83,2.02,2.0,9.0,7.0,2.0,"Ricardo De Burgos Bengoetxea, Spain"
+2024-02-02,Athletic Club,Mallorca,4,0,6.0,2.0,0.0,1.0,1.91,0.37,6.0,2.0,2.0,2.0,"Jorge Figueroa Vazquez, Spain"
+2024-02-03,Valencia,Almeria,2,1,0.0,6.0,4.0,7.0,1.44,1.94,2.0,5.0,3.0,0.0,"Alejandro Muniz Ruiz, Spain"
+2024-02-03,Granada CF,Las Palmas,1,1,2.0,9.0,6.0,5.0,0.15,1.0,1.0,6.0,5.0,0.0,"Mateo Busquets Ferrer, Spain"
+2024-02-03,Alaves,Barcelona,1,3,13.0,5.0,2.0,4.0,0.98,1.21,2.0,5.0,2.0,1.0,"Juan Martinez Munuera, Spain"
+2024-02-03,Girona,Real Sociedad,0,0,3.0,4.0,2.0,3.0,0.81,0.62,3.0,2.0,2.0,3.0,"Jesus Gil Manzano, Spain"
+2024-02-04,Villarreal,Cadiz,0,0,13.0,2.0,3.0,1.0,1.15,0.7,4.0,2.0,2.0,4.0,"Pablo González Fuertes, Spain"
+2024-02-04,Osasuna,Celta Vigo,0,3,9.0,1.0,2.0,0.0,1.14,1.1,1.0,5.0,2.0,1.0,"Javier Alberola Rojas, Spain"
+2024-02-04,Real Betis,Getafe,1,1,3.0,5.0,7.0,4.0,1.6,1.51,3.0,2.0,1.0,1.0,"Juan Luis Pulido Santana, Spain"
+2024-02-04,Real Madrid,Atletico Madrid,1,1,2.0,8.0,0.0,4.0,1.87,1.17,4.0,5.0,4.0,3.0,"Jose Maria Sanchez Martinez, Spain"
+2024-02-05,Rayo Vallecano,Sevilla,1,2,6.0,0.0,2.0,3.0,1.81,1.3,5.0,6.0,4.0,4.0,"Francisco Hernandez Maeso, Spain"
+2024-02-09,Cadiz,Real Betis,0,2,5.0,3.0,1.0,1.0,0.85,1.03,5.0,5.0,3.0,5.0,"Ricardo De Burgos Bengoetxea, Spain"
+2024-02-10,Alaves,Villarreal,1,1,10.0,9.0,0.0,2.0,1.84,0.95,4.0,4.0,2.0,3.0,"Mario Melero Lopez, Spain"
+2024-02-10,Real Sociedad,Osasuna,0,1,7.0,4.0,1.0,1.0,1.68,0.41,3.0,2.0,1.0,3.0,"Isidro Diaz de Mera Escuderos, Spain"
+2024-02-10,Real Madrid,Girona,4,0,0.0,2.0,1.0,2.0,3.21,0.28,6.0,0.0,0.0,2.0,"Juan Martinez Munuera, Spain"
+2024-02-10,Las Palmas,Valencia,2,0,5.0,0.0,2.0,0.0,1.27,0.43,3.0,1.0,2.0,1.0,"Guillermo Cuadra Fernandez, Spain"
+2024-02-11,Getafe,Celta Vigo,3,2,0.0,4.0,1.0,2.0,2.15,1.19,4.0,4.0,2.0,1.0,"Alejandro Hernandez, Spain"
+2024-02-11,Mallorca,Rayo Vallecano,2,1,5.0,1.0,4.0,0.0,0.91,1.61,5.0,4.0,3.0,3.0,"José Luis Munuera Montero, Spain"
+2024-02-11,Sevilla,Atletico Madrid,1,0,2.0,7.0,2.0,1.0,1.03,1.55,6.0,5.0,4.0,5.0,"Javier Iglesias Villanueva, Spain"
+2024-02-11,Barcelona,Granada CF,3,3,6.0,2.0,1.0,3.0,2.27,1.43,6.0,5.0,2.0,2.0,"Miguel Angel Ortiz Arias, Spain"
+2024-02-12,Almeria,Athletic Club,0,0,4.0,10.0,6.0,1.0,0.88,0.66,4.0,4.0,4.0,4.0,"Victor Garcia Verdura, Spain"
+2024-02-16,Villarreal,Getafe,1,1,8.0,3.0,0.0,1.0,1.25,0.82,7.0,2.0,0.0,6.0,"Javier Alberola Rojas, Spain"
+2024-02-17,Atletico Madrid,Las Palmas,5,0,3.0,5.0,2.0,2.0,3.47,0.72,7.0,2.0,2.0,2.0,"Jorge Figueroa Vazquez, Spain"
+2024-02-17,Osasuna,Cadiz,2,0,5.0,4.0,4.0,2.0,1.96,0.54,4.0,1.0,1.0,2.0,"Francisco Hernandez Maeso, Spain"
+2024-02-17,Celta Vigo,Barcelona,1,2,2.0,5.0,2.0,4.0,0.75,1.53,4.0,4.0,2.0,3.0,"Juan Luis Pulido Santana, Spain"
+2024-02-17,Valencia,Sevilla,0,0,7.0,2.0,0.0,1.0,1.05,0.04,4.0,1.0,1.0,4.0,"Cesar Soto Grado, Spain"
+2024-02-18,Rayo Vallecano,Real Madrid,1,1,4.0,10.0,4.0,5.0,1.16,1.12,3.0,4.0,3.0,2.0,"Alejandro Muniz Ruiz, Spain"
+2024-02-18,Granada CF,Almeria,1,1,10.0,4.0,2.0,3.0,1.99,1.41,7.0,3.0,2.0,6.0,"Jesus Gil Manzano, Spain"
+2024-02-18,Mallorca,Real Sociedad,1,2,3.0,9.0,13.0,5.0,0.13,1.13,1.0,5.0,3.0,0.0,"Pablo González Fuertes, Spain"
+2024-02-18,Real Betis,Alaves,0,0,6.0,8.0,5.0,2.0,0.81,0.49,2.0,4.0,4.0,1.0,"Mateo Busquets Ferrer, Spain"
+2024-02-19,Athletic Club,Girona,3,2,3.0,4.0,1.0,2.0,1.78,2.1,7.0,6.0,3.0,4.0,"Jose Maria Sanchez Martinez, Spain"
+2024-02-23,Real Sociedad,Villarreal,1,3,13.0,2.0,3.0,4.0,1.7,1.07,8.0,4.0,1.0,6.0,"Javier Iglesias Villanueva, Spain"
+2024-02-24,Barcelona,Getafe,4,0,5.0,8.0,1.0,4.0,3.17,0.49,9.0,4.0,4.0,5.0,"Alejandro Muniz Ruiz, Spain"
+2024-02-24,Alaves,Mallorca,1,1,3.0,3.0,0.0,2.0,0.47,2.12,1.0,8.0,6.0,1.0,"Victor Garcia Verdura, Spain"
+2024-02-24,Almeria,Atletico Madrid,2,2,2.0,7.0,1.0,1.0,0.4,1.47,4.0,9.0,7.0,3.0,"Javier Alberola Rojas, Spain"
+2024-02-25,Cadiz,Celta Vigo,2,2,9.0,1.0,2.0,3.0,2.23,0.69,6.0,3.0,1.0,4.0,"Miguel Angel Ortiz Arias, Spain"
+2024-02-25,Real Betis,Athletic Club,3,1,5.0,3.0,1.0,8.0,1.23,0.2,5.0,1.0,0.0,3.0,"Guillermo Cuadra Fernandez, Spain"
+2024-02-25,Las Palmas,Osasuna,1,1,6.0,7.0,2.0,1.0,0.7,0.77,3.0,2.0,1.0,2.0,"José Luis Munuera Montero, Spain"
+2024-02-25,Real Madrid,Sevilla,1,0,7.0,2.0,1.0,3.0,0.99,0.9,6.0,1.0,1.0,5.0,"Isidro Diaz de Mera Escuderos, Spain"
+2024-02-26,Girona,Rayo Vallecano,3,0,2.0,2.0,3.0,7.0,2.17,0.55,8.0,1.0,1.0,5.0,"Ricardo De Burgos Bengoetxea, Spain"
+2024-03-01,Celta Vigo,Almeria,1,0,7.0,0.0,1.0,4.0,1.41,0.11,6.0,0.0,0.0,5.0,"Jose Maria Sanchez Martinez, Spain"
+2024-03-02,Sevilla,Real Sociedad,3,2,2.0,5.0,1.0,2.0,1.99,1.49,5.0,4.0,2.0,2.0,"Mateo Busquets Ferrer, Spain"
+2024-03-02,Rayo Vallecano,Cadiz,1,1,4.0,9.0,1.0,1.0,0.7,1.46,5.0,5.0,4.0,4.0,"Javier Alberola Rojas, Spain"
+2024-03-02,Getafe,Las Palmas,3,3,4.0,4.0,4.0,1.0,2.29,1.51,5.0,5.0,2.0,2.0,"Pablo González Fuertes, Spain"
+2024-03-02,Valencia,Real Madrid,2,2,2.0,2.0,2.0,5.0,1.15,2.21,5.0,5.0,3.0,3.0,"Jesus Gil Manzano, Spain"
+2024-03-03,Villarreal,Granada CF,5,1,6.0,4.0,1.0,2.0,2.06,0.51,10.0,3.0,2.0,5.0,"Juan Luis Pulido Santana, Spain"
+2024-03-03,Atletico Madrid,Real Betis,2,1,4.0,6.0,1.0,2.0,3.04,0.58,12.0,6.0,5.0,11.0,"Cesar Soto Grado, Spain"
+2024-03-03,Mallorca,Girona,1,0,8.0,5.0,5.0,0.0,1.25,1.01,2.0,4.0,4.0,0.0,"Francisco Hernandez Maeso, Spain"
+2024-03-03,Athletic Club,Barcelona,0,0,4.0,4.0,3.0,3.0,0.33,0.67,2.0,2.0,1.0,2.0,"Alejandro Hernandez, Spain"
+2024-03-04,Osasuna,Alaves,1,0,5.0,5.0,2.0,1.0,0.98,1.03,4.0,4.0,4.0,3.0,"Jorge Figueroa Vazquez, Spain"
+2024-03-08,Barcelona,Mallorca,1,0,4.0,1.0,1.0,1.0,2.02,0.58,6.0,3.0,3.0,6.0,"Javier Iglesias Villanueva, Spain"
+2024-03-09,Valencia,Getafe,1,0,5.0,5.0,2.0,3.0,0.81,1.27,3.0,5.0,5.0,2.0,"Juan Luis Pulido Santana, Spain"
+2024-03-09,Cadiz,Atletico Madrid,2,0,3.0,1.0,4.0,5.0,1.11,0.88,3.0,4.0,4.0,1.0,"Pablo González Fuertes, Spain"
+2024-03-09,Granada CF,Real Sociedad,2,3,4.0,6.0,1.0,2.0,1.77,2.23,6.0,8.0,5.0,4.0,"Juan Martinez Munuera, Spain"
+2024-03-09,Girona,Osasuna,2,0,5.0,7.0,3.0,3.0,1.89,0.21,6.0,1.0,1.0,4.0,"Mateo Busquets Ferrer, Spain"
+2024-03-10,Alaves,Rayo Vallecano,1,0,7.0,5.0,2.0,2.0,0.61,0.64,4.0,3.0,3.0,3.0,"José Luis Munuera Montero, Spain"
+2024-03-10,Las Palmas,Athletic Club,0,2,10.0,3.0,3.0,3.0,1.25,0.79,2.0,2.0,1.0,2.0,"Miguel Angel Ortiz Arias, Spain"
+2024-03-10,Real Madrid,Celta Vigo,4,0,12.0,1.0,2.0,3.0,3.5,0.77,13.0,1.0,1.0,11.0,"Mario Melero Lopez, Spain"
+2024-03-10,Real Betis,Villarreal,2,3,11.0,4.0,5.0,6.0,1.03,1.43,4.0,4.0,2.0,2.0,"Alejandro Hernandez, Spain"
+2024-03-11,Almeria,Sevilla,2,2,1.0,8.0,2.0,1.0,1.61,2.23,4.0,6.0,4.0,2.0,"Ricardo De Burgos Bengoetxea, Spain"
+2024-03-15,Real Sociedad,Cadiz,2,0,8.0,2.0,3.0,1.0,1.96,0.81,6.0,2.0,2.0,4.0,"Cesar Soto Grado, Spain"
+2024-03-16,Mallorca,Granada CF,1,0,10.0,2.0,2.0,0.0,1.6,0.42,8.0,3.0,3.0,7.0,"Ricardo De Burgos Bengoetxea, Spain"
+2024-03-16,Osasuna,Real Madrid,2,4,5.0,7.0,3.0,2.0,0.72,2.87,4.0,9.0,6.0,2.0,"Juan Martinez Munuera, Spain"
+2024-03-16,Getafe,Girona,1,0,2.0,5.0,4.0,4.0,1.1,1.6,3.0,3.0,3.0,2.0,"José Luis Munuera Montero, Spain"
+2024-03-16,Athletic Club,Alaves,2,0,5.0,4.0,2.0,3.0,1.74,1.32,4.0,3.0,3.0,2.0,"Alejandro Muniz Ruiz, Spain"
+2024-03-17,Sevilla,Celta Vigo,1,2,3.0,8.0,4.0,0.0,1.69,1.44,4.0,5.0,3.0,3.0,"Francisco Hernandez Maeso, Spain"
+2024-03-17,Villarreal,Valencia,1,0,5.0,2.0,5.0,1.0,2.04,1.13,7.0,7.0,7.0,6.0,"Jorge Figueroa Vazquez, Spain"
+2024-03-17,Las Palmas,Almeria,0,1,11.0,3.0,2.0,2.0,0.94,0.77,6.0,2.0,1.0,6.0,"Victor Garcia Verdura, Spain"
+2024-03-17,Rayo Vallecano,Real Betis,2,0,4.0,8.0,4.0,4.0,0.77,0.82,4.0,1.0,1.0,2.0,"Juan Luis Pulido Santana, Spain"
+2024-03-17,Atletico Madrid,Barcelona,0,3,7.0,3.0,5.0,1.0,0.78,1.54,3.0,5.0,2.0,3.0,"Jose Maria Sanchez Martinez, Spain"
+2024-03-29,Cadiz,Granada CF,1,0,5.0,2.0,2.0,4.0,1.55,0.52,5.0,2.0,2.0,4.0,"Guillermo Cuadra Fernandez, Spain"
+2024-03-30,Getafe,Sevilla,0,1,6.0,3.0,4.0,5.0,1.63,0.76,5.0,3.0,2.0,5.0,"Javier Iglesias Villanueva, Spain"
+2024-03-30,Almeria,Osasuna,0,3,6.0,1.0,3.0,2.0,0.84,1.03,5.0,4.0,1.0,5.0,"Pablo González Fuertes, Spain"
+2024-03-30,Valencia,Mallorca,0,0,3.0,3.0,0.0,2.0,1.49,0.87,5.0,3.0,3.0,4.0,"Miguel Angel Ortiz Arias, Spain"
+2024-03-30,Barcelona,Las Palmas,1,0,6.0,1.0,5.0,3.0,1.75,0.29,2.0,0.0,0.0,1.0,"Mateo Busquets Ferrer, Spain"
+2024-03-31,Celta Vigo,Rayo Vallecano,0,0,3.0,2.0,3.0,3.0,0.78,0.58,0.0,2.0,2.0,0.0,"Alejandro Hernandez, Spain"
+2024-03-31,Girona,Real Betis,3,2,5.0,4.0,3.0,4.0,2.66,0.55,5.0,4.0,2.0,2.0,"Jesus Gil Manzano, Spain"
+2024-03-31,Alaves,Real Sociedad,0,1,3.0,8.0,2.0,2.0,0.25,0.95,0.0,3.0,2.0,0.0,"Francisco Hernandez Maeso, Spain"
+2024-03-31,Real Madrid,Athletic Club,2,0,4.0,7.0,2.0,1.0,1.12,0.27,4.0,3.0,3.0,2.0,"Javier Alberola Rojas, Spain"
+2024-04-01,Villarreal,Atletico Madrid,1,2,3.0,3.0,3.0,3.0,0.81,1.32,2.0,8.0,6.0,1.0,"Mario Melero Lopez, Spain"
+2024-04-04,Granada CF,Valencia,0,1,5.0,4.0,3.0,1.0,0.62,0.35,3.0,2.0,1.0,3.0,"Alejandro Hernandez, Spain"
+2024-04-12,Real Betis,Celta Vigo,2,1,6.0,5.0,1.0,0.0,1.26,1.6,3.0,5.0,4.0,1.0,"Juan Martinez Munuera, Spain"
+2024-04-13,Atletico Madrid,Girona,3,1,2.0,0.0,3.0,2.0,2.4,2.39,4.0,5.0,4.0,1.0,"Ricardo De Burgos Bengoetxea, Spain"
+2024-04-13,Rayo Vallecano,Getafe,0,0,3.0,0.0,4.0,6.0,0.89,0.24,2.0,0.0,0.0,2.0,"Jorge Figueroa Vazquez, Spain"
+2024-04-13,Mallorca,Real Madrid,0,1,4.0,2.0,2.0,1.0,0.59,1.6,2.0,9.0,7.0,2.0,"Jose Maria Sanchez Martinez, Spain"
+2024-04-13,Cadiz,Barcelona,0,1,8.0,4.0,3.0,3.0,0.75,0.76,3.0,2.0,0.0,3.0,"Juan Luis Pulido Santana, Spain"
+2024-04-14,Las Palmas,Sevilla,0,2,6.0,2.0,5.0,3.0,0.07,2.08,2.0,3.0,1.0,2.0,"Alejandro Muniz Ruiz, Spain"
+2024-04-14,Granada CF,Alaves,2,0,1.0,5.0,3.0,2.0,1.45,0.34,3.0,3.0,3.0,1.0,"Victor Garcia Verdura, Spain"
+2024-04-14,Athletic Club,Villarreal,1,1,3.0,1.0,3.0,5.0,0.65,2.1,6.0,2.0,1.0,5.0,"Guillermo Cuadra Fernandez, Spain"
+2024-04-14,Real Sociedad,Almeria,2,2,5.0,1.0,4.0,2.0,1.56,1.42,4.0,3.0,1.0,2.0,"Isidro Diaz de Mera Escuderos, Spain"
+2024-04-15,Osasuna,Valencia,0,1,4.0,1.0,0.0,2.0,1.93,0.22,2.0,3.0,2.0,2.0,"José Luis Munuera Montero, Spain"
+2024-04-19,Athletic Club,Granada CF,1,1,11.0,4.0,4.0,2.0,1.54,0.19,6.0,0.0,0.0,4.0,"Javier Iglesias Villanueva, Spain"
+2024-04-20,Celta Vigo,Las Palmas,4,1,8.0,4.0,1.0,0.0,3.99,0.98,13.0,4.0,3.0,9.0,"Francisco Hernandez Maeso, Spain"
+2024-04-20,Rayo Vallecano,Osasuna,2,1,5.0,1.0,4.0,1.0,0.53,0.53,6.0,2.0,1.0,4.0,"Mario Melero Lopez, Spain"
+2024-04-20,Valencia,Real Betis,1,2,7.0,6.0,2.0,3.0,1.16,1.45,5.0,6.0,4.0,4.0,"Mateo Busquets Ferrer, Spain"
+2024-04-20,Girona,Cadiz,4,1,2.0,4.0,1.0,2.0,2.07,1.87,5.0,5.0,4.0,1.0,"Javier Alberola Rojas, Spain"
+2024-04-21,Getafe,Real Sociedad,1,1,0.0,4.0,0.0,2.0,0.54,1.19,3.0,3.0,3.0,1.0,"Victor Garcia Verdura, Spain"
+2024-04-21,Almeria,Villarreal,1,2,5.0,2.0,5.0,4.0,1.71,1.64,5.0,3.0,1.0,4.0,"Miguel Angel Ortiz Arias, Spain"
+2024-04-21,Alaves,Atletico Madrid,2,0,1.0,11.0,5.0,3.0,0.39,0.9,3.0,4.0,4.0,1.0,"Jesus Gil Manzano, Spain"
+2024-04-21,Real Madrid,Barcelona,3,2,2.0,8.0,3.0,2.0,2.34,1.37,8.0,6.0,4.0,5.0,"Cesar Soto Grado, Spain"
+2024-04-22,Sevilla,Mallorca,2,1,4.0,4.0,0.0,2.0,1.09,0.75,4.0,6.0,4.0,2.0,"Alejandro Hernandez, Spain"
+2024-04-26,Real Sociedad,Real Madrid,0,1,11.0,3.0,3.0,4.0,0.59,0.39,3.0,3.0,2.0,3.0,"José Luis Munuera Montero, Spain"
+2024-04-27,Las Palmas,Girona,0,2,4.0,2.0,1.0,3.0,1.63,1.89,5.0,3.0,1.0,5.0,"Jorge Figueroa Vazquez, Spain"
+2024-04-27,Almeria,Getafe,1,3,9.0,2.0,7.0,4.0,2.36,1.66,11.0,5.0,2.0,10.0,"Guillermo Cuadra Fernandez, Spain"
+2024-04-27,Alaves,Celta Vigo,3,0,8.0,3.0,3.0,3.0,2.35,0.22,8.0,0.0,0.0,5.0,"Juan Luis Pulido Santana, Spain"
+2024-04-27,Atletico Madrid,Athletic Club,3,1,3.0,5.0,3.0,2.0,0.92,0.99,3.0,1.0,0.0,1.0,"Juan Martinez Munuera, Spain"
+2024-04-28,Cadiz,Mallorca,1,1,3.0,1.0,3.0,2.0,0.35,0.94,2.0,2.0,1.0,2.0,"Isidro Diaz de Mera Escuderos, Spain"
+2024-04-28,Granada CF,Osasuna,3,0,0.0,6.0,4.0,0.0,2.17,0.88,4.0,2.0,2.0,1.0,"Alejandro Muniz Ruiz, Spain"
+2024-04-28,Villarreal,Rayo Vallecano,3,0,3.0,6.0,2.0,1.0,1.32,1.06,7.0,4.0,4.0,4.0,"Pablo González Fuertes, Spain"
+2024-04-28,Real Betis,Sevilla,1,1,4.0,6.0,3.0,5.0,1.98,1.36,5.0,1.0,0.0,3.0,"Jose Maria Sanchez Martinez, Spain"
+2024-04-29,Barcelona,Valencia,4,2,15.0,1.0,1.0,2.0,2.21,2.13,13.0,3.0,1.0,9.0,"Ricardo De Burgos Bengoetxea, Spain"
+2024-05-03,Getafe,Athletic Club,0,2,10.0,6.0,0.0,6.0,4.36,0.69,9.0,2.0,0.0,9.0,"Jesus Gil Manzano, Spain"
+2024-05-04,Real Sociedad,Las Palmas,2,0,7.0,2.0,2.0,1.0,0.58,0.52,4.0,1.0,1.0,3.0,"Miguel Angel Ortiz Arias, Spain"
+2024-05-04,Real Madrid,Cadiz,3,0,7.0,4.0,0.0,1.0,2.33,0.96,9.0,2.0,2.0,6.0,"Javier Iglesias Villanueva, Spain"
+2024-05-04,Girona,Barcelona,4,2,5.0,4.0,0.0,3.0,1.86,2.56,7.0,7.0,5.0,2.0,"Alejandro Hernandez, Spain"
+2024-05-04,Mallorca,Atletico Madrid,0,1,6.0,2.0,2.0,0.0,0.24,0.72,4.0,4.0,3.0,4.0,"Javier Alberola Rojas, Spain"
+2024-05-05,Osasuna,Real Betis,0,2,8.0,5.0,4.0,2.0,0.77,1.14,2.0,4.0,2.0,2.0,"Victor Garcia Verdura, Spain"
+2024-05-05,Celta Vigo,Villarreal,3,2,2.0,1.0,4.0,2.0,3.85,0.63,7.0,3.0,1.0,4.0,"Cesar Soto Grado, Spain"
+2024-05-05,Valencia,Alaves,0,1,5.0,7.0,1.0,3.0,0.97,0.83,1.0,4.0,3.0,1.0,"Mario Melero Lopez, Spain"
+2024-05-05,Sevilla,Granada CF,3,0,5.0,4.0,2.0,2.0,1.66,0.36,5.0,3.0,3.0,2.0,"Mateo Busquets Ferrer, Spain"
+2024-05-05,Rayo Vallecano,Almeria,0,1,9.0,2.0,3.0,2.0,1.42,0.37,10.0,2.0,1.0,10.0,"Francisco Hernandez Maeso, Spain"
+2024-05-10,Alaves,Girona,2,2,5.0,3.0,3.0,2.0,1.79,1.88,8.0,5.0,3.0,6.0,"José Luis Munuera Montero, Spain"
+2024-05-11,Mallorca,Las Palmas,1,0,2.0,2.0,6.0,2.0,0.33,0.38,2.0,1.0,1.0,1.0,"Juan Martinez Munuera, Spain"
+2024-05-11,Villarreal,Sevilla,3,2,10.0,1.0,3.0,5.0,3.33,1.74,7.0,4.0,2.0,4.0,"Isidro Diaz de Mera Escuderos, Spain"
+2024-05-11,Granada CF,Real Madrid,0,4,8.0,5.0,2.0,0.0,0.9,1.89,1.0,7.0,3.0,2.0,"Pablo González Fuertes, Spain"
+2024-05-11,Athletic Club,Osasuna,2,2,8.0,6.0,2.0,4.0,1.33,1.14,6.0,3.0,1.0,4.0,"Jose Maria Sanchez Martinez, Spain"
+2024-05-12,Cadiz,Getafe,1,0,6.0,2.0,5.0,2.0,1.54,0.44,6.0,4.0,4.0,5.0,"Ricardo De Burgos Bengoetxea, Spain"
+2024-05-12,Atletico Madrid,Celta Vigo,1,0,4.0,7.0,1.0,1.0,1.48,0.47,8.0,2.0,2.0,7.0,"Jorge Figueroa Vazquez, Spain"
+2024-05-12,Valencia,Rayo Vallecano,0,0,6.0,3.0,1.0,2.0,1.31,0.57,5.0,1.0,2.0,5.0,"Juan Luis Pulido Santana, Spain"
+2024-05-12,Real Betis,Almeria,3,2,3.0,5.0,0.0,2.0,0.77,1.17,7.0,7.0,5.0,5.0,"Alejandro Muniz Ruiz, Spain"
+2024-05-13,Barcelona,Real Sociedad,2,0,6.0,2.0,2.0,3.0,2.15,0.67,5.0,3.0,3.0,3.0,"Guillermo Cuadra Fernandez, Spain"
+2024-05-14,Osasuna,Mallorca,1,1,2.0,4.0,0.0,1.0,0.37,0.97,4.0,4.0,3.0,3.0,"Francisco Hernandez Maeso, Spain"
+2024-05-14,Real Madrid,Alaves,5,0,4.0,1.0,1.0,1.0,2.52,1.28,11.0,10.0,10.0,6.0,"Mateo Busquets Ferrer, Spain"
+2024-05-14,Girona,Villarreal,0,1,5.0,1.0,1.0,7.0,1.71,0.62,5.0,3.0,2.0,4.0,"Jose Maria Sanchez Martinez, Spain"
+2024-05-15,Sevilla,Cadiz,0,1,1.0,9.0,6.0,2.0,1.3,2.51,3.0,7.0,6.0,3.0,"Miguel Angel Ortiz Arias, Spain"
+2024-05-15,Rayo Vallecano,Granada CF,2,1,6.0,6.0,6.0,3.0,2.57,0.93,9.0,1.0,0.0,7.0,"Isidro Diaz de Mera Escuderos, Spain"
+2024-05-15,Celta Vigo,Athletic Club,2,1,2.0,3.0,2.0,0.0,0.77,0.22,4.0,2.0,1.0,2.0,"Victor Garcia Verdura, Spain"
+2024-05-15,Getafe,Atletico Madrid,0,3,6.0,3.0,4.0,3.0,0.62,1.3,3.0,3.0,1.0,3.0,"Mario Melero Lopez, Spain"
+2024-05-16,Las Palmas,Real Betis,2,2,4.0,8.0,2.0,1.0,2.33,1.27,9.0,4.0,3.0,7.0,"Javier Iglesias Villanueva, Spain"
+2024-05-16,Almeria,Barcelona,0,2,4.0,7.0,0.0,1.0,0.92,1.57,3.0,7.0,5.0,3.0,"Javier Alberola Rojas, Spain"
+2024-05-16,Real Sociedad,Valencia,1,0,3.0,3.0,0.0,2.0,1.28,0.84,5.0,3.0,3.0,4.0,"Cesar Soto Grado, Spain"
+2024-05-18,Alaves,Getafe,1,0,2.0,1.0,5.0,9.0,1.18,0.33,2.0,4.0,4.0,1.0,"Jorge Figueroa Vazquez, Spain"
+2024-05-19,Barcelona,Rayo Vallecano,3,0,7.0,5.0,4.0,2.0,1.26,1.28,6.0,4.0,4.0,3.0,"Jesus Gil Manzano, Spain"
+2024-05-19,Atletico Madrid,Osasuna,1,4,7.0,5.0,2.0,2.0,1.56,1.91,2.0,6.0,2.0,1.0,"Pablo González Fuertes, Spain"
+2024-05-19,Athletic Club,Sevilla,2,0,8.0,3.0,1.0,1.0,1.57,0.87,6.0,4.0,4.0,4.0,"Juan Luis Pulido Santana, Spain"
+2024-05-19,Valencia,Girona,1,3,5.0,4.0,2.0,0.0,3.17,2.62,6.0,5.0,3.0,5.0,"Guillermo Cuadra Fernandez, Spain"
+2024-05-19,Villarreal,Real Madrid,4,4,3.0,3.0,2.0,2.0,1.78,1.04,7.0,6.0,2.0,3.0,"Alejandro Hernandez, Spain"
+2024-05-19,Real Betis,Real Sociedad,0,2,6.0,2.0,3.0,4.0,1.69,0.46,9.0,2.0,1.0,9.0,"Miguel Martinez Munuera, Spain"
+2024-05-19,Granada CF,Celta Vigo,1,2,10.0,2.0,2.0,1.0,1.92,1.68,3.0,5.0,3.0,2.0,"Javier Alberola Rojas, Spain"
+2024-05-19,Cadiz,Las Palmas,0,0,5.0,3.0,5.0,1.0,0.88,0.56,3.0,1.0,1.0,3.0,"Cesar Soto Grado, Spain"
+2024-05-19,Mallorca,Almeria,2,2,12.0,2.0,2.0,3.0,3.01,0.42,8.0,3.0,1.0,6.0,"Ricardo De Burgos Bengoetxea, Spain"
+2024-05-24,Girona,Granada CF,7,0,4.0,2.0,3.0,7.0,4.62,1.05,9.0,2.0,3.0,2.0,"Alejandro Muniz Ruiz, Spain"
+2024-05-25,Osasuna,Villarreal,1,1,6.0,4.0,4.0,3.0,0.95,1.56,6.0,3.0,2.0,5.0,"Mario Melero Lopez, Spain"
+2024-05-25,Real Sociedad,Atletico Madrid,0,2,8.0,4.0,3.0,7.0,0.61,2.17,4.0,4.0,2.0,2.0,"Jose Maria Sanchez Martinez, Spain"
+2024-05-25,Almeria,Cadiz,6,1,1.0,4.0,2.0,2.0,3.16,0.5,12.0,4.0,3.0,7.0,"Mateo Busquets Ferrer, Spain"
+2024-05-25,Rayo Vallecano,Athletic Club,0,1,8.0,2.0,1.0,1.0,1.07,0.7,4.0,1.0,0.0,4.0,"José Luis Munuera Montero, Spain"
+2024-05-25,Real Madrid,Real Betis,0,0,4.0,5.0,2.0,1.0,0.92,0.86,5.0,3.0,3.0,4.0,"Isidro Diaz de Mera Escuderos, Spain"
+2024-05-26,Getafe,Mallorca,1,2,3.0,4.0,0.0,2.0,0.89,1.49,6.0,4.0,2.0,5.0,"Victor Garcia Verdura, Spain"
+2024-05-26,Las Palmas,Alaves,1,1,2.0,6.0,2.0,1.0,0.99,2.59,4.0,4.0,3.0,3.0,"Francisco Hernandez Maeso, Spain"
+2024-05-26,Celta Vigo,Valencia,2,2,2.0,2.0,1.0,1.0,1.52,1.96,4.0,1.0,0.0,2.0,"Miguel Angel Ortiz Arias, Spain"
+2024-05-26,Sevilla,Barcelona,1,2,6.0,5.0,2.0,1.0,1.47,1.35,6.0,6.0,4.0,5.0,"Javier Iglesias Villanueva, Spain"
