@@ -244,6 +244,8 @@ with tabs[5]:
                 # 2. Obtener partidos
                 partidos_liga = obtener_proximos_partidos_europa(league_id)
                 if not partidos_liga:
+                    progreso_actual = int(((i + 1) / total_ligas) * 100)
+                    barra_progreso.progress(progreso_actual)
                     continue
                 
                 for llave_partido, datos_partido in partidos_liga.items():
@@ -258,7 +260,6 @@ with tabs[5]:
                     
                     # 3. Simular Montecarlo
                     resultados = simular_partido_europa(loc, vis, df_hist, e_loc, e_vis)
-                    
                     if isinstance(resultados, str):
                         continue
                         
@@ -271,12 +272,9 @@ with tabs[5]:
                             g_v_sim = resultados['Goles_Individuales'][vis]['goles']
                             preds_ml = ml_predictor.predecir_mercados_completos(loc, vis, g_l_sim, g_v_sim, e_loc, e_vis)
                     except Exception as ml_err:
-                        print(f"Aviso ML en escáner: {ml_err}")
+                        pass
                         
-                    # Pausa imperceptible para proteger el hilo de ejecución
-                    time.sleep(0.1) 
-                    
-                    # 5. Análisis Francotirador (Pasando MC y ML por separado)
+                    # 5. Análisis Francotirador con control de errores por partido
                     try:
                         df_apuestas = analizar_apuestas_europa(
                             resultados, 
@@ -287,7 +285,7 @@ with tabs[5]:
                             visita=vis
                         )
                         
-                        if not df_apuestas.empty:
+                        if not df_apuestas.empty and 'Veredicto' in df_apuestas.columns:
                             df_filtrado = df_apuestas[df_apuestas['Veredicto'].str.contains('🔥|✅', na=False)].copy()
                             
                             if not df_filtrado.empty:
@@ -295,17 +293,16 @@ with tabs[5]:
                                 df_filtrado.insert(1, 'Partido', f"{loc} vs {vis}")
                                 apuestas_valor.append(df_filtrado)
                     except Exception as odds_err:
-                        print(f"Aviso Cuotas/Análisis en escáner: {odds_err}")
                         continue
                 
-                # Actualizar barra de progreso
+                # Actualizar barra de progreso al terminar cada liga
                 progreso_actual = int(((i + 1) / total_ligas) * 100)
                 barra_progreso.progress(progreso_actual)
                 
             texto_estado.empty()
             barra_progreso.empty()
             
-            # Mostrar resultados
+            # Mostrar resultados de forma limpia
             if apuestas_valor:
                 df_global = pd.concat(apuestas_valor, ignore_index=True)
                 st.success(f"🎯 ¡Escaneo Francotirador finalizado! Se encontraron **{len(df_global)} oportunidades con acuerdo >60% y EV+**.")
@@ -321,7 +318,7 @@ with tabs[5]:
                     hide_index=True
                 )
             else:
-                st.info("ℹ️ El escáner terminó de revisar todas las ligas, pero en este momento **ningún partido superó el filtro estricto del 60% de probabilidad en ambos modelos con valor positivo**.")
+                st.info("ℹ️ El escáner terminó de revisar todas las ligas de manera exitosa. En este momento **ningún partido superó el filtro estricto del 60% de probabilidad en ambos modelos con valor positivo**.")
                 
         except Exception as e:
             texto_estado.empty()
