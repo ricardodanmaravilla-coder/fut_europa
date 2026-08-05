@@ -161,19 +161,6 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
 
                         st.markdown("---")
                         
-                        # ========================================================
-                        # 🔥 EL CRUCE DEFINITIVO (CONSENSO: MONTECARLO + ML) 🔥
-                        # ========================================================
-                        # Combinamos el peso estadístico (Montecarlo) con el perfil de rendimiento (ML)
-                        resultados_consenso = resultados.copy()
-                        if ml_predictor.entrenado and "Resultado_1X2" in preds_ml:
-                            for mercado in ["Resultado_1X2", "Goles_Over_Under", "Corners_Totales", "Tarjetas_Totales"]:
-                                for opcion in resultados_consenso[mercado]:
-                                    # Promedio exacto (50% Montecarlo / 50% Machine Learning)
-                                    mc_val = float(resultados[mercado][opcion])
-                                    ml_val = float(preds_ml[mercado].get(opcion, mc_val))
-                                    resultados_consenso[mercado][opcion] = round((mc_val + ml_val) / 2.0, 1)
-
                         # 4. GESTIÓN DE CUOTAS Y VALOR ESPERADO (KELLY DEFINITIVO)
                         st.markdown("### ⚙️ Veredicto Definitivo: EV+ con Modelo de Consenso")
                         st.info("💡 Este análisis financiero se calcula cruzando la distribución de goles (Montecarlo/ELO) y el factor humano (xG/Atajadas del ML).")
@@ -207,9 +194,10 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                                     key=f"cuota_{nombre_liga}_{llave}"
                                 )
 
-                        # ATENCIÓN AQUÍ: Le pasamos 'resultados_consenso' (el modelo cruzado) en lugar de solo Montecarlo
+                        # ATENCIÓN AQUÍ: Le pasamos Montecarlo y ML por separado para que el motor aplique el filtro > 60%
                         df_apuestas = analizar_apuestas_europa(
-                            resultados_consenso, 
+                            resultados, 
+                            preds_ml if ml_predictor.entrenado else {}, 
                             datos_partido["fixture_id"], 
                             cuotas_personalizadas=cuotas_usuario, 
                             nombre_liga=nombre_liga, 
@@ -269,35 +257,25 @@ with tabs[5]:
                 resultados = simular_partido_europa(loc, vis, df_hist, e_loc, e_vis)
                 
                 if not isinstance(resultados, str):
-                    # 1. Entrenamos ML para este partido
+                    # Sacamos predicciones de ML
                     ml_predictor = PredictorMLEuropa()
+                    preds_ml = {}
                     if ml_predictor.entrenar(df_hist):
                         g_l_sim = resultados['Goles_Individuales'][loc]['goles']
                         g_v_sim = resultados['Goles_Individuales'][vis]['goles']
                         preds_ml = ml_predictor.predecir_mercados_completos(loc, vis, g_l_sim, g_v_sim, e_loc, e_vis)
                         
-                        # 2. Cruzamos ambos modelos (Consenso)
-                        resultados_consenso = resultados.copy()
-                        if "Resultado_1X2" in preds_ml:
-                            for mercado in ["Resultado_1X2", "Goles_Over_Under", "Corners_Totales", "Tarjetas_Totales"]:
-                                for opcion in resultados_consenso[mercado]:
-                                    mc_val = float(resultados[mercado][opcion])
-                                    ml_val = float(preds_ml[mercado].get(opcion, mc_val))
-                                    resultados_consenso[mercado][opcion] = round((mc_val + ml_val) / 2.0, 1)
-                    else:
-                        resultados_consenso = resultados # Fallback si no hay datos de ML
-                        
+                    # Pausa de seguridad para la API
                     time.sleep(0.5) 
                     
-                    # 3. Analizamos las cuotas reales con el modelo cruzado
-                    df_apuestas = analizar_apuestas_europa(resultados_consenso, fix_id, nombre_liga=nombre_liga, local=loc, visita=vis)
+                    # Extraer cuotas y aplicar Filtro Francotirador (>60% en ambos modelos)
+                    df_apuestas = analizar_apuestas_europa(resultados, preds_ml, fix_id, nombre_liga=nombre_liga, local=loc, visita=vis)
                     
                     if not df_apuestas.empty:
-                        # FILTRO MÁGICO: Solo guardamos apuestas con EV+ Fuerte o Moderado (🔥 o ✅)
+                        # Solo guardamos apuestas con EV+ Fuerte o Moderado (🔥 o ✅)
                         df_filtrado = df_apuestas[df_apuestas['Veredicto'].str.contains('🔥|✅', na=False)].copy()
                         
                         if not df_filtrado.empty:
-                            # Insertamos columnas para saber de qué partido y liga se trata
                             df_filtrado.insert(0, 'Liga', nombre_liga)
                             df_filtrado.insert(1, 'Partido', f"{loc} vs {vis}")
                             apuestas_valor.append(df_filtrado)
