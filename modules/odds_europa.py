@@ -155,14 +155,28 @@ def analizar_apuestas_europa(resultados_modelo, fixture_id, cuotas_personalizada
         if cuota > 1.01:
             prob_implicita = (1 / cuota) * 100
             prob_modelo = prob_modelo_pct / 100.0
+            # ... (dentro del ciclo de analizar_apuestas_europa)
             ev = (prob_modelo * (cuota - 1)) - (1 - prob_modelo)
             ev_pct = round(ev * 100, 2)
             kelly_rec = calcular_kelly_fraccional(prob_modelo, cuota)
             
-            if ev_pct > 15 and kelly_rec > 2.0: veredicto = "🔥 Value Fuerte (Apostar)"
-            elif ev_pct > 3 and kelly_rec > 0.5: veredicto = "✅ Value Moderado"
-            elif ev_pct > 0: veredicto = "⚠️ EV Positivo Marginal"
-            else: veredicto = "❌ EV Negativo"
+            # =======================================================
+            # 🛡️ FILTRO DE PROTECCIÓN (SENTIDO COMÚN)
+            # =======================================================
+            # 1. Si la probabilidad es menor a 45%, es un volado peligroso (Descartar)
+            if prob_modelo_pct < 45.0:
+                veredicto = "❌ Riesgo Alto (Prob < 45%)"
+                kelly_rec = 0.0 # No arriesgamos dinero aquí
+            
+            # 2. Si pasa el filtro de seguridad, evaluamos el Value
+            elif ev_pct > 10 and kelly_rec > 1.5: 
+                veredicto = "🔥 Value Fuerte (Apostar)"
+            elif ev_pct > 3 and kelly_rec > 0.5: 
+                veredicto = "✅ Value Moderado"
+            elif ev_pct > 0: 
+                veredicto = "⚠️ EV Positivo Marginal"
+            else: 
+                veredicto = "❌ EV Negativo"
                 
             analisis.append({
                 "Mercado": nombre_mercado,
