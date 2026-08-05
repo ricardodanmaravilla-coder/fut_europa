@@ -223,7 +223,7 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
 # ==========================================
 with tabs[5]:
     st.subheader("🌐 Escáner Global de Valor (Las 5 Ligas en Simultáneo)")
-    st.info("Este módulo recorre las jornadas activas de Europa. Extrae las cuotas reales de las casas de apuestas y las compara contra el modelo matemático para detectar ineficiencias.")
+    st.info("Este módulo recorre las jornadas activas de Europa buscando oportunidades del Sniper (>60% en ambos modelos y EV+).")
     
     if st.button("🚀 Escanear Todas las Ligas de Europa", type="primary"):
         barra_progreso = st.progress(0)
@@ -232,74 +232,98 @@ with tabs[5]:
         apuestas_valor = []
         total_ligas = len(LIGAS_IDS)
         
-        for i, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
-            texto_estado.markdown(f"**🔍 Analizando {nombre_liga}...**")
-            
-            # Cargar histórico y actualizar ELO
-            df_hist = cargar_historico_liga(nombre_liga)
-            motor_elo = SistemaEloEuropa()
-            tabla_elo = motor_elo.actualizar_ratings(df_hist)
-            
-            # Obtener próximos partidos
-            partidos_liga = obtener_proximos_partidos_europa(league_id)
-            
-            for llave_partido, datos_partido in partidos_liga.items():
-                loc = datos_partido['local']
-                vis = datos_partido['visita']
-                fix_id = datos_partido['fixture_id']
+        try:
+            for i, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
+                texto_estado.markdown(f"**🔍 [Liga {i+1}/{total_ligas}] Analizando {nombre_liga}...**")
                 
-                try: e_loc = float(tabla_elo.loc[tabla_elo['Equipo'] == loc, 'ELO_Rating'].values[0])
-                except: e_loc = 1500.0
-                try: e_vis = float(tabla_elo.loc[tabla_elo['Equipo'] == vis, 'ELO_Rating'].values[0])
-                except: e_vis = 1500.0
+                # 1. Cargar histórico y ELO
+                df_hist = cargar_historico_liga(nombre_liga)
+                motor_elo = SistemaEloEuropa()
+                tabla_elo = motor_elo.actualizar_ratings(df_hist)
                 
-                # Simular Partido
-                resultados = simular_partido_europa(loc, vis, df_hist, e_loc, e_vis)
+                # 2. Obtener partidos
+                partidos_liga = obtener_proximos_partidos_europa(league_id)
+                if not partidos_liga:
+                    continue
                 
-                if not isinstance(resultados, str):
-                    # Sacamos predicciones de ML
+                for llave_partido, datos_partido in partidos_liga.items():
+                    loc = datos_partido['local']
+                    vis = datos_partido['visita']
+                    fix_id = datos_partido['fixture_id']
+                    
+                    try: e_loc = float(tabla_elo.loc[tabla_elo['Equipo'] == loc, 'ELO_Rating'].values[0])
+                    except: e_loc = 1500.0
+                    try: e_vis = float(tabla_elo.loc[tabla_elo['Equipo'] == vis, 'ELO_Rating'].values[0])
+                    except: e_vis = 1500.0
+                    
+                    # 3. Simular Montecarlo
+                    resultados = simular_partido_europa(loc, vis, df_hist, e_loc, e_vis)
+                    
+                    if isinstance(resultados, str):
+                        continue
+                        
+                    # 4. Entrenar y predecir con Machine Learning
                     ml_predictor = PredictorMLEuropa()
                     preds_ml = {}
-                    if ml_predictor.entrenar(df_hist):
-                        g_l_sim = resultados['Goles_Individuales'][loc]['goles']
-                        g_v_sim = resultados['Goles_Individuales'][vis]['goles']
-                        preds_ml = ml_predictor.predecir_mercados_completos(loc, vis, g_l_sim, g_v_sim, e_loc, e_vis)
+                    try:
+                        if ml_predictor.entrenar(df_hist):
+                            g_l_sim = resultados['Goles_Individuales'][loc]['goles']
+                            g_v_sim = resultados['Goles_Individuales'][vis]['goles']
+                            preds_ml = ml_predictor.predecir_mercados_completos(loc, vis, g_l_sim, g_v_sim, e_loc, e_vis)
+                    except Exception as ml_err:
+                        print(f"Aviso ML en escáner: {ml_err}")
                         
-                    # Pausa de seguridad para la API
-                    time.sleep(0.5) 
+                    # Pausa imperceptible para proteger el hilo de ejecución
+                    time.sleep(0.1) 
                     
-                    # Extraer cuotas y aplicar Filtro Francotirador (>60% en ambos modelos)
-                    df_apuestas = analizar_apuestas_europa(resultados, preds_ml, fix_id, nombre_liga=nombre_liga, local=loc, visita=vis)
-                    
-                    if not df_apuestas.empty:
-                        # Solo guardamos apuestas con EV+ Fuerte o Moderado (🔥 o ✅)
-                        df_filtrado = df_apuestas[df_apuestas['Veredicto'].str.contains('🔥|✅', na=False)].copy()
+                    # 5. Análisis Francotirador (Pasando MC y ML por separado)
+                    try:
+                        df_apuestas = analizar_apuestas_europa(
+                            resultados, 
+                            preds_ml, 
+                            fix_id, 
+                            nombre_liga=nombre_liga, 
+                            local=loc, 
+                            visita=vis
+                        )
                         
-                        if not df_filtrado.empty:
-                            df_filtrado.insert(0, 'Liga', nombre_liga)
-                            df_filtrado.insert(1, 'Partido', f"{loc} vs {vis}")
-                            apuestas_valor.append(df_filtrado)
-            
-            # Actualizar barra de progreso al terminar cada liga
-            progreso_actual = int(((i + 1) / total_ligas) * 100)
-            barra_progreso.progress(progreso_actual)
-            
-        texto_estado.empty() # Limpiar mensaje de estatus al finalizar
-        
-        # Mostrar el Dashboard de Resultados
-        if apuestas_valor:
-            df_global = pd.concat(apuestas_valor, ignore_index=True)
-            st.success(f"🎯 ¡Escaneo finalizado! Se detectaron **{len(df_global)} oportunidades con EV+ (Valor Positivo)** en Europa.")
-            
-            def color_veredicto_global(val):
-                if '🔥' in str(val): return 'color: #00ff00; font-weight: bold'
-                elif '✅' in str(val): return 'color: #adff2f'
-                return ''
+                        if not df_apuestas.empty:
+                            df_filtrado = df_apuestas[df_apuestas['Veredicto'].str.contains('🔥|✅', na=False)].copy()
+                            
+                            if not df_filtrado.empty:
+                                df_filtrado.insert(0, 'Liga', nombre_liga)
+                                df_filtrado.insert(1, 'Partido', f"{loc} vs {vis}")
+                                apuestas_valor.append(df_filtrado)
+                    except Exception as odds_err:
+                        print(f"Aviso Cuotas/Análisis en escáner: {odds_err}")
+                        continue
                 
-            st.dataframe(
-                df_global.style.map(color_veredicto_global, subset=['Veredicto']), 
-                use_container_width=True,
-                hide_index=True
-            )
-        else:
-            st.warning("No se detectaron ineficiencias en las cuotas actuales. El casino tiene las líneas muy ajustadas a la realidad matemática en este momento.")
+                # Actualizar barra de progreso
+                progreso_actual = int(((i + 1) / total_ligas) * 100)
+                barra_progreso.progress(progreso_actual)
+                
+            texto_estado.empty()
+            barra_progreso.empty()
+            
+            # Mostrar resultados
+            if apuestas_valor:
+                df_global = pd.concat(apuestas_valor, ignore_index=True)
+                st.success(f"🎯 ¡Escaneo Francotirador finalizado! Se encontraron **{len(df_global)} oportunidades con acuerdo >60% y EV+**.")
+                
+                def color_veredicto_global(val):
+                    if '🔥' in str(val): return 'color: #00ff00; font-weight: bold'
+                    elif '✅' in str(val): return 'color: #adff2f'
+                    return ''
+                    
+                st.dataframe(
+                    df_global.style.map(color_veredicto_global, subset=['Veredicto']), 
+                    use_container_width=True,
+                    hide_index=True
+                )
+            else:
+                st.info("ℹ️ El escáner terminó de revisar todas las ligas, pero en este momento **ningún partido superó el filtro estricto del 60% de probabilidad en ambos modelos con valor positivo**.")
+                
+        except Exception as e:
+            texto_estado.empty()
+            barra_progreso.empty()
+            st.error(f"⚠️ Ocurrió una interrupción en el escaneo global: {str(e)}")
