@@ -18,7 +18,7 @@ LIGAS_A_DESCARGAR = {
 }
 
 # Temporada actual de Europa (2026) o puedes ajustar a [2025, 2026] si deseas más profundidad
-TEMPORADAS = [2020, 2022, 2023]
+TEMPORADAS = [2020, 2021, 2022, 2023, 2024, 2025, 2026]
 
 def descargar_y_generar_csv(nombre_liga, league_id, archivo_salida):
     print(f"\n[INICIO] Descargando y procesando: {nombre_liga} (ID: {league_id})...")
