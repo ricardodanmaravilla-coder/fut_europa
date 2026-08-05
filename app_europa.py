@@ -161,10 +161,29 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
 
                         st.markdown("---")
                         
-                        # 4. GESTIÓN DE CUOTAS Y VALOR ESPERADO (KELLY)
-                        st.markdown("### ⚙️ Filtro Financiero: Cuotas y Valor (EV+)")
-                        # CAMBIO AQUÍ: Usamos la función europea
-                        cuotas_automaticas = obtener_cuotas_europa(datos_partido["fixture_id"], nombre_liga, datos_partido["local"], datos_partido["visita"])
+                        # ========================================================
+                        # 🔥 EL CRUCE DEFINITIVO (CONSENSO: MONTECARLO + ML) 🔥
+                        # ========================================================
+                        # Combinamos el peso estadístico (Montecarlo) con el perfil de rendimiento (ML)
+                        resultados_consenso = resultados.copy()
+                        if ml_predictor.entrenado and "Resultado_1X2" in preds_ml:
+                            for mercado in ["Resultado_1X2", "Goles_Over_Under", "Corners_Totales", "Tarjetas_Totales"]:
+                                for opcion in resultados_consenso[mercado]:
+                                    # Promedio exacto (50% Montecarlo / 50% Machine Learning)
+                                    mc_val = float(resultados[mercado][opcion])
+                                    ml_val = float(preds_ml[mercado].get(opcion, mc_val))
+                                    resultados_consenso[mercado][opcion] = round((mc_val + ml_val) / 2.0, 1)
+
+                        # 4. GESTIÓN DE CUOTAS Y VALOR ESPERADO (KELLY DEFINITIVO)
+                        st.markdown("### ⚙️ Veredicto Definitivo: EV+ con Modelo de Consenso")
+                        st.info("💡 Este análisis financiero se calcula cruzando la distribución de goles (Montecarlo/ELO) y el factor humano (xG/Atajadas del ML).")
+                        
+                        cuotas_automaticas = obtener_cuotas_europa(
+                            datos_partido["fixture_id"], 
+                            nombre_liga=nombre_liga, 
+                            local=datos_partido["local"], 
+                            visita=datos_partido["visita"]
+                        )
                         
                         mercados_keys = {
                             "Gana Local": "1", "Empate": "X", "Gana Visita": "2", 
@@ -188,8 +207,15 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                                     key=f"cuota_{nombre_liga}_{llave}"
                                 )
 
-                        # CAMBIO AQUÍ: Usamos el analizador europeo
-                        df_apuestas = analizar_apuestas_europa(resultados, datos_partido["fixture_id"], cuotas_personalizadas=cuotas_usuario)
+                        # ATENCIÓN AQUÍ: Le pasamos 'resultados_consenso' (el modelo cruzado) en lugar de solo Montecarlo
+                        df_apuestas = analizar_apuestas_europa(
+                            resultados_consenso, 
+                            datos_partido["fixture_id"], 
+                            cuotas_personalizadas=cuotas_usuario, 
+                            nombre_liga=nombre_liga, 
+                            local=datos_partido["local"], 
+                            visita=datos_partido["visita"]
+                        )
                         
                         if not df_apuestas.empty:
                             def color_veredicto(val):
@@ -204,23 +230,6 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                                 use_container_width=True,
                                 hide_index=True
                             )
-                        # Analizamos las apuestas usando las probabilidades de Montecarlo como base fuerte
-                        df_apuestas = analizar_apuestas_europa(resultados, datos_partido["fixture_id"], cuotas_personalizadas=cuotas_usuario, nombre_liga=nombre_liga, local=datos_partido["local"], visita=datos_partido["visita"])
-                        
-                        if not df_apuestas.empty:
-                            def color_veredicto(val):
-                                if '🔥' in str(val): return 'color: #00ff00; font-weight: bold'
-                                elif '✅' in str(val): return 'color: #adff2f'
-                                elif '⚠️' in str(val): return 'color: #ffa500'
-                                elif '❌' in str(val): return 'color: #ff4d4d'
-                                return ''
-                                
-                            st.dataframe(
-                                df_apuestas.style.map(color_veredicto, subset=['Veredicto']), 
-                                use_container_width=True,
-                                hide_index=True
-                            )
-
 # ==========================================
 # PESTAÑA 6: ESCÁNER GLOBAL EV+
 # ==========================================
@@ -260,12 +269,28 @@ with tabs[5]:
                 resultados = simular_partido_europa(loc, vis, df_hist, e_loc, e_vis)
                 
                 if not isinstance(resultados, str):
-                    # Pausa de seguridad para no saturar la API de cuotas (Rate Limit)
+                    # 1. Entrenamos ML para este partido
+                    ml_predictor = PredictorMLEuropa()
+                    if ml_predictor.entrenar(df_hist):
+                        g_l_sim = resultados['Goles_Individuales'][loc]['goles']
+                        g_v_sim = resultados['Goles_Individuales'][vis]['goles']
+                        preds_ml = ml_predictor.predecir_mercados_completos(loc, vis, g_l_sim, g_v_sim, e_loc, e_vis)
+                        
+                        # 2. Cruzamos ambos modelos (Consenso)
+                        resultados_consenso = resultados.copy()
+                        if "Resultado_1X2" in preds_ml:
+                            for mercado in ["Resultado_1X2", "Goles_Over_Under", "Corners_Totales", "Tarjetas_Totales"]:
+                                for opcion in resultados_consenso[mercado]:
+                                    mc_val = float(resultados[mercado][opcion])
+                                    ml_val = float(preds_ml[mercado].get(opcion, mc_val))
+                                    resultados_consenso[mercado][opcion] = round((mc_val + ml_val) / 2.0, 1)
+                    else:
+                        resultados_consenso = resultados # Fallback si no hay datos de ML
+                        
                     time.sleep(0.5) 
                     
-                    # Extraer cuotas reales en vivo y buscar EV+
-                    # Reemplaza la llamada en el bloque de la Pestaña 6:
-                    df_apuestas = analizar_apuestas_europa(resultados, fix_id, nombre_liga=nombre_liga, local=loc, visita=vis)
+                    # 3. Analizamos las cuotas reales con el modelo cruzado
+                    df_apuestas = analizar_apuestas_europa(resultados_consenso, fix_id, nombre_liga=nombre_liga, local=loc, visita=vis)
                     
                     if not df_apuestas.empty:
                         # FILTRO MÁGICO: Solo guardamos apuestas con EV+ Fuerte o Moderado (🔥 o ✅)
