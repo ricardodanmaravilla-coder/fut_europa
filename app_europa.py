@@ -164,7 +164,7 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                         # 4. GESTIÓN DE CUOTAS Y VALOR ESPERADO (KELLY)
                         st.markdown("### ⚙️ Filtro Financiero: Cuotas y Valor (EV+)")
                         # CAMBIO AQUÍ: Usamos la función europea
-                        cuotas_automaticas = obtener_cuotas_europa(datos_partido["fixture_id"])
+                        cuotas_automaticas = obtener_cuotas_europa(datos_partido["fixture_id"], nombre_liga, datos_partido["local"], datos_partido["visita"])
                         
                         mercados_keys = {
                             "Gana Local": "1", "Empate": "X", "Gana Visita": "2", 
@@ -205,7 +205,7 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                                 hide_index=True
                             )
                         # Analizamos las apuestas usando las probabilidades de Montecarlo como base fuerte
-                        df_apuestas = analizar_apuestas_europa(resultados, datos_partido["fixture_id"], cuotas_personalizadas=cuotas_usuario)
+                        df_apuestas = analizar_apuestas_europa(resultados, datos_partido["fixture_id"], cuotas_personalizadas=cuotas_usuario, nombre_liga=nombre_liga, local=datos_partido["local"], visita=datos_partido["visita"])
                         
                         if not df_apuestas.empty:
                             def color_veredicto(val):
@@ -264,7 +264,8 @@ with tabs[5]:
                     time.sleep(0.5) 
                     
                     # Extraer cuotas reales en vivo y buscar EV+
-                    df_apuestas = analizar_apuestas_europa(resultados, fix_id)
+                    # Reemplaza la llamada en el bloque de la Pestaña 6:
+                    df_apuestas = analizar_apuestas_europa(resultados, fix_id, nombre_liga=nombre_liga, local=loc, visita=vis)
                     
                     if not df_apuestas.empty:
                         # FILTRO MÁGICO: Solo guardamos apuestas con EV+ Fuerte o Moderado (🔥 o ✅)
