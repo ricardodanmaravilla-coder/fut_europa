@@ -2,3 +2,4 @@ streamlit
 pandas
 requests
 scikit-learn
+starlette<0.40.0
