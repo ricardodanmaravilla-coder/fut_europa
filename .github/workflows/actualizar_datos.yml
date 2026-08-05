@@ -2,12 +2,8 @@ name: Actualizar Historicos y Datos de Futbol
 
 on:
   schedule:
-    # Se ejecuta automáticamente todos los martes y viernes a las 4:00 AM UTC
     - cron: '0 4 * * 2,5'
-  workflow_dispatch: # Permite ejecutarlo manualmente desde la pestaña "Actions" en GitHub
-
-permissions:
-  contents: write
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -32,15 +28,3 @@ jobs:
         API_SPORTS_KEY: ${{ secrets.API_SPORTS_KEY }}
       run: |
         python generar_historicos.py
-
-    - name: Configurar credenciales de Git
-      run: |
-        git config --global user.name "GitHub Actions Bot"
-        git config --global user.email "actions@github.com"
-
-    - name: Guardar y subir cambios al repositorio
-      run: |
-        git status
-        git add data/
-        # Si hay cambios, hace commit, sincroniza y sube de forma segura
-        git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Actualización automática de datos históricos (GitHub Actions)" && git pull --rebase origin main && git push origin main)
