@@ -205,7 +205,7 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                                 hide_index=True
                             )
                         # Analizamos las apuestas usando las probabilidades de Montecarlo como base fuerte
-                        df_apuestas = analizar_apuestas(resultados, datos_partido["fixture_id"], cuotas_personalizadas=cuotas_usuario)
+                        df_apuestas = analizar_apuestas_europa(resultados, datos_partido["fixture_id"], cuotas_personalizadas=cuotas_usuario)
                         
                         if not df_apuestas.empty:
                             def color_veredicto(val):
