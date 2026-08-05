@@ -45,29 +45,73 @@ def cargar_historico_liga(nombre_liga):
             pass
     return pd.DataFrame()
 
+# Mapeo de códigos de ESPN para las 5 Grandes Ligas
+ESPN_LIGAS_MAP = {
+    39: "eng.1",   # Premier League
+    140: "esp.1",  # La Liga
+    135: "ita.1",  # Serie A
+    78: "ger.1",   # Bundesliga
+    61: "fra.1"    # Ligue 1
+}
+
 @st.cache_data(ttl=3600)
 def obtener_proximos_partidos_europa(league_id):
+    partidos_dict = {}
+    
+    # 1. INTENTO PRINCIPAL: API-Sports
     url = f"{BASE_URL}/fixtures"
     querystring = {"league": str(league_id), "season": "2026", "next": "10"} 
     try:
         response = requests.get(url, headers=HEADERS, params=querystring, timeout=3)
-        if response.status_code != 200:
-            return {}
-        datos = response.json().get("response", [])
-        partidos_dict = {}
-        for p in datos:
-            local = p["teams"]["home"]["name"]
-            visita = p["teams"]["away"]["name"]
-            fix_id = p["fixture"]["id"]
-            fecha = p["fixture"]["date"][:10]
-            
-            llave = f"⚽ {fecha} | {local} vs {visita}"
-            partidos_dict[llave] = {
-                "local": local,
-                "visita": visita,
-                "fixture_id": fix_id
-            }
-        return partidos_dict
+        if response.status_code == 200:
+            datos = response.json().get("response", [])
+            for p in datos:
+                local = p["teams"]["home"]["name"]
+                visita = p["teams"]["away"]["name"]
+                fix_id = p["fixture"]["id"]
+                fecha = p["fixture"]["date"][:10]
+                
+                llave = f"⚽ {fecha} | {local} vs {visita}"
+                partidos_dict[llave] = {
+                    "local": local,
+                    "visita": visita,
+                    "fixture_id": fix_id
+                }
+    except:
+        pass
+
+    # 2. RESPALDO AUTOMÁTICO: Si API-Sports falló o no dio partidos, consultamos ESPN gratis
+    if not partidos_dict and league_id in ESPN_LIGAS_MAP:
+        espn_code = ESPN_LIGAS_MAP[league_id]
+        espn_url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{espn_code}/scoreboard"
+        try:
+            res = requests.get(espn_url, timeout=4)
+            if res.status_code == 200:
+                data = res.json()
+                for event in data.get('events', []):
+                    fecha = event.get('date', '')[:10]
+                    competencia = event.get('competitions', [{}])[0]
+                    competitors = competencia.get('competitors', [])
+                    
+                    local, visita = "", ""
+                    for comp in competitors:
+                        t_name = comp.get('team', {}).get('displayName', '')
+                        if comp.get('homeAway') == 'home':
+                            local = t_name
+                        else:
+                            visita = t_name
+                            
+                    if local and visita:
+                        llave = f"⚽ {fecha} | {local} vs {visita}"
+                        partidos_dict[llave] = {
+                            "local": local,
+                            "visita": visita,
+                            "fixture_id": 999999 # ID interno genérico para respaldos
+                        }
+        except Exception as e:
+            print(f"Error cargando partidos de ESPN: {e}")
+
+    return partidos_dict
     except:
         return {}
 
