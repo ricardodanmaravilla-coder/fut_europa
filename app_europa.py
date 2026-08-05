@@ -112,8 +112,6 @@ def obtener_proximos_partidos_europa(league_id):
             print(f"Error cargando partidos de ESPN: {e}")
 
     return partidos_dict
-    except:
-        return {}
 
 st.title("🇪🇺 European Elite Leagues Analytics (5 Grandes Ligas)")
 st.write("Análisis cuantitativo avanzado: xG, Tiros a Gol, Atajadas, ELO, ML y Montecarlo.")
