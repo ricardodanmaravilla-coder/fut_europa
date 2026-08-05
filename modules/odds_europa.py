@@ -129,7 +129,7 @@ def calcular_kelly_fraccional(prob_modelo_decimal, cuota_decimal, fraccion=0.25)
     if kelly_puro <= 0: return 0.0
     return round((kelly_puro * fraccion) * 100, 2)
 
-def analizar_apuestas_europa(resultados_modelo, fixture_id, cuotas_personalizadas=None, nombre_liga=None, local=None, visita=None):
+def analizar_apuestas_europa(resultados_mc, preds_ml, fixture_id, cuotas_personalizadas=None, nombre_liga=None, local=None, visita=None):
     if cuotas_personalizadas:
         cuotas_finales = cuotas_personalizadas
     else:
@@ -138,51 +138,57 @@ def analizar_apuestas_europa(resultados_modelo, fixture_id, cuotas_personalizada
     if not cuotas_finales: return pd.DataFrame()
 
     analisis = []
-    mapeo_mercados = [
-        ("Gana Local", resultados_modelo['Resultado_1X2']['Gana Local'], "1"),
-        ("Empate", resultados_modelo['Resultado_1X2']['Empate'], "X"),
-        ("Gana Visita", resultados_modelo['Resultado_1X2']['Gana Visita'], "2"),
-        ("Over 2.5 Goles", resultados_modelo['Goles_Over_Under']['Over 2.5'], "Over 2.5"),
-        ("Under 2.5 Goles", resultados_modelo['Goles_Over_Under']['Under 2.5'], "Under 2.5"),
-        ("Over 9.5 Corners", resultados_modelo['Corners_Totales']['Over 9.5 Corners'], "Over 9.5 Corners"),
-        ("Under 9.5 Corners", resultados_modelo.get('Corners_Totales', {}).get('Under 9.5 Corners', 0), "Under 9.5 Corners"),
-        ("Over 4.5 Tarjetas", resultados_modelo['Tarjetas_Totales']['Over 4.5 Tarjetas'], "Over 4.5 Tarjetas"),
-        ("Under 4.5 Tarjetas", resultados_modelo.get('Tarjetas_Totales', {}).get('Under 4.5 Tarjetas', 0), "Under 4.5 Tarjetas")
+    
+    # Función auxiliar para extraer datos de forma segura
+    def get_prob(d, cat, key):
+        if not d or cat not in d: return 0.0
+        return float(d[cat].get(key, 0.0))
+
+    mercados_lista = [
+        ("Gana Local", "Resultado_1X2", "Gana Local", "1"),
+        ("Empate", "Resultado_1X2", "Empate", "X"),
+        ("Gana Visita", "Resultado_1X2", "Gana Visita", "2"),
+        ("Over 2.5 Goles", "Goles_Over_Under", "Over 2.5", "Over 2.5"),
+        ("Under 2.5 Goles", "Goles_Over_Under", "Under 2.5", "Under 2.5"),
+        ("Over 9.5 Corners", "Corners_Totales", "Over 9.5 Corners", "Over 9.5 Corners"),
+        ("Under 9.5 Corners", "Corners_Totales", "Under 9.5 Corners", "Under 9.5 Corners"),
+        ("Over 4.5 Tarjetas", "Tarjetas_Totales", "Over 4.5 Tarjetas", "Over 4.5 Tarjetas"),
+        ("Under 4.5 Tarjetas", "Tarjetas_Totales", "Under 4.5 Tarjetas", "Under 4.5 Tarjetas")
     ]
 
-    for nombre_mercado, prob_modelo_pct, llave_cuota in mapeo_mercados:
+    for nombre_mercado, cat, llave_dict, llave_cuota in mercados_lista:
         cuota = float(cuotas_finales.get(llave_cuota, 0.0))
         if cuota > 1.01:
+            # Extraemos lo que dice cada modelo
+            prob_mc = get_prob(resultados_mc, cat, llave_dict)
+            prob_ml = get_prob(preds_ml, cat, llave_dict) if preds_ml else prob_mc
+            
+            prob_consenso = round((prob_mc + prob_ml) / 2.0, 1)
+            prob_modelo = prob_consenso / 100.0
             prob_implicita = (1 / cuota) * 100
-            prob_modelo = prob_modelo_pct / 100.0
-            # ... (dentro del ciclo de analizar_apuestas_europa)
+            
             ev = (prob_modelo * (cuota - 1)) - (1 - prob_modelo)
             ev_pct = round(ev * 100, 2)
             kelly_rec = calcular_kelly_fraccional(prob_modelo, cuota)
             
             # =======================================================
-            # 🛡️ FILTRO DE PROTECCIÓN (SENTIDO COMÚN)
+            # 🛡️ FILTRO FRANCOTIRADOR: Ambos modelos > 60%
             # =======================================================
-            # 1. Si la probabilidad es menor a 45%, es un volado peligroso (Descartar)
-            if prob_modelo_pct < 45.0:
-                veredicto = "❌ Riesgo Alto (Prob < 45%)"
-                kelly_rec = 0.0 # No arriesgamos dinero aquí
-            
-            # 2. Si pasa el filtro de seguridad, evaluamos el Value
-            elif ev_pct > 10 and kelly_rec > 1.5: 
-                veredicto = "🔥 Value Fuerte (Apostar)"
-            elif ev_pct > 3 and kelly_rec > 0.5: 
-                veredicto = "✅ Value Moderado"
-            elif ev_pct > 0: 
-                veredicto = "⚠️ EV Positivo Marginal"
-            else: 
-                veredicto = "❌ EV Negativo"
+            if prob_mc >= 60.0 and prob_ml >= 60.0:
+                if ev_pct > 10 and kelly_rec > 1.5: veredicto = "🔥 Value Fuerte (Apostar)"
+                elif ev_pct > 3 and kelly_rec > 0.5: veredicto = "✅ Value Moderado"
+                elif ev_pct > 0: veredicto = "⚠️ EV Positivo Marginal"
+                else: veredicto = "❌ EV Negativo"
+            else:
+                veredicto = "❌ Descartado (No superan el 60%)"
+                kelly_rec = 0.0
                 
             analisis.append({
                 "Mercado": nombre_mercado,
-                "Prob. Modelo": f"{prob_modelo_pct}%",
+                "Prob. MC": f"{prob_mc}%",
+                "Prob. ML": f"{prob_ml}%",
+                "Consenso": f"{prob_consenso}%",
                 "Cuota Casino": cuota,
-                "Prob. Implícita": f"{round(prob_implicita, 1)}%",
                 "EV (Valor)": f"{ev_pct}%",
                 "Stake Recomendado": f"{kelly_rec}% Bank",
                 "Veredicto": veredicto
