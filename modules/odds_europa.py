@@ -36,7 +36,7 @@ def extraer_cuotas_espn(nombre_liga, local, visita):
     cuotas = {}
     
     try:
-        res = requests.get(url, timeout=5)
+        res = requests.get(url, timeout=2)
         if res.status_code == 200:
             data = res.json()
             for event in data.get('events', []):
@@ -86,7 +86,7 @@ def obtener_cuotas_europa(fixture_id, nombre_liga=None, local=None, visita=None)
     exito_api = False
     
     try:
-        response = requests.get(url, headers=HEADERS, params=querystring, timeout=5)
+        response = requests.get(url, headers=HEADERS, params=querystring, timeout=2)
         if response.status_code == 200:
             data = response.json().get("response", [])
             if data and len(data) > 0:
