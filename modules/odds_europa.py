@@ -6,13 +6,14 @@ API_KEY = os.environ.get("API_SPORTS_KEY")
 BASE_URL = "https://v3.football.api-sports.io"
 HEADERS = {'x-apisports-key': API_KEY}
 
-def obtener_cuotas_europa(fixture_id, bookmaker_id=8):
+def obtener_cuotas_europa(fixture_id):
     """
     Extrae cuotas reales usando la API de API-Sports.
-    bookmaker_id=8 suele ser Bet365 (muy estándar para Europa).
+    Busca Bet365 por defecto, pero si no está disponible, toma el primer casino que tenga líneas abiertas.
     """
     url = f"{BASE_URL}/odds"
-    querystring = {"fixture": str(fixture_id), "bookmaker": str(bookmaker_id)}
+    # Quitamos el filtro estricto de bookmaker para que la API nos devuelva TODOS los casinos disponibles
+    querystring = {"fixture": str(fixture_id)}
     
     cuotas = {}
     try:
@@ -22,7 +23,17 @@ def obtener_cuotas_europa(fixture_id, bookmaker_id=8):
             if data and len(data) > 0:
                 bookmakers = data[0].get("bookmakers", [])
                 if bookmakers:
-                    mercados = bookmakers[0].get("bets", [])
+                    # LÓGICA INTELIGENTE: Buscamos Bet365 (ID: 8). Si no existe, tomamos el casino #1 de la lista
+                    bm_elegido = None
+                    for bm in bookmakers:
+                        if bm["id"] == 8:
+                            bm_elegido = bm
+                            break
+                    
+                    if not bm_elegido:
+                        bm_elegido = bookmakers[0] # Fallback al primer casino disponible
+                        
+                    mercados = bm_elegido.get("bets", [])
                     for mercado in mercados:
                         # Mercado 1: Ganador del Partido (1X2)
                         if mercado["id"] == 1:
@@ -39,7 +50,6 @@ def obtener_cuotas_europa(fixture_id, bookmaker_id=8):
         print(f"Error extrayendo cuotas europeas: {e}")
         
     return cuotas
-
 def calcular_kelly_fraccional(prob_modelo_decimal, cuota_decimal, fraccion=0.25):
     """
     Criterio de Kelly Fraccional (1/4) para gestionar el bankroll en ligas europeas.
