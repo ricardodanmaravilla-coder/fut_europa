@@ -1,4 +1,5 @@
 import os
+import time
 import streamlit as st
 import pandas as pd
 import requests
@@ -225,14 +226,76 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
 # ==========================================
 with tabs[5]:
     st.subheader("🌐 Escáner Global de Valor (Las 5 Ligas en Simultáneo)")
-    st.info("Este módulo recorre las jornadas activas de las 5 ligas europeas en busca de ineficiencias en las cuotas de las casas de apuestas (EV+).")
+    st.info("Este módulo recorre las jornadas activas de Europa. Extrae las cuotas reales de las casas de apuestas y las compara contra el modelo matemático para detectar ineficiencias.")
     
     if st.button("🚀 Escanear Todas las Ligas de Europa", type="primary"):
-        with st.spinner("Escaneando Premier League, La Liga, Serie A, Bundesliga y Ligue 1..."):
+        barra_progreso = st.progress(0)
+        texto_estado = st.empty()
+        
+        apuestas_valor = []
+        total_ligas = len(LIGAS_IDS)
+        
+        for i, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
+            texto_estado.markdown(f"**🔍 Analizando {nombre_liga}...**")
             
-            # Aquí implementaremos el bucle masivo en el siguiente paso.
-            # Este bucle llamará a obtener_proximos_partidos_europa() por cada ID,
-            # correrá Montecarlo y Odds Engine de fondo, y concatenará los DataFrames de df_apuestas
-            # filtrando solo los veredictos 🔥 y ✅.
+            # Cargar histórico y actualizar ELO
+            df_hist = cargar_historico_liga(nombre_liga)
+            motor_elo = SistemaEloEuropa()
+            tabla_elo = motor_elo.actualizar_ratings(df_hist)
             
-            st.success("¡Estructura de simulación global lista para ser conectada al motor de escaneo masivo!")
+            # Obtener próximos partidos
+            partidos_liga = obtener_proximos_partidos_europa(league_id)
+            
+            for llave_partido, datos_partido in partidos_liga.items():
+                loc = datos_partido['local']
+                vis = datos_partido['visita']
+                fix_id = datos_partido['fixture_id']
+                
+                try: e_loc = float(tabla_elo.loc[tabla_elo['Equipo'] == loc, 'ELO_Rating'].values[0])
+                except: e_loc = 1500.0
+                try: e_vis = float(tabla_elo.loc[tabla_elo['Equipo'] == vis, 'ELO_Rating'].values[0])
+                except: e_vis = 1500.0
+                
+                # Simular Partido
+                resultados = simular_partido_europa(loc, vis, df_hist, e_loc, e_vis)
+                
+                if not isinstance(resultados, str):
+                    # Pausa de seguridad para no saturar la API de cuotas (Rate Limit)
+                    time.sleep(0.5) 
+                    
+                    # Extraer cuotas reales en vivo y buscar EV+
+                    df_apuestas = analizar_apuestas_europa(resultados, fix_id)
+                    
+                    if not df_apuestas.empty:
+                        # FILTRO MÁGICO: Solo guardamos apuestas con EV+ Fuerte o Moderado (🔥 o ✅)
+                        df_filtrado = df_apuestas[df_apuestas['Veredicto'].str.contains('🔥|✅', na=False)].copy()
+                        
+                        if not df_filtrado.empty:
+                            # Insertamos columnas para saber de qué partido y liga se trata
+                            df_filtrado.insert(0, 'Liga', nombre_liga)
+                            df_filtrado.insert(1, 'Partido', f"{loc} vs {vis}")
+                            apuestas_valor.append(df_filtrado)
+            
+            # Actualizar barra de progreso al terminar cada liga
+            progreso_actual = int(((i + 1) / total_ligas) * 100)
+            barra_progreso.progress(progreso_actual)
+            
+        texto_estado.empty() # Limpiar mensaje de estatus al finalizar
+        
+        # Mostrar el Dashboard de Resultados
+        if apuestas_valor:
+            df_global = pd.concat(apuestas_valor, ignore_index=True)
+            st.success(f"🎯 ¡Escaneo finalizado! Se detectaron **{len(df_global)} oportunidades con EV+ (Valor Positivo)** en Europa.")
+            
+            def color_veredicto_global(val):
+                if '🔥' in str(val): return 'color: #00ff00; font-weight: bold'
+                elif '✅' in str(val): return 'color: #adff2f'
+                return ''
+                
+            st.dataframe(
+                df_global.style.map(color_veredicto_global, subset=['Veredicto']), 
+                use_container_width=True,
+                hide_index=True
+            )
+        else:
+            st.warning("No se detectaron ineficiencias en las cuotas actuales. El casino tiene las líneas muy ajustadas a la realidad matemática en este momento.")
