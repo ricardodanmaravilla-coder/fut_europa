@@ -49,28 +49,30 @@ def cargar_historico_liga(nombre_liga):
 def obtener_proximos_partidos_europa(league_id):
     url = f"{BASE_URL}/fixtures"
     querystring = {"league": str(league_id), "season": "2026", "next": "10"} 
-    response = requests.get(url, headers=HEADERS, params=querystring)
-    if response.status_code != 200:
+    try:
+        response = requests.get(url, headers=HEADERS, params=querystring, timeout=3)
+        if response.status_code != 200:
+            return {}
+        datos = response.json().get("response", [])
+        partidos_dict = {}
+        for p in datos:
+            local = p["teams"]["home"]["name"]
+            visita = p["teams"]["away"]["name"]
+            fix_id = p["fixture"]["id"]
+            fecha = p["fixture"]["date"][:10]
+            
+            llave = f"⚽ {fecha} | {local} vs {visita}"
+            partidos_dict[llave] = {
+                "local": local,
+                "visita": visita,
+                "fixture_id": fix_id
+            }
+        return partidos_dict
+    except:
         return {}
-        
-    datos = response.json().get("response", [])
-    partidos_dict = {}
-    for p in datos:
-        local = p["teams"]["home"]["name"]
-        visita = p["teams"]["away"]["name"]
-        fix_id = p["fixture"]["id"]
-        fecha = p["fixture"]["date"][:10]
-        
-        llave = f"⚽ {fecha} | {local} vs {visita}"
-        partidos_dict[llave] = {
-            "local": local,
-            "visita": visita,
-            "fixture_id": fix_id
-        }
-    return partidos_dict
 
 st.title("🇪🇺 European Elite Leagues Analytics (5 Grandes Ligas)")
-st.write("Análisis cuantitativo avanzado: xG, Tiros a Gol, Atajadas, Árbitros, ELO, ML y Montecarlo.")
+st.write("Análisis cuantitativo avanzado: xG, Tiros a Gol, Atajadas, ELO, ML y Montecarlo.")
 
 # --- SISTEMA DE PESTAÑAS PRINCIPAL ---
 tabs = st.tabs(["🇬🇧 Premier League", "🇪🇸 La Liga", "🇮🇹 Serie A", "🇩🇪 Bundesliga", "🇫🇷 Ligue 1", "🌐 Escáner Global EV+"])
@@ -82,7 +84,7 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
         
         partidos_liga = obtener_proximos_partidos_europa(league_id)
         if not partidos_liga:
-            st.warning(f"⚠️ No se encontraron partidos próximos en la API para la {nombre_liga}.")
+            st.warning(f"⚠️ No se pudieron obtener partidos próximos de la API para la {nombre_liga} (Verifica tu clave o conexión).")
         else:
             seleccion = st.selectbox(f"Próximos partidos de {nombre_liga}:", list(partidos_liga.keys()), key=f"sel_{nombre_liga}")
             datos_partido = partidos_liga[seleccion]
@@ -133,6 +135,7 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                         # 3. MOTOR MACHINE LEARNING
                         st.markdown("### 🤖 Modelo Predictivo: Machine Learning (xG y Tiros)")
                         ml_predictor = PredictorMLEuropa()
+                        preds_ml = {}
                         if ml_predictor.entrenar(df_hist):
                             g_l_sim = resultados['Goles_Individuales'][datos_partido['local']]['goles']
                             g_v_sim = resultados['Goles_Individuales'][datos_partido['visita']]['goles']
@@ -163,7 +166,7 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                         
                         # 4. GESTIÓN DE CUOTAS Y VALOR ESPERADO (KELLY DEFINITIVO)
                         st.markdown("### ⚙️ Veredicto Definitivo: EV+ con Modelo de Consenso")
-                        st.info("💡 Este análisis financiero se calcula cruzando la distribución de goles (Montecarlo/ELO) y el factor humano (xG/Atajadas del ML).")
+                        st.info("💡 Este análisis financiero cruza la distribución de goles (Montecarlo/ELO) y el factor humano (xG/Atajadas del ML).")
                         
                         cuotas_automaticas = obtener_cuotas_europa(
                             datos_partido["fixture_id"], 
@@ -194,10 +197,9 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                                     key=f"cuota_{nombre_liga}_{llave}"
                                 )
 
-                        # ATENCIÓN AQUÍ: Le pasamos Montecarlo y ML por separado para que el motor aplique el filtro > 60%
                         df_apuestas = analizar_apuestas_europa(
                             resultados, 
-                            preds_ml if ml_predictor.entrenado else {}, 
+                            preds_ml if preds_ml else {}, 
                             datos_partido["fixture_id"], 
                             cuotas_personalizadas=cuotas_usuario, 
                             nombre_liga=nombre_liga, 
@@ -218,12 +220,13 @@ for idx, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                                 use_container_width=True,
                                 hide_index=True
                             )
+
 # ==========================================
 # PESTAÑA 6: ESCÁNER GLOBAL EV+
 # ==========================================
 with tabs[5]:
     st.subheader("🌐 Escáner Global de Valor (Las 5 Ligas en Simultáneo)")
-    st.info("Este módulo analiza los perfiles estadísticos actuales de las 5 ligas europeas usando los registros locales (Sin bloqueos de red).")
+    st.info("Este módulo analiza los registros locales de las 5 ligas europeas de manera ultrarrápida.")
     
     if st.button("🚀 Ejecutar Escáner Rápido", type="primary"):
         barra_progreso = st.progress(0)
@@ -236,7 +239,6 @@ with tabs[5]:
             for i, (nombre_liga, league_id) in enumerate(LIGAS_IDS.items()):
                 texto_estado.markdown(f"**🔍 [Liga {i+1}/{total_ligas}] Procesando {nombre_liga}...**")
                 
-                # 1. Cargar histórico local y ELO (Operación ultrarrápida en memoria)
                 df_hist = cargar_historico_liga(nombre_liga)
                 if df_hist.empty:
                     progreso_actual = int(((i + 1) / total_ligas) * 100)
@@ -246,15 +248,12 @@ with tabs[5]:
                 motor_elo = SistemaEloEuropa()
                 tabla_elo = motor_elo.actualizar_ratings(df_hist)
                 
-                # 2. Extraer equipos activos del histórico reciente para evitar llamadas HTTP lentas
-                equipos_locales = df_hist['Local'].dropna().unique()[:5] # Analizamos muestra representativa de la jornada
-                equipos_visitas = df_hist['Visitante'].dropna().unique()[:5]
+                equipos_locales = df_hist['Local'].dropna().unique()[:4]
+                equipos_visitas = df_hist['Visitante'].dropna().unique()[:4]
                 
-                # 3. Entrenar ML una sola vez por liga
                 ml_predictor = PredictorMLEuropa()
                 ml_entrenado = ml_predictor.entrenar(df_hist)
                 
-                # 4. Análisis cruzado de partidos simulados base
                 for idx_p in range(min(len(equipos_locales), len(equipos_visitas))):
                     loc = equipos_locales[idx_p]
                     vis = equipos_visitas[idx_p]
@@ -266,7 +265,6 @@ with tabs[5]:
                     try: e_vis = float(tabla_elo.loc[tabla_elo['Equipo'] == vis, 'ELO_Rating'].values[0])
                     except: e_vis = 1500.0
                     
-                    # Simulación Montecarlo local
                     resultados = simular_partido_europa(loc, vis, df_hist, e_loc, e_vis)
                     if isinstance(resultados, str):
                         continue
@@ -280,12 +278,11 @@ with tabs[5]:
                         except:
                             pass
                             
-                    # Análisis con cuotas base internas (Sin bloqueos de red)
                     try:
                         df_apuestas = analizar_apuestas_europa(
                             resultados, 
                             preds_ml, 
-                            fixture_id=999999, # ID simulado interno
+                            fixture_id=999999, 
                             nombre_liga=nombre_liga, 
                             local=loc, 
                             visita=vis
@@ -301,17 +298,15 @@ with tabs[5]:
                     except:
                         continue
                 
-                # Actualizar barra de progreso
                 progreso_actual = int(((i + 1) / total_ligas) * 100)
                 barra_progreso.progress(progreso_actual)
                 
             texto_estado.empty()
             barra_progreso.empty()
             
-            # Mostrar resultados
             if apuestas_valor:
                 df_global = pd.concat(apuestas_valor, ignore_index=True)
-                st.success(f"🎯 ¡Escaneo Rápido finalizado! Se encontraron **{len(df_global)} oportunidades con acuerdo >60%**.")
+                st.success(f"🎯 ¡Escaneo Rápido finalizado! Se encontraron **{len(df_global)} oportunidades**.")
                 
                 def color_veredicto_global(val):
                     if '🔥' in str(val): return 'color: #00ff00; font-weight: bold'
@@ -324,7 +319,7 @@ with tabs[5]:
                     hide_index=True
                 )
             else:
-                st.info("ℹ️ El escáner analizó los registros de las ligas y actualmente no hay coincidencias que superen el filtro estricto del 60% en ambos modelos.")
+                st.info("ℹ️ El escáner analizó los registros y actualmente no hay coincidencias que superen el filtro estricto.")
                 
         except Exception as e:
             texto_estado.empty()
