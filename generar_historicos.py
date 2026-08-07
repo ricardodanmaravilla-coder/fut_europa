@@ -16,7 +16,7 @@ LIGAS_A_DESCARGAR = {
     "Ligue 1": {"id": 61, "espn_code": "fra.1", "archivo": "data/historico_ligue1.csv"}
 }
 
-TEMPORADA_ACTUAL = 2026
+TEMPORADA_ACTUAL = [2020, 2021, 2022, 2023, 2024, 2025, 2026]
 
 def normalizar_nombre(nombre):
     return unicodedata.normalize('NFKD', nombre).encode('ASCII', 'ignore').decode('utf-8').strip()
