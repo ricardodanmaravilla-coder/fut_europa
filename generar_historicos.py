@@ -16,8 +16,7 @@ LIGAS_A_DESCARGAR = {
     "Ligue 1": {"id": 61, "espn_code": "fra.1", "archivo": "data/historico_ligue1.csv"}
 }
 
-# Usamos hasta 2025 ya que en el fútbol europeo la temporada 2025/2026 arranca en 2025
-TEMPORADAS = [2020, 2021, 2022, 2023, 2024, 2025]
+TEMPORADAS = [2020, 2021, 2022, 2023, 2024, 2025, 2026]
 
 def normalizar_nombre(nombre):
     return unicodedata.normalize('NFKD', nombre).encode('ASCII', 'ignore').decode('utf-8').strip()
@@ -29,15 +28,16 @@ def descargar_temporada_liga(nombre_liga, league_id, temporada):
     
     try:
         response = requests.get(url, headers=HEADERS, params=querystring, timeout=15)
+        print(f"   [API Status] Liga {nombre_liga} ({temporada}) -> HTTP {response.status_code}")
+        
         if response.status_code == 200:
             data = response.json().get("response", [])
-            print(f"    ↳ Temporada {temporada}: {len(data)} partidos encontrados en la API.")
+            print(f"    ↳ Partidos encontrados en la API: {len(data)}")
             
             for p in data:
                 fixture = p.get("fixture", {})
                 fecha = fixture.get("date", "")[:10]
                 
-                # Validar que el partido haya finalizado
                 short_status = fixture.get("status", {}).get("short", "")
                 if short_status not in ["FT", "AET", "PEN"]:
                     continue 
@@ -49,11 +49,12 @@ def descargar_temporada_liga(nombre_liga, league_id, temporada):
                 g_loc = goals.get("home")
                 g_vis = goals.get("away")
 
-                if g_loc is None or g_vis is None: continue
+                if g_loc is None or g_vis is None: 
+                    continue
 
                 fixture_id = fixture.get("id")
                 stats_url = f"{BASE_URL}/fixtures/statistics"
-                time.sleep(0.12) # Pausa ligera para respetar el límite de la API
+                time.sleep(0.12)
                 
                 try:
                     stats_res = requests.get(stats_url, headers=HEADERS, params={"fixture": fixture_id}, timeout=3)
@@ -102,9 +103,9 @@ def descargar_temporada_liga(nombre_liga, league_id, temporada):
                     "Arbitro": arbitro
                 })
         else:
-            print(f"   ⚠️ Temporada {temporada} no disponible o error HTTP {response.status_code}")
+            print(f"   ⚠️ Error HTTP del servidor: {response.status_code} - Revisa tu API Key o límites.")
     except Exception as e:
-        print(f"   ⚠️ Error de conexión en temporada {temporada}: {e}")
+        print(f"   ⚠️ Excepción en conexión: {e}")
 
     return partidos_temporada
 
@@ -119,25 +120,25 @@ def procesar_liga_completa(nombre_liga, league_id, archivo_salida):
         print(f"⏳ Consultando temporada {temporada}...")
         partidos_temp = descargar_temporada_liga(nombre_liga, league_id, temporada)
         todos_los_partidos.extend(partidos_temp)
-        time.sleep(1) # Pausa de cortesía entre peticiones de temporadas
+        time.sleep(1)
 
     if todos_los_partidos:
         df_final = pd.DataFrame(todos_los_partidos)
         
-        # Eliminar posibles duplicados exactos por seguridad
         if 'Fecha' in df_final.columns and 'Local' in df_final.columns and 'Visitante' in df_final.columns:
             df_final = df_final.drop_duplicates(subset=['Fecha', 'Local', 'Visitante'])
             df_final = df_final.sort_values(by='Fecha').reset_index(drop=True)
             
         os.makedirs("data", exist_ok=True)
         df_final.to_csv(archivo_salida, index=False)
-        print(f"✅ [ÉXITO] Archivo generado: {archivo_salida} con un total de {len(df_final)} partidos históricos.\n")
+        print(f"✅ [ÉXITO] Archivo generado: {archivo_salida} con un total de {len(df_final)} registros.\n")
     else:
-        print(f"❌ [AVISO] No se pudieron recolectar datos para {nombre_liga}.\n")
+        print(f"❌ [AVISO] La lista de partidos quedó vacía para {nombre_liga}. No se generó el archivo.\n")
 
 if __name__ == "__main__":
     if not API_KEY:
         print("❌ ATENCIÓN: No se detectó la variable de entorno 'API_SPORTS_KEY'. Configúrala antes de ejecutar.")
     else:
+        print(f"🔑 API Key detectada correctamente. Iniciando descargas...")
         for liga, info in LIGAS_A_DESCARGAR.items():
             procesar_liga_completa(liga, info["id"], info["archivo"])
