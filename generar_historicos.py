@@ -16,8 +16,8 @@ LIGAS_A_DESCARGAR = {
     "Ligue 1": {"id": 61, "espn_code": "fra.1", "archivo": "data/historico_ligue1.csv"}
 }
 
-# Definimos el rango exacto de temporadas que solicitaste
-TEMPORADAS = [2020, 2021, 2022, 2023, 2024, 2025, 2026]
+# Usamos hasta 2025 ya que en el fútbol europeo la temporada 2025/2026 arranca en 2025
+TEMPORADAS = [2020, 2021, 2022, 2023, 2024, 2025]
 
 def normalizar_nombre(nombre):
     return unicodedata.normalize('NFKD', nombre).encode('ASCII', 'ignore').decode('utf-8').strip()
@@ -31,7 +31,7 @@ def descargar_temporada_liga(nombre_liga, league_id, temporada):
         response = requests.get(url, headers=HEADERS, params=querystring, timeout=15)
         if response.status_code == 200:
             data = response.json().get("response", [])
-            print(f"   ↳ Temporada {temporada}: {len(data)} partidos encontrados en la API.")
+            print(f"    ↳ Temporada {temporada}: {len(data)} partidos encontrados en la API.")
             
             for p in data:
                 fixture = p.get("fixture", {})
@@ -131,7 +131,7 @@ def procesar_liga_completa(nombre_liga, league_id, archivo_salida):
             
         os.makedirs("data", exist_ok=True)
         df_final.to_csv(archivo_salida, index=False)
-        print(f"✅ [ÉXITO] Archivo generado: {archivo_salida} con un total de {len(df_final)} partidos históricos (2020-2026).\n")
+        print(f"✅ [ÉXITO] Archivo generado: {archivo_salida} con un total de {len(df_final)} partidos históricos.\n")
     else:
         print(f"❌ [AVISO] No se pudieron recolectar datos para {nombre_liga}.\n")
 
