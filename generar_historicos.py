@@ -36,6 +36,15 @@ def first_numeric(row, keys, default=np.nan):
     return default
 
 
+def no_vig_1x2(h, d, a):
+    vals = np.array([h, d, a], dtype=float)
+    if np.any(~np.isfinite(vals)) or np.any(vals <= 1.0):
+        return (np.nan, np.nan, np.nan)
+    q = 1.0 / vals
+    q = q / q.sum()
+    return tuple(float(x) for x in q)
+
+
 def xg_proxy(shots, shots_on_target, goals):
     """Proxy transparente cuando la fuente no publica xG real."""
     s = 0.0 if pd.isna(shots) else float(shots)
@@ -46,7 +55,7 @@ def xg_proxy(shots, shots_on_target, goals):
 
 def descargar_csv(season_code, league_code):
     url = BASE.format(season=season_code, league=league_code)
-    r = requests.get(url, timeout=20, headers={"User-Agent": "fut-europa/2.0"})
+    r = requests.get(url, timeout=20, headers={"User-Agent": "fut-europa/3.0"})
     if r.status_code != 200 or len(r.content) < 100:
         return pd.DataFrame()
     try:
@@ -81,12 +90,22 @@ def transformar(df):
         fecha_dt = pd.to_datetime(fecha, dayfirst=True, errors="coerce")
         fecha_iso = "" if pd.isna(fecha_dt) else fecha_dt.strftime("%Y-%m-%d")
 
-        # Preferimos cuotas Bet365 y, si faltan, Pinnacle/Max/Avg. Son datos prepartido.
-        odd_h = first_numeric(row, ["B365H", "PSH", "MaxH", "AvgH"])
-        odd_d = first_numeric(row, ["B365D", "PSD", "MaxD", "AvgD"])
-        odd_a = first_numeric(row, ["B365A", "PSA", "MaxA", "AvgA"])
-        odd_o25 = first_numeric(row, ["B365>2.5", "P>2.5", "Max>2.5", "Avg>2.5"])
-        odd_u25 = first_numeric(row, ["B365<2.5", "P<2.5", "Max<2.5", "Avg<2.5"])
+        # Apertura: promedios publicados al inicio; fallback a Bet365/Pinnacle prepartido.
+        open_h = first_numeric(row, ["AvgH", "B365H", "PSH", "MaxH"])
+        open_d = first_numeric(row, ["AvgD", "B365D", "PSD", "MaxD"])
+        open_a = first_numeric(row, ["AvgA", "B365A", "PSA", "MaxA"])
+        open_o25 = first_numeric(row, ["Avg>2.5", "B365>2.5", "P>2.5", "Max>2.5"])
+        open_u25 = first_numeric(row, ["Avg<2.5", "B365<2.5", "P<2.5", "Max<2.5"])
+
+        # Cierre: columnas C cuando existen. Si no existen, conserva la mejor prepartido disponible.
+        close_h = first_numeric(row, ["AvgCH", "B365CH", "PSCH", "MaxCH"], open_h)
+        close_d = first_numeric(row, ["AvgCD", "B365CD", "PSCD", "MaxCD"], open_d)
+        close_a = first_numeric(row, ["AvgCA", "B365CA", "PSCA", "MaxCA"], open_a)
+        close_o25 = first_numeric(row, ["AvgC>2.5", "B365C>2.5", "PC>2.5", "MaxC>2.5"], open_o25)
+        close_u25 = first_numeric(row, ["AvgC<2.5", "B365C<2.5", "PC<2.5", "MaxC<2.5"], open_u25)
+
+        p1o, pxo, p2o = no_vig_1x2(open_h, open_d, open_a)
+        p1c, pxc, p2c = no_vig_1x2(close_h, close_d, close_a)
 
         rows.append({
             "Fecha": fecha_iso,
@@ -108,11 +127,34 @@ def transformar(df):
             "TirosGol_Visita": ast if not pd.isna(ast) else 4.0,
             "Atajadas_Local": max(0.0, (ast if not pd.isna(ast) else 3.0) - gv),
             "Atajadas_Visita": max(0.0, (hst if not pd.isna(hst) else 3.0) - gl),
-            "Cuota_1": odd_h,
-            "Cuota_X": odd_d,
-            "Cuota_2": odd_a,
-            "Cuota_Over25": odd_o25,
-            "Cuota_Under25": odd_u25,
+
+            # Compatibilidad: Cuota_* sigue representando mercado prepartido utilizable por producción.
+            "Cuota_1": open_h,
+            "Cuota_X": open_d,
+            "Cuota_2": open_a,
+            "Cuota_Over25": open_o25,
+            "Cuota_Under25": open_u25,
+
+            "Apertura_1": open_h,
+            "Apertura_X": open_d,
+            "Apertura_2": open_a,
+            "Cierre_1": close_h,
+            "Cierre_X": close_d,
+            "Cierre_2": close_a,
+            "Apertura_Over25": open_o25,
+            "Apertura_Under25": open_u25,
+            "Cierre_Over25": close_o25,
+            "Cierre_Under25": close_u25,
+            "P_Apertura_1": p1o,
+            "P_Apertura_X": pxo,
+            "P_Apertura_2": p2o,
+            "P_Cierre_1": p1c,
+            "P_Cierre_X": pxc,
+            "P_Cierre_2": p2c,
+            "Movimiento_1_pp": (p1c - p1o) * 100.0 if np.isfinite(p1c) and np.isfinite(p1o) else np.nan,
+            "Movimiento_X_pp": (pxc - pxo) * 100.0 if np.isfinite(pxc) and np.isfinite(pxo) else np.nan,
+            "Movimiento_2_pp": (p2c - p2o) * 100.0 if np.isfinite(p2c) and np.isfinite(p2o) else np.nan,
+
             "Arbitro": str(row.get("Referee", "Desconocido") or "Desconocido"),
             "Fuente": "football-data.co.uk",
             "Fuente_xG": "proxy_shots",
@@ -137,7 +179,8 @@ def procesar_liga(nombre, codigo, salida):
     out = out.sort_values(["Fecha", "Local", "Visitante"]).reset_index(drop=True)
     os.makedirs(os.path.dirname(salida), exist_ok=True)
     out.to_csv(salida, index=False)
-    print(f"OK {salida}: {len(out)} registros")
+    coverage = int(out[["Apertura_1", "Apertura_X", "Apertura_2", "Cierre_1", "Cierre_X", "Cierre_2"]].notna().all(axis=1).sum())
+    print(f"OK {salida}: {len(out)} registros | apertura+cierre 1X2: {coverage}")
     return len(out)
 
 
