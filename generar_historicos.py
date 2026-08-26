@@ -1,144 +1,137 @@
+import io
 import os
-import time
-import requests
-import pandas as pd
 import unicodedata
 
-API_KEY = os.environ.get("API_SPORTS_KEY") 
-BASE_URL = "https://v3.football.api-sports.io"
-HEADERS = {'x-apisports-key': API_KEY}
+import numpy as np
+import pandas as pd
+import requests
 
-LIGAS_A_DESCARGAR = {
-    "Premier League": {"id": 39, "espn_code": "eng.1", "archivo": "data/historico_premier.csv"},
-    "La Liga": {"id": 140, "espn_code": "esp.1", "archivo": "data/historico_laliga.csv"},
-    "Serie A": {"id": 135, "espn_code": "ita.1", "archivo": "data/historico_seriea.csv"},
-    "Bundesliga": {"id": 78, "espn_code": "ger.1", "archivo": "data/historico_bundesliga.csv"},
-    "Ligue 1": {"id": 61, "espn_code": "fra.1", "archivo": "data/historico_ligue1.csv"}
+# Fuente primaria gratuita para histórico cuantitativo.
+# Códigos: E0 Premier, SP1 La Liga, I1 Serie A, D1 Bundesliga, F1 Ligue 1.
+LIGAS = {
+    "Premier League": {"codigo": "E0", "archivo": "data/historico_premier.csv"},
+    "La Liga": {"codigo": "SP1", "archivo": "data/historico_laliga.csv"},
+    "Serie A": {"codigo": "I1", "archivo": "data/historico_seriea.csv"},
+    "Bundesliga": {"codigo": "D1", "archivo": "data/historico_bundesliga.csv"},
+    "Ligue 1": {"codigo": "F1", "archivo": "data/historico_ligue1.csv"},
 }
 
-TEMPORADAS = [2020, 2021, 2022, 2023, 2024, 2025, 2026]
+# Temporadas empezando en 2020-21 y terminando en 2026-27.
+SEASON_CODES = ["2021", "2122", "2223", "2324", "2425", "2526", "2627"]
+BASE = "https://www.football-data.co.uk/mmz4281/{season}/{league}.csv"
+
 
 def normalizar_nombre(nombre):
-    return unicodedata.normalize('NFKD', nombre).encode('ASCII', 'ignore').decode('utf-8').strip()
+    txt = str(nombre or "").strip()
+    return unicodedata.normalize("NFKD", txt).encode("ASCII", "ignore").decode("utf-8").strip()
 
-def descargar_temporada_liga(nombre_liga, league_id, temporada):
-    url = f"{BASE_URL}/fixtures"
-    querystring = {"league": str(league_id), "season": str(temporada)}
-    partidos_temporada = []
-    
+
+def n(row, key, default=np.nan):
+    val = pd.to_numeric(row.get(key), errors="coerce")
+    return default if pd.isna(val) else float(val)
+
+
+def xg_proxy(shots, shots_on_target, goals):
+    """Proxy conservador cuando la fuente no publica xG real.
+
+    Se construye sólo con variables preexistentes en el partido para que la app pueda
+    funcionar sin inventar una supuesta métrica oficial. El CSV conserva Fuente_xG.
+    """
+    s = 0.0 if pd.isna(shots) else float(shots)
+    sot = 0.0 if pd.isna(shots_on_target) else float(shots_on_target)
+    g = 0.0 if pd.isna(goals) else float(goals)
+    return round(float(np.clip(0.055 * s + 0.18 * sot + 0.10 * g, 0.20, 4.00)), 2)
+
+
+def descargar_csv(season_code, league_code):
+    url = BASE.format(season=season_code, league=league_code)
+    r = requests.get(url, timeout=20, headers={"User-Agent": "fut-europa/1.0"})
+    if r.status_code != 200 or len(r.content) < 100:
+        return pd.DataFrame()
     try:
-        response = requests.get(url, headers=HEADERS, params=querystring, timeout=15)
-        print(f"   [API Status] Liga {nombre_liga} ({temporada}) -> HTTP {response.status_code}")
-        
-        if response.status_code == 200:
-            data = response.json().get("response", [])
-            print(f"    ↳ Partidos encontrados en la API: {len(data)}")
-            
-            for p in data:
-                fixture = p.get("fixture", {})
-                fecha = fixture.get("date", "")[:10]
-                
-                short_status = fixture.get("status", {}).get("short", "")
-                if short_status not in ["FT", "AET", "PEN"]:
-                    continue 
+        return pd.read_csv(io.BytesIO(r.content))
+    except Exception:
+        return pd.DataFrame()
 
-                teams = p.get("teams", {})
-                local = normalizar_nombre(teams.get("home", {}).get("name", ""))
-                visita = normalizar_nombre(teams.get("away", {}).get("name", ""))
-                goals = p.get("goals", {})
-                g_loc = goals.get("home")
-                g_vis = goals.get("away")
 
-                if g_loc is None or g_vis is None: 
-                    continue
+def transformar(df):
+    if df is None or df.empty:
+        return pd.DataFrame()
+    required = {"HomeTeam", "AwayTeam", "FTHG", "FTAG"}
+    if not required.issubset(df.columns):
+        return pd.DataFrame()
 
-                fixture_id = fixture.get("id")
-                stats_url = f"{BASE_URL}/fixtures/statistics"
-                time.sleep(0.12)
-                
-                try:
-                    stats_res = requests.get(stats_url, headers=HEADERS, params={"fixture": fixture_id}, timeout=3)
-                except:
-                    stats_res = None
+    rows = []
+    for _, row in df.iterrows():
+        local = normalizar_nombre(row.get("HomeTeam"))
+        visita = normalizar_nombre(row.get("AwayTeam"))
+        gl, gv = n(row, "FTHG"), n(row, "FTAG")
+        if not local or not visita or pd.isna(gl) or pd.isna(gv):
+            continue
 
-                c_loc, c_v, t_loc, t_v = 5.0, 4.5, 1.8, 2.0
-                xg_l, xg_v = round(g_loc * 0.9, 2), round(g_vis * 0.9, 2)
-                tiros_l, tiros_v, atajadas_l, atajadas_v = 4.0, 3.5, 3.0, 3.0
-                arbitro = fixture.get("referee", "Desconocido")
+        hs, ass = n(row, "HS"), n(row, "AS")
+        hst, ast = n(row, "HST"), n(row, "AST")
+        hc, ac = n(row, "HC", 5.0), n(row, "AC", 5.0)
+        hy, ay = n(row, "HY", 2.0), n(row, "AY", 2.0)
+        hr, ar = n(row, "HR", 0.0), n(row, "AR", 0.0)
 
-                if stats_res and stats_res.status_code == 200:
-                    stats_data = stats_res.json().get("response", [])
-                    for team_stat in stats_data:
-                        is_home = (normalizar_nombre(team_stat.get("team", {}).get("name", "")) == local)
-                        st_list = team_stat.get("statistics", [])
-                        stat_dict = {s.get("type"): s.get("value") for s in st_list if s.get("value") is not None}
-                        
-                        corners = float(stat_dict.get("Corner Kicks", 5))
-                        yellows = float(stat_dict.get("Yellow Cards", 1))
-                        reds = float(stat_dict.get("Red Cards", 0))
-                        t_puntos = yellows + (reds * 2)
-                        s_goal = float(stat_dict.get("Shots on Goal", 4))
-                        saves = float(stat_dict.get("Goalkeeper Saves", 3))
-                        
-                        raw_xg = stat_dict.get("expected_goals")
-                        if raw_xg is not None:
-                            try: xg_val = float(str(raw_xg).replace(",", "."))
-                            except: xg_val = round(s_goal * 0.32, 2)
-                        else:
-                            xg_val = round(s_goal * 0.32, 2)
+        fecha = row.get("Date", "")
+        fecha_dt = pd.to_datetime(fecha, dayfirst=True, errors="coerce")
+        fecha_iso = "" if pd.isna(fecha_dt) else fecha_dt.strftime("%Y-%m-%d")
 
-                        if is_home:
-                            c_loc, t_loc, tiros_l, atajadas_l, xg_l = corners, t_puntos, s_goal, saves, xg_val
-                        else:
-                            c_v, t_v, tiros_v, atajadas_v, xg_v = corners, t_puntos, s_goal, saves, xg_val
+        rows.append({
+            "Fecha": fecha_iso,
+            "Local": local,
+            "Visitante": visita,
+            "Goles_Local": int(gl),
+            "Goles_Visita": int(gv),
+            "Corners_Local": hc,
+            "Corners_Visita": ac,
+            "Tarjetas_Local": hy + 2.0 * hr,
+            "Tarjetas_Visita": ay + 2.0 * ar,
+            "xG_Local": xg_proxy(hs, hst, gl),
+            "xG_Visita": xg_proxy(ass, ast, gv),
+            "TirosGol_Local": hst if not pd.isna(hst) else 4.0,
+            "TirosGol_Visita": ast if not pd.isna(ast) else 4.0,
+            # La fuente no incluye atajadas en todas las temporadas; se aproxima con tiros a puerta recibidos - goles.
+            "Atajadas_Local": max(0.0, (ast if not pd.isna(ast) else 3.0) - gv),
+            "Atajadas_Visita": max(0.0, (hst if not pd.isna(hst) else 3.0) - gl),
+            "Arbitro": str(row.get("Referee", "Desconocido") or "Desconocido"),
+            "Fuente": "football-data.co.uk",
+            "Fuente_xG": "proxy_shots",
+        })
+    return pd.DataFrame(rows)
 
-                partidos_temporada.append({
-                    "Fecha": fecha, "Local": local, "Visitante": visita,
-                    "Goles_Local": g_loc, "Goles_Visita": g_vis,
-                    "Corners_Local": c_loc, "Corners_Visita": c_v,
-                    "Tarjetas_Local": t_loc, "Tarjetas_Visita": t_v,
-                    "xG_Local": xg_l, "xG_Visita": xg_v,
-                    "TirosGol_Local": tiros_l, "TirosGol_Visita": tiros_v,
-                    "Atajadas_Local": atajadas_l, "Atajadas_Visita": atajadas_v,
-                    "Arbitro": arbitro
-                })
-        else:
-            print(f"   ⚠️ Error HTTP del servidor: {response.status_code} - Revisa tu API Key o límites.")
-    except Exception as e:
-        print(f"   ⚠️ Excepción en conexión: {e}")
 
-    return partidos_temporada
+def procesar_liga(nombre, codigo, salida):
+    partes = []
+    for season in SEASON_CODES:
+        bruto = descargar_csv(season, codigo)
+        limpio = transformar(bruto)
+        print(f"{nombre} {season}: {len(limpio)} partidos")
+        if not limpio.empty:
+            partes.append(limpio)
 
-def procesar_liga_completa(nombre_liga, league_id, archivo_salida):
-    print(f"\n========================================")
-    print(f"🏆 Descargando histórico completo para: {nombre_liga}")
-    print(f"========================================")
-    
-    todos_los_partidos = []
+    if not partes:
+        raise RuntimeError(f"No se pudo descargar histórico para {nombre}")
 
-    for temporada in TEMPORADAS:
-        print(f"⏳ Consultando temporada {temporada}...")
-        partidos_temp = descargar_temporada_liga(nombre_liga, league_id, temporada)
-        todos_los_partidos.extend(partidos_temp)
-        time.sleep(1)
+    out = pd.concat(partes, ignore_index=True)
+    out = out.drop_duplicates(subset=["Fecha", "Local", "Visitante"], keep="last")
+    out = out.sort_values(["Fecha", "Local", "Visitante"]).reset_index(drop=True)
+    os.makedirs(os.path.dirname(salida), exist_ok=True)
+    out.to_csv(salida, index=False)
+    print(f"OK {salida}: {len(out)} registros")
+    return len(out)
 
-    if todos_los_partidos:
-        df_final = pd.DataFrame(todos_los_partidos)
-        
-        if 'Fecha' in df_final.columns and 'Local' in df_final.columns and 'Visitante' in df_final.columns:
-            df_final = df_final.drop_duplicates(subset=['Fecha', 'Local', 'Visitante'])
-            df_final = df_final.sort_values(by='Fecha').reset_index(drop=True)
-            
-        os.makedirs("data", exist_ok=True)
-        df_final.to_csv(archivo_salida, index=False)
-        print(f"✅ [ÉXITO] Archivo generado: {archivo_salida} con un total de {len(df_final)} registros.\n")
-    else:
-        print(f"❌ [AVISO] La lista de partidos quedó vacía para {nombre_liga}. No se generó el archivo.\n")
+
+def main():
+    total = 0
+    for nombre, cfg in LIGAS.items():
+        total += procesar_liga(nombre, cfg["codigo"], cfg["archivo"])
+    if total < 3000:
+        raise RuntimeError(f"Histórico insuficiente: {total} registros")
+    print(f"Históricos completos: {total} registros")
+
 
 if __name__ == "__main__":
-    if not API_KEY:
-        print("❌ ATENCIÓN: No se detectó la variable de entorno 'API_SPORTS_KEY'. Configúrala antes de ejecutar.")
-    else:
-        print(f"🔑 API Key detectada correctamente. Iniciando descargas...")
-        for liga, info in LIGAS_A_DESCARGAR.items():
-            procesar_liga_completa(liga, info["id"], info["archivo"])
+    main()
