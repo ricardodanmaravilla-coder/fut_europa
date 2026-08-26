@@ -16,11 +16,16 @@ LIGAS = {
 
 SEASON_CODES = ["2021", "2122", "2223", "2324", "2425", "2526", "2627"]
 BASE = "https://www.football-data.co.uk/mmz4281/{season}/{league}.csv"
+STATSBOMB_CACHE = "data/statsbomb_xg_matches.csv"
 
 
 def normalizar_nombre(nombre):
     txt = str(nombre or "").strip()
     return unicodedata.normalize("NFKD", txt).encode("ASCII", "ignore").decode("utf-8").strip()
+
+
+def key_nombre(nombre):
+    return "".join(ch.lower() for ch in normalizar_nombre(nombre) if ch.isalnum())
 
 
 def n(row, key, default=np.nan):
@@ -123,12 +128,14 @@ def transformar(df):
             "Faltas_Visita": af,
             "xG_Local": xg_proxy(hs, hst, gl),
             "xG_Visita": xg_proxy(ass, ast, gv),
+            "xG_Proxy_Local": xg_proxy(hs, hst, gl),
+            "xG_Proxy_Visita": xg_proxy(ass, ast, gv),
             "TirosGol_Local": hst if not pd.isna(hst) else 4.0,
             "TirosGol_Visita": ast if not pd.isna(ast) else 4.0,
             "Atajadas_Local": max(0.0, (ast if not pd.isna(ast) else 3.0) - gv),
             "Atajadas_Visita": max(0.0, (hst if not pd.isna(hst) else 3.0) - gl),
 
-            # Compatibilidad: Cuota_* sigue representando mercado prepartido utilizable por producción.
+            # Compatibilidad: Cuota_* representa mercado de apertura utilizable por producción temprana.
             "Cuota_1": open_h,
             "Cuota_X": open_d,
             "Cuota_2": open_a,
@@ -158,8 +165,53 @@ def transformar(df):
             "Arbitro": str(row.get("Referee", "Desconocido") or "Desconocido"),
             "Fuente": "football-data.co.uk",
             "Fuente_xG": "proxy_shots",
+            "StatsBomb_match_id": np.nan,
         })
     return pd.DataFrame(rows)
+
+
+def aplicar_statsbomb(out):
+    """Sustituye el proxy por xG real sólo en matches exactos del cache abierto."""
+    if out is None or out.empty or not os.path.exists(STATSBOMB_CACHE):
+        return out, 0
+    try:
+        sb = pd.read_csv(STATSBOMB_CACHE)
+    except Exception:
+        return out, 0
+    required = {"Fecha", "Local_norm", "Visitante_norm", "xG_Real_Local", "xG_Real_Visita"}
+    if sb.empty or not required.issubset(sb.columns):
+        return out, 0
+
+    x = out.copy()
+    x["_Local_norm"] = x["Local"].map(key_nombre)
+    x["_Visitante_norm"] = x["Visitante"].map(key_nombre)
+    sb = sb.copy()
+    sb["Fecha"] = sb["Fecha"].astype(str)
+    keep = [c for c in [
+        "Fecha", "Local_norm", "Visitante_norm", "StatsBomb_match_id",
+        "xG_Real_Local", "xG_Real_Visita", "Tiros_SB_Local", "Tiros_SB_Visita",
+        "TirosGol_SB_Local", "TirosGol_SB_Visita", "Fuente_xG_Real",
+    ] if c in sb.columns]
+    sb = sb[keep].drop_duplicates(subset=["Fecha", "Local_norm", "Visitante_norm"], keep="last")
+    merged = x.merge(
+        sb,
+        how="left",
+        left_on=["Fecha", "_Local_norm", "_Visitante_norm"],
+        right_on=["Fecha", "Local_norm", "Visitante_norm"],
+        suffixes=("", "_SB"),
+    )
+    mask = pd.to_numeric(merged.get("xG_Real_Local"), errors="coerce").notna() & pd.to_numeric(merged.get("xG_Real_Visita"), errors="coerce").notna()
+    if mask.any():
+        merged.loc[mask, "xG_Local"] = pd.to_numeric(merged.loc[mask, "xG_Real_Local"], errors="coerce")
+        merged.loc[mask, "xG_Visita"] = pd.to_numeric(merged.loc[mask, "xG_Real_Visita"], errors="coerce")
+        merged.loc[mask, "Fuente_xG"] = "StatsBomb Open Data"
+        if "StatsBomb_match_id_SB" in merged.columns:
+            merged.loc[mask, "StatsBomb_match_id"] = merged.loc[mask, "StatsBomb_match_id_SB"]
+        elif "StatsBomb_match_id_y" in merged.columns:
+            merged.loc[mask, "StatsBomb_match_id"] = merged.loc[mask, "StatsBomb_match_id_y"]
+    drop_cols = [c for c in ["_Local_norm", "_Visitante_norm", "Local_norm", "Visitante_norm", "StatsBomb_match_id_SB", "StatsBomb_match_id_y"] if c in merged.columns]
+    merged = merged.drop(columns=drop_cols, errors="ignore")
+    return merged, int(mask.sum())
 
 
 def procesar_liga(nombre, codigo, salida):
@@ -177,10 +229,11 @@ def procesar_liga(nombre, codigo, salida):
     out = pd.concat(partes, ignore_index=True)
     out = out.drop_duplicates(subset=["Fecha", "Local", "Visitante"], keep="last")
     out = out.sort_values(["Fecha", "Local", "Visitante"]).reset_index(drop=True)
+    out, sb_n = aplicar_statsbomb(out)
     os.makedirs(os.path.dirname(salida), exist_ok=True)
     out.to_csv(salida, index=False)
     coverage = int(out[["Apertura_1", "Apertura_X", "Apertura_2", "Cierre_1", "Cierre_X", "Cierre_2"]].notna().all(axis=1).sum())
-    print(f"OK {salida}: {len(out)} registros | apertura+cierre 1X2: {coverage}")
+    print(f"OK {salida}: {len(out)} registros | apertura+cierre 1X2: {coverage} | StatsBomb xG real: {sb_n}")
     return len(out)
 
 
