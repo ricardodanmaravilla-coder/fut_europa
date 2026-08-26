@@ -1,88 +1,98 @@
 import numpy as np
 import pandas as pd
 
-def simular_partido_europa(local, visita, df_historico, elo_local, elo_visita, n_simulaciones=100000):
+
+def _safe_mean(s, default):
+    try:
+        v = float(pd.to_numeric(s, errors="coerce").mean())
+        return default if np.isnan(v) else v
+    except Exception:
+        return default
+
+
+def _team_recent(df, team, n=12):
+    if df is None or df.empty:
+        return None
+    x = df[(df["Local"] == team) | (df["Visitante"] == team)].copy()
+    if x.empty:
+        return None
+    if "Fecha" in x.columns:
+        x["_fecha"] = pd.to_datetime(x["Fecha"], errors="coerce", dayfirst=True)
+        x = x.sort_values("_fecha")
+    x = x.tail(n)
+
+    rows = []
+    for _, r in x.iterrows():
+        home = r["Local"] == team
+        rows.append({
+            "xgf": r.get("xG_Local" if home else "xG_Visita"),
+            "xga": r.get("xG_Visita" if home else "xG_Local"),
+            "cf": r.get("Corners_Local" if home else "Corners_Visita"),
+            "ca": r.get("Corners_Visita" if home else "Corners_Local"),
+            "cards": r.get("Tarjetas_Local" if home else "Tarjetas_Visita"),
+        })
+    z = pd.DataFrame(rows)
+    return {
+        "xgf": _safe_mean(z["xgf"], 1.25),
+        "xga": _safe_mean(z["xga"], 1.25),
+        "cf": _safe_mean(z["cf"], 4.8),
+        "ca": _safe_mean(z["ca"], 4.8),
+        "cards": _safe_mean(z["cards"], 2.0),
+        "n": len(z),
+    }
+
+
+def simular_partido_europa(local, visita, df_historico, elo_local, elo_visita, n_simulaciones=50000, seed=42):
+    """Simulación prepartido con ataque/defensa rival + forma reciente + Elo.
+
+    No usa estadísticas del partido objetivo. `df_historico` debe contener sólo
+    partidos ya finalizados disponibles al momento del pronóstico.
     """
-    Simulador Montecarlo especializado para fútbol europeo.
-    Utiliza xG históricos, tiros a gol, atajadas y ajuste por ELO.
-    """
-    if df_historico is None or df_historico.empty:
-        # Valores por defecto de emergencia si el CSV está vacío
-        xg_l, xg_v = 1.4, 1.1
-        corners_l, corners_v = 5.2, 4.5
-        tarjetas_l, tarjetas_v = 2.0, 2.2
-    else:
-        # Filtrar datos de los equipos
-        df_loc = df_historico[df_historico['Local'] == local]
-        df_vis = df_historico[df_historico['Visitante'] == visita]
-        
-        # Extracción de métricas avanzadas (xG y Tiros a Gol)
-        xg_l = df_loc['xG_Local'].mean() if not df_loc.empty and 'xG_Local' in df_loc.columns else 1.4
-        xg_v = df_vis['xG_Visita'].mean() if not df_vis.empty and 'xG_Visita' in df_vis.columns else 1.1
-        
-        corners_l = df_loc['Corners_Local'].mean() if not df_loc.empty and 'Corners_Local' in df_loc.columns else 5.2
-        corners_v = df_vis['Corners_Visita'].mean() if not df_vis.empty and 'Corners_Visita' in df_vis.columns else 4.5
-        
-        tarjetas_l = df_loc['Tarjetas_Local'].mean() if not df_loc.empty and 'Tarjetas_Local' in df_loc.columns else 2.0
-        tarjetas_v = df_vis['Tarjetas_Visita'].mean() if not df_vis.empty and 'Tarjetas_Visita' in df_vis.columns else 2.2
+    pl = _team_recent(df_historico, local) or {"xgf": 1.35, "xga": 1.25, "cf": 5.0, "ca": 4.8, "cards": 2.0, "n": 0}
+    pv = _team_recent(df_historico, visita) or {"xgf": 1.15, "xga": 1.35, "cf": 4.5, "ca": 5.0, "cards": 2.1, "n": 0}
 
-    # Ajuste matemático por diferencia de ELO
-    factor_elo = (elo_local - elo_visita) / 400.0
-    lambda_l = max(0.4, xg_l + (factor_elo * 0.25))
-    lambda_v = max(0.4, xg_v - (factor_elo * 0.25))
+    # Ataque propio combinado con lo que concede el rival.
+    base_l = 0.55 * pl["xgf"] + 0.45 * pv["xga"]
+    base_v = 0.55 * pv["xgf"] + 0.45 * pl["xga"]
 
-    # Simulaciones de Poisson (Goles)
-    goles_l = np.random.poisson(lam=lambda_l, size=n_simulaciones)
-    goles_v = np.random.poisson(lam=lambda_v, size=n_simulaciones)
+    # Ajuste Elo acotado para impedir que domine el modelo de goles.
+    elo_diff = float(np.clip((float(elo_local) - float(elo_visita)) / 400.0, -1.0, 1.0))
+    home_adv = 0.10
+    lambda_l = float(np.clip(base_l * np.exp(0.10 * elo_diff) + home_adv, 0.25, 3.50))
+    lambda_v = float(np.clip(base_v * np.exp(-0.10 * elo_diff), 0.20, 3.20))
 
-    # Simulaciones para Córners y Tarjetas
-    sim_corners_l = np.random.normal(loc=corners_l, scale=1.6, size=n_simulaciones).clip(0, 16)
-    sim_corners_v = np.random.normal(loc=corners_v, scale=1.5, size=n_simulaciones).clip(0, 16)
-    tot_corners = sim_corners_l + sim_corners_v
+    corners_l = float(np.clip(0.60 * pl["cf"] + 0.40 * pv["ca"], 1.5, 9.0))
+    corners_v = float(np.clip(0.60 * pv["cf"] + 0.40 * pl["ca"], 1.5, 9.0))
+    cards_l = float(np.clip(pl["cards"], 0.5, 5.0))
+    cards_v = float(np.clip(pv["cards"], 0.5, 5.0))
 
-    sim_tarjetas_l = np.random.poisson(lam=tarjetas_l, size=n_simulaciones)
-    sim_tarjetas_v = np.random.poisson(lam=tarjetas_v, size=n_simulaciones)
-    tot_tarjetas = sim_tarjetas_l + sim_tarjetas_v
+    rng = np.random.default_rng(seed)
+    goles_l = rng.poisson(lambda_l, n_simulaciones)
+    goles_v = rng.poisson(lambda_v, n_simulaciones)
+    # Córners son discretos y sobredispersos; Poisson es más coherente que normal continua.
+    sim_corners_l = rng.poisson(corners_l, n_simulaciones)
+    sim_corners_v = rng.poisson(corners_v, n_simulaciones)
+    sim_cards_l = rng.poisson(cards_l, n_simulaciones)
+    sim_cards_v = rng.poisson(cards_v, n_simulaciones)
 
-    # Cálculo de Probabilidades Porcentuales
-    ganan_local = np.sum(goles_l > goles_v) / n_simulaciones * 100
-    empates = np.sum(goles_l == goles_v) / n_simulaciones * 100
-    ganan_visita = np.sum(goles_l < goles_v) / n_simulaciones * 100
+    total_g = goles_l + goles_v
+    total_c = sim_corners_l + sim_corners_v
+    total_t = sim_cards_l + sim_cards_v
 
-    over_25 = np.sum((goles_l + goles_v) > 2.5) / n_simulaciones * 100
-    under_25 = 100.0 - over_25
-    
-    over_corners = np.sum(tot_corners > 9.5) / n_simulaciones * 100
-    over_tarjetas = np.sum(tot_tarjetas > 4.5) / n_simulaciones * 100
+    p_home = 100.0 * np.mean(goles_l > goles_v)
+    p_draw = 100.0 * np.mean(goles_l == goles_v)
+    p_away = 100.0 * np.mean(goles_l < goles_v)
+    p_o25 = 100.0 * np.mean(total_g > 2.5)
+    p_c95 = 100.0 * np.mean(total_c > 9.5)
+    p_t45 = 100.0 * np.mean(total_t > 4.5)
 
     return {
-        "Resultado_1X2": {
-            "Gana Local": round(ganan_local, 1), 
-            "Empate": round(empates, 1), 
-            "Gana Visita": round(ganan_visita, 1)
-        },
-        "Goles_Over_Under": {
-            "Over 2.5": round(over_25, 1), 
-            "Under 2.5": round(under_25, 1)
-        },
-        "Corners_Totales": {
-            "Over 9.5 Corners": round(over_corners, 1),
-            "Under 9.5 Corners": round(100.0 - over_corners, 1)
-        },
-        "Tarjetas_Totales": {
-            "Over 4.5 Tarjetas": round(over_tarjetas, 1),
-            "Under 4.5 Tarjetas": round(100.0 - over_tarjetas, 1)
-        },
-        "Goles_Individuales": {
-            local: {"goles": round(lambda_l, 2)}, 
-            visita: {"goles": round(lambda_v, 2)}
-        },
-        "Corners_Individuales": {
-            local: {"corners": round(corners_l, 1)}, 
-            visita: {"corners": round(corners_v, 1)}
-        },
-        "Tarjetas_Individuales": {
-            local: {"tarjetas": round(tarjetas_l, 1)}, 
-            visita: {"tarjetas": round(tarjetas_v, 1)}
-        }
+        "Resultado_1X2": {"Gana Local": round(p_home, 1), "Empate": round(p_draw, 1), "Gana Visita": round(p_away, 1)},
+        "Goles_Over_Under": {"Over 2.5": round(p_o25, 1), "Under 2.5": round(100-p_o25, 1)},
+        "Corners_Totales": {"Over 9.5 Corners": round(p_c95, 1), "Under 9.5 Corners": round(100-p_c95, 1)},
+        "Tarjetas_Totales": {"Over 4.5 Tarjetas": round(p_t45, 1), "Under 4.5 Tarjetas": round(100-p_t45, 1)},
+        "Goles_Individuales": {local: {"goles": round(lambda_l, 2)}, visita: {"goles": round(lambda_v, 2)}},
+        "Corners_Individuales": {local: {"corners": round(corners_l, 2)}, visita: {"corners": round(corners_v, 2)}},
+        "Tarjetas_Individuales": {local: {"tarjetas": round(cards_l, 2)}, visita: {"tarjetas": round(cards_v, 2)}},
+        "Meta": {"recent_local": pl["n"], "recent_away": pv["n"], "elo_diff": round(elo_diff, 3)},
     }
