@@ -1,0 +1,52 @@
+name: Free Data Branch Validation
+
+on:
+  push:
+    branches: [feature/free-advanced-data]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m py_compile app_europa.py generar_historicos.py enriquecer_statsbomb.py backtest_europa_temporal.py modules/*.py
+      - name: Obtener StatsBomb abierto
+        run: python enriquecer_statsbomb.py
+      - name: Generar históricos enriquecidos
+        run: python generar_historicos.py
+      - name: Validar columnas gratuitas
+        run: |
+          python - <<'PY'
+          import glob, os, pandas as pd
+          files=glob.glob('data/historico_*.csv')
+          assert len(files)>=5
+          total=0; close=0; sb=0
+          for p in files:
+              d=pd.read_csv(p)
+              req={'Apertura_1','Apertura_X','Apertura_2','Cierre_1','Cierre_X','Cierre_2','Movimiento_1_pp','Movimiento_X_pp','Movimiento_2_pp','xG_Proxy_Local','xG_Proxy_Visita'}
+              assert req.issubset(d.columns),(p,req-set(d.columns))
+              total += len(d)
+              close += int(d[['Cierre_1','Cierre_X','Cierre_2']].notna().all(axis=1).sum())
+              sb += int((d.get('Fuente_xG','')=='StatsBomb Open Data').sum())
+          assert total>=10000,total
+          assert close>=5000,close
+          print('FREE_DATA_OK',{'matches':total,'closing_1x2':close,'statsbomb_xg':sb,'statsbomb_cache':os.path.exists('data/statsbomb_xg_matches.csv')})
+          PY
+      - name: Walk-forward
+        run: python backtest_europa_temporal.py
+      - name: Smoke Streamlit
+        run: |
+          streamlit run app_europa.py --server.headless true --server.port 8501 >/tmp/app.log 2>&1 &
+          PID=$!
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:8501/_stcore/health; then kill $PID || true; exit 0; fi
+            sleep 1
+          done
+          cat /tmp/app.log; kill $PID || true; exit 1
