@@ -31,7 +31,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Compilar codigo
-        run: python -m py_compile app_europa.py generar_historicos.py backtest_europa_temporal.py modules/*.py
+        run: python -m py_compile app_europa.py generar_historicos.py enriquecer_statsbomb.py backtest_europa_temporal.py modules/*.py
 
       - name: Generar historicos gratuitos
         run: python generar_historicos.py
@@ -54,15 +54,21 @@ jobs:
           required = {
               'Fecha','Local','Visitante','Goles_Local','Goles_Visita',
               'Corners_Local','Corners_Visita','Tarjetas_Local','Tarjetas_Visita',
-              'xG_Local','xG_Visita','TirosGol_Local','TirosGol_Visita',
-              'Cuota_1','Cuota_X','Cuota_2','Cuota_Over25','Cuota_Under25'
+              'xG_Local','xG_Visita','xG_Proxy_Local','xG_Proxy_Visita',
+              'TirosGol_Local','TirosGol_Visita',
+              'Cuota_1','Cuota_X','Cuota_2','Cuota_Over25','Cuota_Under25',
+              'Apertura_1','Apertura_X','Apertura_2','Cierre_1','Cierre_X','Cierre_2',
+              'P_Apertura_1','P_Apertura_X','P_Apertura_2',
+              'P_Cierre_1','P_Cierre_X','P_Cierre_2',
+              'Movimiento_1_pp','Movimiento_X_pp','Movimiento_2_pp'
           }
           for path in files:
               assert os.path.exists(path), path
               df = pd.read_csv(path)
               assert len(df) >= 150, (path, len(df))
               assert required.issubset(df.columns), (path, required-set(df.columns))
-              assert df[['Cuota_1','Cuota_X','Cuota_2']].notna().all(axis=1).sum() >= 100, path
+              assert df[['Apertura_1','Apertura_X','Apertura_2']].notna().all(axis=1).sum() >= 100, path
+              assert df[['Cierre_1','Cierre_X','Cierre_2']].notna().all(axis=1).sum() >= 100, path
               total += len(df)
           df = pd.read_csv(files[0])
           elo = SistemaEloEuropa().actualizar_ratings(df)
@@ -71,7 +77,7 @@ jobs:
           assert 0.25 <= ml.market_model_weight <= 1.0
           assert 0.7 <= ml.temp_1x2 <= 2.0
           h = df.iloc[-1]
-          odds = {'1':h.get('Cuota_1'),'X':h.get('Cuota_X'),'2':h.get('Cuota_2')}
+          odds = {'1':h.get('Apertura_1'),'X':h.get('Apertura_X'),'2':h.get('Apertura_2')}
           p = ml.predecir_mercados_completos(h['Local'], h['Visitante'], cuotas_1x2=odds)
           assert p.get('Meta', {}).get('pregame_only') is True
           s = sum(p['Resultado_1X2'].values())
