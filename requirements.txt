@@ -1,5 +1,5 @@
-streamlit
-pandas
-requests
-scikit-learn
-starlette<0.40.0
+streamlit>=1.45,<2
+pandas>=2.2,<3
+numpy>=1.26,<3
+requests>=2.31,<3
+scikit-learn>=1.5,<2
