@@ -15,7 +15,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
 
     steps:
       - name: Copiar repositorio
@@ -51,26 +51,35 @@ jobs:
               'data/historico_ligue1.csv'
           ]
           total = 0
+          required = {
+              'Fecha','Local','Visitante','Goles_Local','Goles_Visita',
+              'Corners_Local','Corners_Visita','Tarjetas_Local','Tarjetas_Visita',
+              'xG_Local','xG_Visita','TirosGol_Local','TirosGol_Visita',
+              'Cuota_1','Cuota_X','Cuota_2','Cuota_Over25','Cuota_Under25'
+          }
           for path in files:
               assert os.path.exists(path), path
               df = pd.read_csv(path)
               assert len(df) >= 150, (path, len(df))
-              required = {'Fecha','Local','Visitante','Goles_Local','Goles_Visita','Corners_Local','Corners_Visita','Tarjetas_Local','Tarjetas_Visita','xG_Local','xG_Visita'}
               assert required.issubset(df.columns), (path, required-set(df.columns))
+              assert df[['Cuota_1','Cuota_X','Cuota_2']].notna().all(axis=1).sum() >= 100, path
               total += len(df)
           df = pd.read_csv(files[0])
           elo = SistemaEloEuropa().actualizar_ratings(df)
           assert not elo.empty
-          ml = PredictorMLEuropa(); assert ml.entrenar(df); assert ml.n_train >= 100
+          ml = PredictorMLEuropa(); assert ml.entrenar(df); assert ml.n_train >= 1000
+          assert 0.25 <= ml.market_model_weight <= 1.0
+          assert 0.7 <= ml.temp_1x2 <= 2.0
           h = df.iloc[-1]
-          p = ml.predecir_mercados_completos(h['Local'], h['Visitante'])
+          odds = {'1':h.get('Cuota_1'),'X':h.get('Cuota_X'),'2':h.get('Cuota_2')}
+          p = ml.predecir_mercados_completos(h['Local'], h['Visitante'], cuotas_1x2=odds)
           assert p.get('Meta', {}).get('pregame_only') is True
           s = sum(p['Resultado_1X2'].values())
           assert 99.0 <= s <= 101.0, s
           out = simular_partido_europa(h['Local'], h['Visitante'], df, 1500, 1500, n_simulaciones=3000)
           assert 'Resultado_1X2' in out
           assert total >= 3000, total
-          print('historicos/motores OK', total)
+          print('historicos/motores OK', total, 'weight', ml.market_model_weight, 'temp', ml.temp_1x2)
           PY
 
       - name: Diagnostico temporal estricto
