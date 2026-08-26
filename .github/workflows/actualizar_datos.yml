@@ -15,7 +15,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
       - name: Copiar repositorio
@@ -31,7 +31,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Compilar codigo
-        run: python -m py_compile app_europa.py generar_historicos.py modules/*.py
+        run: python -m py_compile app_europa.py generar_historicos.py backtest_europa_temporal.py modules/*.py
 
       - name: Generar historicos gratuitos
         run: python generar_historicos.py
@@ -61,13 +61,20 @@ jobs:
           df = pd.read_csv(files[0])
           elo = SistemaEloEuropa().actualizar_ratings(df)
           assert not elo.empty
-          ml = PredictorMLEuropa(); assert ml.entrenar(df)
+          ml = PredictorMLEuropa(); assert ml.entrenar(df); assert ml.n_train >= 100
           h = df.iloc[-1]
-          out = simular_partido_europa(h['Local'], h['Visitante'], df, 1500, 1500, n_simulaciones=2000)
+          p = ml.predecir_mercados_completos(h['Local'], h['Visitante'])
+          assert p.get('Meta', {}).get('pregame_only') is True
+          s = sum(p['Resultado_1X2'].values())
+          assert 99.0 <= s <= 101.0, s
+          out = simular_partido_europa(h['Local'], h['Visitante'], df, 1500, 1500, n_simulaciones=3000)
           assert 'Resultado_1X2' in out
           assert total >= 3000, total
           print('historicos/motores OK', total)
           PY
+
+      - name: Diagnostico temporal estricto
+        run: python backtest_europa_temporal.py
 
       - name: Probar arranque Streamlit
         run: |
