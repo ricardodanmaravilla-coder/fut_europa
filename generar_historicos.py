@@ -6,8 +6,6 @@ import numpy as np
 import pandas as pd
 import requests
 
-# Fuente primaria gratuita para histórico cuantitativo.
-# Códigos: E0 Premier, SP1 La Liga, I1 Serie A, D1 Bundesliga, F1 Ligue 1.
 LIGAS = {
     "Premier League": {"codigo": "E0", "archivo": "data/historico_premier.csv"},
     "La Liga": {"codigo": "SP1", "archivo": "data/historico_laliga.csv"},
@@ -16,7 +14,6 @@ LIGAS = {
     "Ligue 1": {"codigo": "F1", "archivo": "data/historico_ligue1.csv"},
 }
 
-# Temporadas empezando en 2020-21 y terminando en 2026-27.
 SEASON_CODES = ["2021", "2122", "2223", "2324", "2425", "2526", "2627"]
 BASE = "https://www.football-data.co.uk/mmz4281/{season}/{league}.csv"
 
@@ -31,12 +28,16 @@ def n(row, key, default=np.nan):
     return default if pd.isna(val) else float(val)
 
 
-def xg_proxy(shots, shots_on_target, goals):
-    """Proxy conservador cuando la fuente no publica xG real.
+def first_numeric(row, keys, default=np.nan):
+    for key in keys:
+        val = n(row, key, np.nan)
+        if not pd.isna(val) and val > 1.0:
+            return val
+    return default
 
-    Se construye sólo con variables preexistentes en el partido para que la app pueda
-    funcionar sin inventar una supuesta métrica oficial. El CSV conserva Fuente_xG.
-    """
+
+def xg_proxy(shots, shots_on_target, goals):
+    """Proxy transparente cuando la fuente no publica xG real."""
     s = 0.0 if pd.isna(shots) else float(shots)
     sot = 0.0 if pd.isna(shots_on_target) else float(shots_on_target)
     g = 0.0 if pd.isna(goals) else float(goals)
@@ -45,7 +46,7 @@ def xg_proxy(shots, shots_on_target, goals):
 
 def descargar_csv(season_code, league_code):
     url = BASE.format(season=season_code, league=league_code)
-    r = requests.get(url, timeout=20, headers={"User-Agent": "fut-europa/1.0"})
+    r = requests.get(url, timeout=20, headers={"User-Agent": "fut-europa/2.0"})
     if r.status_code != 200 or len(r.content) < 100:
         return pd.DataFrame()
     try:
@@ -74,10 +75,18 @@ def transformar(df):
         hc, ac = n(row, "HC", 5.0), n(row, "AC", 5.0)
         hy, ay = n(row, "HY", 2.0), n(row, "AY", 2.0)
         hr, ar = n(row, "HR", 0.0), n(row, "AR", 0.0)
+        hf, af = n(row, "HF", np.nan), n(row, "AF", np.nan)
 
         fecha = row.get("Date", "")
         fecha_dt = pd.to_datetime(fecha, dayfirst=True, errors="coerce")
         fecha_iso = "" if pd.isna(fecha_dt) else fecha_dt.strftime("%Y-%m-%d")
+
+        # Preferimos cuotas Bet365 y, si faltan, Pinnacle/Max/Avg. Son datos prepartido.
+        odd_h = first_numeric(row, ["B365H", "PSH", "MaxH", "AvgH"])
+        odd_d = first_numeric(row, ["B365D", "PSD", "MaxD", "AvgD"])
+        odd_a = first_numeric(row, ["B365A", "PSA", "MaxA", "AvgA"])
+        odd_o25 = first_numeric(row, ["B365>2.5", "P>2.5", "Max>2.5", "Avg>2.5"])
+        odd_u25 = first_numeric(row, ["B365<2.5", "P<2.5", "Max<2.5", "Avg<2.5"])
 
         rows.append({
             "Fecha": fecha_iso,
@@ -85,17 +94,25 @@ def transformar(df):
             "Visitante": visita,
             "Goles_Local": int(gl),
             "Goles_Visita": int(gv),
+            "Tiros_Local": hs if not pd.isna(hs) else np.nan,
+            "Tiros_Visita": ass if not pd.isna(ass) else np.nan,
             "Corners_Local": hc,
             "Corners_Visita": ac,
             "Tarjetas_Local": hy + 2.0 * hr,
             "Tarjetas_Visita": ay + 2.0 * ar,
+            "Faltas_Local": hf,
+            "Faltas_Visita": af,
             "xG_Local": xg_proxy(hs, hst, gl),
             "xG_Visita": xg_proxy(ass, ast, gv),
             "TirosGol_Local": hst if not pd.isna(hst) else 4.0,
             "TirosGol_Visita": ast if not pd.isna(ast) else 4.0,
-            # La fuente no incluye atajadas en todas las temporadas; se aproxima con tiros a puerta recibidos - goles.
             "Atajadas_Local": max(0.0, (ast if not pd.isna(ast) else 3.0) - gv),
             "Atajadas_Visita": max(0.0, (hst if not pd.isna(hst) else 3.0) - gl),
+            "Cuota_1": odd_h,
+            "Cuota_X": odd_d,
+            "Cuota_2": odd_a,
+            "Cuota_Over25": odd_o25,
+            "Cuota_Under25": odd_u25,
             "Arbitro": str(row.get("Referee", "Desconocido") or "Desconocido"),
             "Fuente": "football-data.co.uk",
             "Fuente_xG": "proxy_shots",
