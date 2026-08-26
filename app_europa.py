@@ -64,14 +64,11 @@ def cargar_historico_liga(nombre_liga):
 @st.cache_data(ttl=900)
 def obtener_proximos_partidos_europa(league_id):
     partidos = {}
-    # API-Sports es opcional. Si hay key, conserva fixture_id real para cuotas.
     if API_KEY:
         try:
             r = requests.get(
-                f"{BASE_URL}/fixtures",
-                headers=HEADERS,
-                params={"league": league_id, "season": 2026, "next": 15},
-                timeout=6,
+                f"{BASE_URL}/fixtures", headers=HEADERS,
+                params={"league": league_id, "season": 2026, "next": 15}, timeout=6,
             )
             if r.status_code == 200:
                 for p in r.json().get("response", []):
@@ -85,8 +82,6 @@ def obtener_proximos_partidos_europa(league_id):
                         }
         except Exception:
             pass
-
-    # Respaldo: ESPN. Sólo fixtures reales publicados; nunca fabrica cruces.
     if not partidos and league_id in ESPN_LIGAS_MAP:
         try:
             url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{ESPN_LIGAS_MAP[league_id]}/scoreboard"
@@ -126,36 +121,40 @@ def analizar_partido(nombre_liga, fixture):
     df = cargar_historico_liga(nombre_liga)
     if df.empty:
         return None, None, None, "Sin histórico disponible"
-
     loc_api, vis_api = fixture["local"], fixture["visita"]
-    loc = resolver_nombre(loc_api, df)
-    vis = resolver_nombre(vis_api, df)
+    loc, vis = resolver_nombre(loc_api, df), resolver_nombre(vis_api, df)
     tabla, ml, ml_ok = construir_motores(df)
     e_loc, e_vis = rating(tabla, loc), rating(tabla, vis)
-    mc = simular_partido_europa(loc, vis, df, e_loc, e_vis)
-    preds = ml.predecir_mercados_completos(loc, vis, elo_local=e_loc, elo_visita=e_vis) if ml_ok else {}
     odds = obtener_cuotas_europa(fixture.get("fixture_id"), nombre_liga, loc_api, vis_api)
-    bets = analizar_apuestas_europa(mc, preds, fixture.get("fixture_id"), cuotas_personalizadas=odds, nombre_liga=nombre_liga, local=loc_api, visita=vis_api)
+    mc = simular_partido_europa(loc, vis, df, e_loc, e_vis)
+    preds = ml.predecir_mercados_completos(
+        loc, vis, elo_local=e_loc, elo_visita=e_vis, cuotas_1x2=odds
+    ) if ml_ok else {}
+    bets = analizar_apuestas_europa(
+        mc, preds, fixture.get("fixture_id"), cuotas_personalizadas=odds,
+        nombre_liga=nombre_liga, local=loc_api, visita=vis_api
+    )
+    model_meta = preds.get("Meta", {}) if isinstance(preds, dict) else {}
     meta = {
-        "local_modelo": loc,
-        "visita_modelo": vis,
-        "elo_local": round(e_loc, 1),
-        "elo_visita": round(e_vis, 1),
-        "ml_ok": ml_ok,
-        "train_rows": getattr(ml, "n_train", 0),
+        "local_modelo": loc, "visita_modelo": vis,
+        "elo_local": round(e_loc, 1), "elo_visita": round(e_vis, 1),
+        "ml_ok": ml_ok, "train_rows": getattr(ml, "n_train", 0),
+        "temperature_1x2": model_meta.get("temperature_1x2", 1.0),
+        "market_model_weight": model_meta.get("market_model_weight", 1.0),
+        "market_blend_used": model_meta.get("market_blend_used", False),
     }
     return mc, preds, bets, meta
 
 
 st.title("🇪🇺 European Elite Leagues Analytics")
-st.caption("Fixtures reales · históricos persistentes · ML prepartido sin leakage · Monte Carlo ataque/defensa · EV sólo con cuota real.")
+st.caption("Fixtures reales · forma reciente y descanso · ML temporal calibrado · mercado no-vig aprendido · Monte Carlo ataque/defensa · EV sólo con cuota real.")
 
 with st.expander("✅ Estado del sistema", expanded=True):
     cols = st.columns(5)
     for i, liga in enumerate(LIGAS_IDS):
         df = cargar_historico_liga(liga)
         cols[i].metric(liga, f"{len(df):,} partidos", "OK" if len(df) >= 150 else "DATOS INSUFICIENTES")
-    st.caption("API-Sports es opcional. ESPN sirve de respaldo para fixtures. Si no existe una cuota real publicada, el sistema no calcula EV/Kelly para ese mercado.")
+    st.caption("API-Sports es opcional. ESPN sirve de respaldo para fixtures. Sin cuota real publicada no se calcula EV/Kelly.")
 
 labels = ["🇬🇧 Premier League", "🇪🇸 La Liga", "🇮🇹 Serie A", "🇩🇪 Bundesliga", "🇫🇷 Ligue 1", "🌐 Escáner Global EV+"]
 tabs = st.tabs(labels)
@@ -173,18 +172,21 @@ for idx, (liga, league_id) in enumerate(LIGAS_IDS.items()):
             with st.spinner("Ejecutando motores prepartido..."):
                 mc, ml, bets, meta = analizar_partido(liga, fx)
             if mc is None:
-                st.error(meta)
-                continue
-            st.caption(f"Mapeo modelo: {meta['local_modelo']} vs {meta['visita_modelo']} · Elo {meta['elo_local']} / {meta['elo_visita']} · ML train n={meta['train_rows']}")
+                st.error(meta); continue
+            st.caption(
+                f"Mapeo: {meta['local_modelo']} vs {meta['visita_modelo']} · Elo {meta['elo_local']} / {meta['elo_visita']} · "
+                f"ML n={meta['train_rows']} · Temp={meta['temperature_1x2']} · peso modelo/mercado={meta['market_model_weight']:.2f} · "
+                f"blend mercado={'sí' if meta['market_blend_used'] else 'no'}"
+            )
             c1, c2, c3 = st.columns(3)
             c1.metric("Local MC", f"{mc['Resultado_1X2']['Gana Local']}%")
             c2.metric("Empate MC", f"{mc['Resultado_1X2']['Empate']}%")
             c3.metric("Visita MC", f"{mc['Resultado_1X2']['Gana Visita']}%")
             if ml and "Resultado_1X2" in ml:
                 m1, m2, m3 = st.columns(3)
-                m1.metric("Local ML", f"{ml['Resultado_1X2']['Gana Local']}%")
-                m2.metric("Empate ML", f"{ml['Resultado_1X2']['Empate']}%")
-                m3.metric("Visita ML", f"{ml['Resultado_1X2']['Gana Visita']}%")
+                m1.metric("Local ML calibrado", f"{ml['Resultado_1X2']['Gana Local']}%")
+                m2.metric("Empate ML calibrado", f"{ml['Resultado_1X2']['Empate']}%")
+                m3.metric("Visita ML calibrado", f"{ml['Resultado_1X2']['Gana Visita']}%")
             st.markdown("#### Mercados y valor")
             if bets is None or bets.empty:
                 st.info("No hay cuotas reales suficientes para calcular oportunidades EV+.")
@@ -193,7 +195,7 @@ for idx, (liga, league_id) in enumerate(LIGAS_IDS.items()):
 
 with tabs[5]:
     st.subheader("🌐 Escáner Global EV+")
-    st.info("Analiza exclusivamente los fixtures reales publicados por API-Sports o ESPN. No crea partidos artificiales.")
+    st.info("Analiza exclusivamente fixtures reales y exige cuota real. NO BET es una salida válida.")
     if st.button("🚀 Escanear próximas jornadas", type="primary"):
         rows = []
         progress = st.progress(0)
@@ -202,11 +204,9 @@ with tabs[5]:
             for label, fx in fixtures.items():
                 try:
                     mc, ml, bets, meta = analizar_partido(liga, fx)
-                    if bets is None or bets.empty:
-                        continue
+                    if bets is None or bets.empty: continue
                     good = bets[bets["Veredicto"].astype(str).str.contains("🔥|✅", regex=True, na=False)].copy()
-                    if good.empty:
-                        continue
+                    if good.empty: continue
                     good.insert(0, "Liga", liga)
                     good.insert(1, "Partido", f"{fx['local']} vs {fx['visita']}")
                     good.insert(2, "Fecha", fx.get("fecha", ""))
