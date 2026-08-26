@@ -1,0 +1,50 @@
+name: Enriquecer StatsBomb Open Data
+
+on:
+  schedule:
+    - cron: '30 5 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - name: Copiar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Compilar enriquecimiento
+        run: python -m py_compile enriquecer_statsbomb.py generar_historicos.py backtest_europa_temporal.py modules/*.py
+
+      - name: Descargar xG abierto StatsBomb
+        run: python enriquecer_statsbomb.py
+
+      - name: Regenerar historicos con xG real donde exista
+        run: python generar_historicos.py
+
+      - name: Validar walk-forward
+        run: python backtest_europa_temporal.py
+
+      - name: Guardar cache y historicos validados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/statsbomb_xg_matches.csv data/historico_*.csv
+          if git diff --cached --quiet; then
+            echo "Sin cambios de StatsBomb"
+          else
+            git commit -m "data: actualizar xG abierto StatsBomb"
+            git push
+          fi
