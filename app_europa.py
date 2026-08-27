@@ -1,5 +1,6 @@
 import os
 import difflib
+from datetime import datetime, timedelta
 import streamlit as st
 import pandas as pd
 import requests
@@ -42,34 +43,45 @@ def cargar_historico_liga(nombre_liga):
     except Exception: return pd.DataFrame()
 
 
-@st.cache_data(ttl=900)
+@st.cache_data(ttl=600)
 def obtener_proximos_partidos_europa(league_id):
     partidos={}
     if API_KEY:
         try:
-            r=requests.get(f"{BASE_URL}/fixtures",headers=HEADERS,params={"league":league_id,"season":2026,"next":15},timeout=6)
+            r=requests.get(f"{BASE_URL}/fixtures",headers=HEADERS,params={"league":league_id,"season":2026,"next":15},timeout=8)
             if r.status_code==200:
                 for p in r.json().get("response",[]):
                     local=p.get("teams",{}).get("home",{}).get("name"); visita=p.get("teams",{}).get("away",{}).get("name")
                     fecha=str(p.get("fixture",{}).get("date",""))[:10]; fid=p.get("fixture",{}).get("id")
-                    if local and visita: partidos[f"⚽ {fecha} | {local} vs {visita}"]={"local":local,"visita":visita,"fixture_id":fid,"fecha":fecha}
-        except Exception: pass
+                    if local and visita: partidos[f"⚽ {fecha} | {local} vs {visita}"]={"local":local,"visita":visita,"fixture_id":fid,"fecha":fecha,"fuente":"API-Sports"}
+        except Exception:
+            pass
     if not partidos and league_id in ESPN_LIGAS_MAP:
         try:
-            url=f"https://site.api.espn.com/apis/site/v2/sports/soccer/{ESPN_LIGAS_MAP[league_id]}/scoreboard"; r=requests.get(url,timeout=6)
+            inicio=datetime.utcnow().date(); fin=inicio+timedelta(days=14)
+            dates=f"{inicio:%Y%m%d}-{fin:%Y%m%d}"
+            url=f"https://site.api.espn.com/apis/site/v2/sports/soccer/{ESPN_LIGAS_MAP[league_id]}/scoreboard"
+            r=requests.get(url,params={"dates":dates,"limit":100},timeout=8)
             if r.status_code==200:
                 for event in r.json().get("events",[]):
                     comp=event.get("competitions",[{}])[0]; competitors=comp.get("competitors",[])
                     local=next((x.get("team",{}).get("displayName") for x in competitors if x.get("homeAway")=="home"),None)
                     visita=next((x.get("team",{}).get("displayName") for x in competitors if x.get("homeAway")=="away"),None)
                     fecha=str(event.get("date",""))[:10]
-                    if local and visita: partidos[f"⚽ {fecha} | {local} vs {visita}"]={"local":local,"visita":visita,"fixture_id":999999,"fecha":fecha}
-        except Exception: pass
+                    status=event.get("status",{}).get("type",{}).get("state","")
+                    if local and visita and status in ("pre",""):
+                        partidos[f"⚽ {fecha} | {local} vs {visita}"]={"local":local,"visita":visita,"fixture_id":None,"fecha":fecha,"fuente":"ESPN"}
+        except Exception:
+            pass
     return partidos
 
 
-def construir_motores(df):
-    elo=SistemaEloEuropa(); tabla=elo.actualizar_ratings(df); ml=PredictorMLEuropa(); ml_ok=ml.entrenar(df); return tabla,ml,ml_ok
+@st.cache_resource(show_spinner=False)
+def construir_motores(nombre_liga):
+    df=cargar_historico_liga(nombre_liga)
+    if df.empty: return pd.DataFrame(),None,False
+    elo=SistemaEloEuropa(); tabla=elo.actualizar_ratings(df); ml=PredictorMLEuropa(); ml_ok=ml.entrenar(df)
+    return tabla,ml,ml_ok
 
 
 def rating(tabla,team):
@@ -81,7 +93,7 @@ def analizar_partido(nombre_liga,fixture):
     df=cargar_historico_liga(nombre_liga)
     if df.empty: return None,None,None,"Sin histórico disponible"
     loc_api,vis_api=fixture["local"],fixture["visita"]; loc,vis=resolver_nombre(loc_api,df),resolver_nombre(vis_api,df)
-    tabla,ml,ml_ok=construir_motores(df); e_loc,e_vis=rating(tabla,loc),rating(tabla,vis)
+    tabla,ml,ml_ok=construir_motores(nombre_liga); e_loc,e_vis=rating(tabla,loc),rating(tabla,vis)
     odds=obtener_cuotas_europa(fixture.get("fixture_id"),nombre_liga,loc_api,vis_api)
     mc=simular_partido_europa(loc,vis,df,e_loc,e_vis)
     preds=ml.predecir_mercados_completos(loc,vis,elo_local=e_loc,elo_visita=e_vis,cuotas_1x2=odds,fecha_partido=fixture.get("fecha")) if ml_ok else {}
@@ -119,21 +131,40 @@ for idx,(liga,league_id) in enumerate(LIGAS_IDS.items()):
             else: st.dataframe(bets,use_container_width=True,hide_index=True)
 
 with tabs[5]:
-    st.subheader("🌐 Escáner Global EV+"); st.info("Analiza exclusivamente fixtures reales y exige cuota real. NO BET es una salida válida.")
-    if st.button("🚀 Escanear próximas jornadas",type="primary"):
-        rows=[]; progress=st.progress(0)
+    st.subheader("🌐 Escáner Global EV+")
+    st.info("Analiza fixtures reales de los próximos 14 días. El primer escaneo puede tardar mientras prepara los 5 modelos; después quedan en caché.")
+    if st.button("🚀 Escanear próximas jornadas",type="primary",key="scan_global"):
+        rows=[]; errores=[]; total_fixtures=0
+        status=st.status("Preparando escáner global...",expanded=True)
+        progress=st.progress(0)
         for i,(liga,league_id) in enumerate(LIGAS_IDS.items()):
+            status.write(f"📥 {liga}: buscando fixtures...")
             fixtures=obtener_proximos_partidos_europa(league_id)
+            total_fixtures += len(fixtures)
+            if not fixtures:
+                status.write(f"⚠️ {liga}: no se encontraron próximos partidos.")
+            else:
+                status.write(f"✅ {liga}: {len(fixtures)} fixtures encontrados. Analizando...")
             for label,fx in fixtures.items():
                 try:
                     mc,ml,bets,meta=analizar_partido(liga,fx)
+                    if mc is None:
+                        errores.append(f"{liga} · {fx['local']} vs {fx['visita']}: {meta}")
+                        continue
                     if bets is None or bets.empty: continue
                     good=bets[bets["Veredicto"].astype(str).str.contains("🔥|✅",regex=True,na=False)].copy()
                     if good.empty: continue
                     good.insert(0,"Liga",liga); good.insert(1,"Partido",f"{fx['local']} vs {fx['visita']}"); good.insert(2,"Fecha",fx.get("fecha","")); rows.append(good)
-                except Exception: continue
+                except Exception as exc:
+                    errores.append(f"{liga} · {fx.get('local','?')} vs {fx.get('visita','?')}: {type(exc).__name__}: {exc}")
             progress.progress(int((i+1)/len(LIGAS_IDS)*100))
-        progress.empty()
-        if rows:
+        progress.empty(); status.update(label=f"Escaneo terminado · {total_fixtures} fixtures revisados",state="complete",expanded=False)
+        if total_fixtures==0:
+            st.error("No se obtuvo ningún fixture de API-Sports ni ESPN. Revisa conectividad/API; el botón sí ejecutó el escaneo.")
+        elif rows:
             out=pd.concat(rows,ignore_index=True); st.success(f"Se encontraron {len(out)} oportunidades que pasan los filtros conservadores."); st.dataframe(out,use_container_width=True,hide_index=True)
-        else: st.info("No hay oportunidades EV+ validadas en los fixtures disponibles. NO BET es un resultado válido.")
+        else:
+            st.info(f"Se revisaron {total_fixtures} fixtures y ninguno pasó los filtros EV+. NO BET es un resultado válido.")
+        if errores:
+            with st.expander(f"⚠️ Diagnóstico: {len(errores)} errores durante el escaneo"):
+                for err in errores[:50]: st.code(err)
