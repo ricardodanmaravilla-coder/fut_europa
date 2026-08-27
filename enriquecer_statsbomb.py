@@ -2,9 +2,11 @@
 
 Descarga únicamente competiciones abiertas de las cinco ligas objetivo, conserva un
 Parquet de eventos mínimo, alineaciones y un agregado por partido con xG real,
-passes, pressures, possessions, PPDA y xThreat. La cobertura es parcial por diseño.
-Fuente: https://github.com/statsbomb/open-data (atribuir StatsBomb al publicar).
+passes, pressures, possessions, PPDA y xThreat. Si existe el grid aprendido por
+wyscout_event_pipeline.py, lo transfiere a coordenadas StatsBomb normalizadas.
+La cobertura es parcial por diseño.
 """
+import json
 import os
 import time
 import unicodedata
@@ -19,6 +21,7 @@ OUT = "data/statsbomb_xg_matches.csv"
 EVENTS_OUT = "data/statsbomb_events.parquet"
 LINEUPS_OUT = "data/statsbomb_lineups.parquet"
 FEATURES_OUT = "data/statsbomb_match_features.parquet"
+WYSCOUT_GRID = "data/wyscout_xt_grid.json"
 TARGET_NAMES = {
     "Premier League": ["premier league"], "La Liga": ["la liga"],
     "Serie A": ["serie a"], "Bundesliga": ["bundesliga"], "Ligue 1": ["ligue 1"],
@@ -26,9 +29,8 @@ TARGET_NAMES = {
 MIN_DATE = pd.Timestamp("2020-07-01")
 MAX_WORKERS = 8
 
-# Malla xThreat pública/estándar de 12x8 zonas (valor aumenta al acercarse al arco).
-# Se usa para valorar progresión de pases/carries: xT(fin)-xT(inicio).
-XT = np.array([
+# Fallback histórico 12x8. Sólo se usa si no existe el grid Wyscout aprendido.
+XT_FALLBACK = np.array([
  [0.0064,0.0078,0.0084,0.0092,0.0113,0.0121,0.0148,0.0170,0.0222,0.0307,0.0433,0.0745],
  [0.0070,0.0082,0.0090,0.0100,0.0120,0.0132,0.0160,0.0184,0.0244,0.0340,0.0500,0.0960],
  [0.0075,0.0088,0.0097,0.0108,0.0130,0.0145,0.0178,0.0208,0.0280,0.0405,0.0630,0.1320],
@@ -40,13 +42,28 @@ XT = np.array([
 ])
 
 
+def load_xt_grid():
+    if os.path.exists(WYSCOUT_GRID):
+        try:
+            with open(WYSCOUT_GRID, "r", encoding="utf-8") as f:
+                grid = np.asarray(json.load(f), dtype=float)
+            if grid.ndim == 2 and grid.shape[0] >= 4 and grid.shape[1] >= 4 and np.isfinite(grid).all():
+                return grid, "Wyscout public 2017/18 learned grid"
+        except Exception as exc:
+            print("WARN Wyscout grid", type(exc).__name__, exc)
+    return XT_FALLBACK, "Legacy fixed xThreat grid"
+
+
+XT, XT_SOURCE = load_xt_grid()
+
+
 def norm(x):
     s = unicodedata.normalize("NFKD", str(x or "")).encode("ascii", "ignore").decode("utf-8")
     return "".join(ch.lower() for ch in s if ch.isalnum())
 
 
 def get_json(url, timeout=30):
-    r = requests.get(url, timeout=timeout, headers={"User-Agent": "fut-europa-statsbomb/2.0"})
+    r = requests.get(url, timeout=timeout, headers={"User-Agent": "fut-europa-statsbomb/3.0"})
     if r.status_code != 200: return None
     try: return r.json()
     except Exception: return None
@@ -60,10 +77,13 @@ def target_league(name):
 
 
 def xt_value(loc):
+    """Mapea StatsBomb 120x80 al grid aprendido, sin asumir dimensiones fijas."""
     if not isinstance(loc, (list, tuple)) or len(loc) < 2: return np.nan
     try:
         x, y = float(loc[0]), float(loc[1])
-        cx = int(np.clip(x / 120.0 * 12, 0, 11)); cy = int(np.clip(y / 80.0 * 8, 0, 7))
+        rows, cols = XT.shape
+        cx = int(np.clip(x / 120.0 * cols, 0, cols - 1))
+        cy = int(np.clip(y / 80.0 * rows, 0, rows - 1))
         return float(XT[cy, cx])
     except Exception: return np.nan
 
@@ -112,11 +132,13 @@ def process_match(match):
             except Exception: pass
         poss=e.get("possession")
         if poss is not None: stats[tk]["poss"].add(poss)
+        xt_move=np.nan
         if typ in {"Pass","Carry"} and successful:
             v0,v1=xt_value(loc),xt_value(end)
-            if np.isfinite(v0) and np.isfinite(v1): stats[tk]["xt"] += max(0.0, v1-v0)
-        event_rows.append({"match_id":int(mid),"Fecha":date.strftime("%Y-%m-%d"),"team":team,"type":typ,"minute":e.get("minute"),"player":(e.get("player") or {}).get("name"),"x":loc[0] if loc else np.nan,"y":loc[1] if loc else np.nan,"end_x":end[0] if end else np.nan,"end_y":end[1] if end and len(end)>1 else np.nan,"xg":xg,"possession":poss})
-    # PPDA: pases del rival en 60% inicial de su campo / acciones defensivas propias en ese espacio.
+            if np.isfinite(v0) and np.isfinite(v1):
+                xt_move=max(0.0, v1-v0)
+                stats[tk]["xt"] += xt_move
+        event_rows.append({"match_id":int(mid),"Fecha":date.strftime("%Y-%m-%d"),"team":team,"type":typ,"minute":e.get("minute"),"player":(e.get("player") or {}).get("name"),"x":loc[0] if loc else np.nan,"y":loc[1] if loc else np.nan,"end_x":end[0] if end else np.nan,"end_y":end[1] if end and len(end)>1 else np.nan,"xg":xg,"xT_transfer":xt_move,"possession":poss})
     for e in events:
         if e.get("type",{}).get("name")!="Pass": continue
         team=norm(e.get("team",{}).get("name")); loc=e.get("location")
@@ -135,11 +157,12 @@ def process_match(match):
     row={"Fecha":date.strftime("%Y-%m-%d"),"Local_SB":home,"Visitante_SB":away,"Local_norm":norm(home),"Visitante_norm":norm(away),"StatsBomb_match_id":int(mid),
          "xG_Real_Local":round(h["xg"],4),"xG_Real_Visita":round(a["xg"],4),"Tiros_SB_Local":h["shots"],"Tiros_SB_Visita":a["shots"],"TirosGol_SB_Local":h["sot"],"TirosGol_SB_Visita":a["sot"],
          "Pases_SB_Local":h["passes"],"Pases_SB_Visita":a["passes"],"Presiones_SB_Local":h["pressures"],"Presiones_SB_Visita":a["pressures"],"Posesiones_SB_Local":len(h["poss"]),"Posesiones_SB_Visita":len(a["poss"]),
-         "PPDA_Local":round(pp(h),3),"PPDA_Visita":round(pp(a),3),"xThreat_Local":round(h["xt"],4),"xThreat_Visita":round(a["xt"],4),"Fuente_xG_Real":"StatsBomb Open Data"}
+         "PPDA_Local":round(pp(h),3),"PPDA_Visita":round(pp(a),3),"xThreat_Local":round(h["xt"],6),"xThreat_Visita":round(a["xt"],6),"xThreat_Source":XT_SOURCE,"Fuente_xG_Real":"StatsBomb Open Data"}
     return row,event_rows,lineup_rows
 
 
 def main():
+    print("xThreat source:", XT_SOURCE, "grid_shape=", XT.shape)
     coverage=discover_open_seasons()
     if coverage.empty: print("StatsBomb: sin temporadas objetivo"); return
     matches=[]
@@ -164,6 +187,6 @@ def main():
     out.to_csv(OUT,index=False); out.to_parquet(FEATURES_OUT,index=False,compression="zstd")
     pd.DataFrame(evs).to_parquet(EVENTS_OUT,index=False,compression="zstd")
     pd.DataFrame(lineups).drop_duplicates().to_parquet(LINEUPS_OUT,index=False,compression="zstd")
-    print(f"STATSBOMB_ADVANCED_OK matches={len(out)} events={len(evs)} lineups={len(lineups)}")
+    print(f"STATSBOMB_ADVANCED_OK matches={len(out)} events={len(evs)} lineups={len(lineups)} xt_source={XT_SOURCE}")
 
 if __name__=="__main__": main()
