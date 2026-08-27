@@ -1,0 +1,59 @@
+name: Wyscout xThreat Transfer Validation
+
+on:
+  push:
+    branches: [feature/wyscout-xt-transfer]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-wyscout.txt
+      - name: Compile
+        run: python -m py_compile enriquecer_statsbomb.py merge_statsbomb_features.py backtest_xt_transfer.py modules/ml_europa.py wyscout_event_pipeline.py
+      - name: Generate modern histories
+        run: python generar_historicos.py
+      - name: Learn Wyscout representation
+        run: python wyscout_event_pipeline.py
+      - name: Verify learned grid
+        run: |
+          python - <<'PY'
+          import json, numpy as np
+          g=np.asarray(json.load(open('data/wyscout_xt_grid.json')),dtype=float)
+          assert g.ndim==2 and min(g.shape)>=4 and np.isfinite(g).all(),g.shape
+          print('WYSCOUT_GRID_OK',g.shape,float(g.min()),float(g.max()))
+          PY
+      - name: Value modern StatsBomb events with Wyscout grid
+        run: python enriquecer_statsbomb.py
+      - name: Merge transferred event features
+        run: python merge_statsbomb_features.py
+      - name: Validate transfer coverage
+        run: |
+          python - <<'PY'
+          import glob,pandas as pd
+          total=covered=0
+          for p in glob.glob('data/historico_*.csv'):
+            if 'statsbomb' in p: continue
+            d=pd.read_csv(p); total+=len(d)
+            if {'xThreat_Wyscout_Local','xThreat_Wyscout_Visita','PPDA_Local','PPDA_Visita'}.issubset(d.columns):
+              covered += int(d[['xThreat_Wyscout_Local','xThreat_Wyscout_Visita','PPDA_Local','PPDA_Visita']].notna().all(axis=1).sum())
+          assert covered>=50,(total,covered)
+          print('XT_TRANSFER_COVERAGE',{'rows':total,'covered':covered,'pct':round(covered/total,4)})
+          PY
+      - name: Baseline regression guard
+        run: python backtest_europa_temporal.py
+      - name: Compare event features out of sample
+        run: python backtest_xt_transfer.py
