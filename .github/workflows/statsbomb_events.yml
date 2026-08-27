@@ -1,0 +1,59 @@
+name: Actualizar StatsBomb Eventos Avanzados
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 5 * * 1'
+
+permissions:
+  contents: write
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Compilar
+        run: python -m py_compile enriquecer_statsbomb.py merge_statsbomb_features.py build_parquet_store.py
+      - name: Descargar eventos StatsBomb abiertos
+        run: python enriquecer_statsbomb.py
+      - name: Regenerar históricos base
+        run: python generar_historicos.py
+      - name: Unir features avanzadas
+        run: python merge_statsbomb_features.py
+      - name: Reconstruir Parquet
+        run: python build_parquet_store.py
+      - name: Validar cobertura y métricas
+        run: |
+          python - <<'PY'
+          import glob, os, pandas as pd
+          assert os.path.exists('data/statsbomb_events.parquet')
+          assert os.path.exists('data/statsbomb_lineups.parquet')
+          ev=pd.read_parquet('data/statsbomb_events.parquet'); li=pd.read_parquet('data/statsbomb_lineups.parquet')
+          assert len(ev)>1000 and len(li)>100
+          matched=0
+          for p in glob.glob('data/historico_*.csv'):
+              d=pd.read_csv(p)
+              if 'StatsBomb_match_score' in d: matched += int(d['StatsBomb_match_score'].notna().sum())
+          assert matched>=20, matched
+          print('STATSBOMB_LAYER_OK',{'events':len(ev),'lineups':len(li),'matched':matched})
+          PY
+      - name: Walk-forward estricto
+        run: python backtest_europa_temporal.py
+      - name: Guardar datos avanzados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/statsbomb_*.csv data/statsbomb_*.parquet data/historico_*.csv data/historico_*.parquet
+          if git diff --cached --quiet; then
+            echo "Sin cambios"
+          else
+            git commit -m "data: actualizar StatsBomb eventos avanzados"
+            git push
+          fi
