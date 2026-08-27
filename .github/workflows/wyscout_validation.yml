@@ -1,0 +1,44 @@
+name: Wyscout SPADL xT VAEP Validation
+
+on:
+  push:
+    branches: [feature/wyscout-spadl]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install base
+        run: pip install -r requirements.txt
+      - name: Install socceraction
+        run: pip install 'socceraction==1.5.3' 'pandera<0.18.0'
+      - name: Compile
+        run: python -m py_compile wyscout_event_pipeline.py
+      - name: Build Wyscout event layer
+        run: python wyscout_event_pipeline.py
+      - name: Validate outputs
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          a=pd.read_parquet('data/wyscout_spadl_actions.parquet')
+          x=pd.read_parquet('data/wyscout_xt_actions.parquet')
+          f=pd.read_parquet('data/wyscout_match_features.parquet')
+          g=pd.read_parquet('data/wyscout_games.parquet')
+          assert len(f) >= 1900, len(f)
+          assert len(a) > 2_000_000, len(a)
+          assert len(x) > 500_000, len(x)
+          assert f['Liga'].nunique() == 5, f['Liga'].unique()
+          assert {'xThreat_Local','xThreat_Visita','PPDA_Local','PPDA_Visita','VAEP_Local_OOS','VAEP_Visita_OOS'}.issubset(f.columns)
+          assert f[['xThreat_Local','xThreat_Visita','PPDA_Local','PPDA_Visita']].notna().all(axis=1).mean() > .95
+          print('WYSCOUT_LAYER_VALID', {'games':len(f),'spadl':len(a),'xt':len(x),'vaep_oos':int(f[['VAEP_Local_OOS','VAEP_Visita_OOS']].notna().all(axis=1).sum())})
+          PY
