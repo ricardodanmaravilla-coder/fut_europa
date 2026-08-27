@@ -8,6 +8,7 @@ from modules.elo_europa import SistemaEloEuropa
 from modules.montecarlo_europa import simular_partido_europa
 from modules.ml_europa import PredictorMLEuropa
 from modules.odds_europa import obtener_cuotas_europa, analizar_apuestas_europa
+from modules.data_store import cargar_historico
 
 st.set_page_config(page_title="European Elite Leagues Analytics", layout="wide", page_icon="⚽")
 
@@ -31,7 +32,9 @@ def resolver_nombre(nombre, df):
 @st.cache_data(ttl=1800)
 def cargar_historico_liga(nombre_liga):
     try:
-        df=pd.read_csv(ARCHIVOS_HISTORICOS[nombre_liga]); df["Local"]=df["Local"].astype(str).str.strip(); df["Visitante"]=df["Visitante"].astype(str).str.strip(); return df
+        df=cargar_historico(ARCHIVOS_HISTORICOS[nombre_liga])
+        if df.empty: return df
+        df["Local"]=df["Local"].astype(str).str.strip(); df["Visitante"]=df["Visitante"].astype(str).str.strip(); return df
     except Exception: return pd.DataFrame()
 
 @st.cache_data(ttl=600)
@@ -66,7 +69,6 @@ def construir_motores_cache(nombre_liga, data_version):
     return tabla,ml,ml_ok
 
 def obtener_motores(nombre_liga,df):
-    # La versión invalida el cache automáticamente cuando cambia el histórico.
     try: version=f"{len(df)}:{str(df.iloc[-1].get('Fecha',''))}"
     except Exception: version=str(len(df))
     return construir_motores_cache(nombre_liga,version)
@@ -89,12 +91,12 @@ def analizar_partido(nombre_liga,fixture):
     return mc,preds,bets,meta
 
 st.title("🇪🇺 European Elite Leagues Analytics")
-st.caption("Fixtures reales · forma reciente y descanso real · ML temporal calibrado · mercado no-vig aprendido · Monte Carlo ataque/defensa · EV sólo con cuota real.")
+st.caption("Parquet + DuckDB · fixtures reales · forma reciente y descanso real · ML temporal calibrado · mercado no-vig aprendido · Monte Carlo ataque/defensa · EV sólo con cuota real.")
 with st.expander("✅ Estado del sistema",expanded=True):
     cols=st.columns(5)
     for i,liga in enumerate(LIGAS_IDS):
         df=cargar_historico_liga(liga); cols[i].metric(liga,f"{len(df):,} partidos","OK" if len(df)>=150 else "DATOS INSUFICIENTES")
-    st.caption("API-Sports es opcional. ESPN sirve de respaldo para fixtures. Sin cuota real publicada no se calcula EV/Kelly.")
+    st.caption("La app prefiere Parquet consultado con DuckDB y conserva CSV como respaldo. API-Sports es opcional; ESPN sirve de respaldo para fixtures.")
 
 labels=["🇬🇧 Premier League","🇪🇸 La Liga","🇮🇹 Serie A","🇩🇪 Bundesliga","🇫🇷 Ligue 1","🌐 Escáner Global EV+"]; tabs=st.tabs(labels)
 for idx,(liga,league_id) in enumerate(LIGAS_IDS.items()):
