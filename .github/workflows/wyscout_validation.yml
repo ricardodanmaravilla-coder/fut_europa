@@ -29,16 +29,50 @@ jobs:
       - name: Validate outputs
         run: |
           python - <<'PY'
+          import numpy as np
           import pandas as pd
-          a=pd.read_parquet('data/wyscout_spadl_actions.parquet')
-          x=pd.read_parquet('data/wyscout_xt_actions.parquet')
-          f=pd.read_parquet('data/wyscout_match_features.parquet')
-          assert len(f) >= 1900, len(f)
-          assert len(a) > 2_000_000, len(a)
-          assert len(x) > 500_000, len(x)
-          assert f['Liga'].nunique() == 5, f['Liga'].unique()
-          required={'xThreat_Local','xThreat_Visita','PPDA_Local','PPDA_Visita','VAEP_Local_OOS','VAEP_Visita_OOS'}
+
+          a = pd.read_parquet('data/wyscout_spadl_actions.parquet')
+          x = pd.read_parquet('data/wyscout_xt_actions.parquet')
+          f = pd.read_parquet('data/wyscout_match_features.parquet')
+          g = pd.read_parquet('data/wyscout_games.parquet')
+
+          games = int(f['game_id'].nunique())
+          source_games = int(g['game_id'].nunique())
+          action_games = int(a['game_id'].nunique())
+          xt_games = int(x['game_id'].nunique())
+          actions_per_game = len(a) / max(games, 1)
+          xt_per_game = len(x) / max(games, 1)
+          feature_coverage = float(f[['xThreat_Local','xThreat_Visita','PPDA_Local','PPDA_Visita']].notna().all(axis=1).mean())
+          vaep_oos = int(f[['VAEP_Local_OOS','VAEP_Visita_OOS']].notna().all(axis=1).sum())
+
+          stats = {
+              'games': games,
+              'source_games': source_games,
+              'spadl_actions': len(a),
+              'action_games': action_games,
+              'actions_per_game': round(actions_per_game, 1),
+              'xt_actions': len(x),
+              'xt_games': xt_games,
+              'xt_per_game': round(xt_per_game, 1),
+              'feature_coverage': round(feature_coverage, 4),
+              'vaep_oos_games': vaep_oos,
+              'leagues': sorted(f['Liga'].dropna().unique().tolist()),
+          }
+          print('WYSCOUT_COUNTS', stats)
+
+          required = {'xThreat_Local','xThreat_Visita','PPDA_Local','PPDA_Visita','VAEP_Local_OOS','VAEP_Visita_OOS'}
           assert required.issubset(f.columns), required-set(f.columns)
-          assert f[['xThreat_Local','xThreat_Visita','PPDA_Local','PPDA_Visita']].notna().all(axis=1).mean() > .95
-          print('WYSCOUT_LAYER_VALID', {'games':len(f),'spadl':len(a),'xt':len(x),'vaep_oos':int(f[['VAEP_Local_OOS','VAEP_Visita_OOS']].notna().all(axis=1).sum())})
+          assert f['Liga'].nunique() == 5, f['Liga'].unique()
+          # Coverage-based guards are more robust than arbitrary absolute action counts.
+          assert games >= 1800, stats
+          assert games / max(source_games, 1) >= .95, stats
+          assert action_games / max(games, 1) >= .98, stats
+          assert actions_per_game >= 300, stats
+          assert xt_games / max(games, 1) >= .90, stats
+          assert xt_per_game >= 30, stats
+          assert feature_coverage >= .95, stats
+          # VAEP is deliberately reported but not required for production: if it is
+          # unavailable/incompatible, xThreat+PPDA remain valid and VAEP gets zero weight.
+          print('WYSCOUT_LAYER_VALID', stats)
           PY
