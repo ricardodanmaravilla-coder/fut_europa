@@ -1,0 +1,2 @@
+socceraction==1.5.3
+pandera<0.18.0
