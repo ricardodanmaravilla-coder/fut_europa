@@ -1,0 +1,48 @@
+name: StatsBomb Event Layer Validation
+
+on:
+  push:
+    branches: [feature/statsbomb-events]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m py_compile enriquecer_statsbomb.py merge_statsbomb_features.py generar_historicos.py build_parquet_store.py
+      - run: python enriquecer_statsbomb.py
+      - run: python generar_historicos.py
+      - run: python merge_statsbomb_features.py
+      - run: python build_parquet_store.py
+      - name: Validar capa avanzada
+        run: |
+          python - <<'PY'
+          import glob, os, pandas as pd
+          ev=pd.read_parquet('data/statsbomb_events.parquet'); li=pd.read_parquet('data/statsbomb_lineups.parquet'); ft=pd.read_parquet('data/statsbomb_match_features.parquet')
+          req={'PPDA_Local','PPDA_Visita','xThreat_Local','xThreat_Visita','Pases_SB_Local','Presiones_SB_Local'}
+          assert req.issubset(ft.columns), req-set(ft.columns)
+          assert len(ev)>1000 and len(li)>100 and len(ft)>10
+          matched=0
+          for p in glob.glob('data/historico_*.csv'):
+              d=pd.read_csv(p)
+              if 'StatsBomb_match_score' in d: matched += int(d['StatsBomb_match_score'].notna().sum())
+          assert matched>=20, matched
+          print('ADVANCED_EVENT_OK',{'events':len(ev),'lineups':len(li),'features':len(ft),'matched':matched})
+          PY
+      - run: python backtest_europa_temporal.py
+      - name: Smoke Streamlit
+        run: |
+          streamlit run app_europa.py --server.headless true --server.port 8501 >/tmp/app.log 2>&1 &
+          PID=$!
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:8501/_stcore/health; then kill $PID || true; exit 0; fi
+            sleep 1
+          done
+          cat /tmp/app.log; kill $PID || true; exit 1
