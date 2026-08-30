@@ -1,0 +1,395 @@
+Fecha,Local_SB,Visitante_SB,Local_norm,Visitante_norm,StatsBomb_match_id,xG_Real_Local,xG_Real_Visita,Tiros_SB_Local,Tiros_SB_Visita,TirosGol_SB_Local,TirosGol_SB_Visita,Pases_SB_Local,Pases_SB_Visita,Presiones_SB_Local,Presiones_SB_Visita,Posesiones_SB_Local,Posesiones_SB_Visita,PPDA_Local,PPDA_Visita,xThreat_Local,xThreat_Visita,Fuente_xG_Real
+2020-07-05,Villarreal,Barcelona,villarreal,barcelona,303725,0.9126,2.5672,10,18,4,13,404,855,155,168,166,159,4.206,1.895,2.078,4.1259,StatsBomb Open Data
+2020-07-08,Barcelona,Espanyol,barcelona,espanyol,303615,1.1555,0.7635,9,11,2,2,859,295,82,166,137,139,2.2,3.704,3.9579,1.896,StatsBomb Open Data
+2020-07-11,Real Valladolid,Barcelona,realvalladolid,barcelona,303680,0.7674,1.2267,13,10,5,6,420,753,164,136,160,180,3.235,1.897,2.3666,3.2025,StatsBomb Open Data
+2020-07-16,Barcelona,Osasuna,barcelona,osasuna,303634,1.0125,0.4741,18,9,2,5,869,236,99,177,184,153,1.145,3.504,4.8433,1.3182,StatsBomb Open Data
+2020-07-19,Deportivo Alavés,Barcelona,deportivoalaves,barcelona,303421,0.4064,2.9131,7,16,0,8,376,792,165,156,155,149,4.268,1.911,1.7886,3.8498,StatsBomb Open Data
+2020-09-27,Barcelona,Villarreal,barcelona,villarreal,3773593,2.6873,0.1825,17,5,9,1,735,577,116,121,147,148,3.424,4.125,4.8036,2.6837,StatsBomb Open Data
+2020-10-01,Celta Vigo,Barcelona,celtavigo,barcelona,3773466,0.4662,0.7397,10,7,3,4,460,600,168,125,150,154,2.133,2.417,2.8096,2.5129,StatsBomb Open Data
+2020-10-04,Barcelona,Sevilla,barcelona,sevilla,3773672,1.6534,0.688,11,10,5,1,681,575,96,203,162,168,3.974,2.478,2.6585,2.7986,StatsBomb Open Data
+2020-10-17,Getafe,Barcelona,getafe,barcelona,3773587,1.6521,0.7844,9,7,4,1,249,659,146,77,139,137,2.815,1.765,2.1645,2.8499,StatsBomb Open Data
+2020-10-24,Barcelona,Real Madrid,barcelona,realmadrid,3773585,1.2489,2.9001,10,16,4,9,626,577,142,198,166,162,2.707,2.652,3.5216,3.1014,StatsBomb Open Data
+2020-10-31,Deportivo Alavés,Barcelona,deportivoalaves,barcelona,3773386,1.1285,2.0911,4,25,3,8,238,880,222,85,153,144,3.75,1.39,1.0943,5.5688,StatsBomb Open Data
+2020-11-07,Barcelona,Real Betis,barcelona,realbetis,3773477,4.1866,1.0052,17,12,9,6,653,447,122,155,150,156,2.62,3.348,5.1347,2.4481,StatsBomb Open Data
+2020-11-21,Atlético Madrid,Barcelona,atleticomadrid,barcelona,3773656,0.5629,0.9543,10,13,2,4,570,651,183,173,155,147,2.8,2.582,3.2865,3.4392,StatsBomb Open Data
+2020-11-29,Barcelona,Osasuna,barcelona,osasuna,3773547,4.1782,1.1068,20,10,10,5,852,351,88,125,208,164,2.48,4.565,4.2256,2.3797,StatsBomb Open Data
+2020-12-05,Cádiz,Barcelona,cadiz,barcelona,3773428,2.2947,1.5288,8,21,3,8,198,918,119,80,154,141,4.443,1.171,1.4679,6.525,StatsBomb Open Data
+2020-12-13,Barcelona,Levante UD,barcelona,levanteud,3773660,2.059,0.7362,24,6,13,3,716,407,92,159,146,172,2.838,2.957,5.6571,1.92,StatsBomb Open Data
+2020-12-16,Barcelona,Real Sociedad,barcelona,realsociedad,3773523,2.6483,1.9268,14,12,4,5,536,480,182,215,148,148,2.1,1.614,3.4299,2.8459,StatsBomb Open Data
+2020-12-19,Barcelona,Valencia,barcelona,valencia,3773377,2.8936,1.6375,24,11,9,4,760,309,109,126,148,151,1.628,3.148,5.4866,2.2745,StatsBomb Open Data
+2020-12-22,Real Valladolid,Barcelona,realvalladolid,barcelona,3773571,0.6726,3.5577,12,21,5,10,470,717,175,148,192,188,3.448,2.165,2.1621,4.4674,StatsBomb Open Data
+2021-01-03,Huesca,Barcelona,huesca,barcelona,3773552,0.3877,2.5088,4,20,4,6,375,840,194,153,158,185,4.231,1.619,1.7178,5.7718,StatsBomb Open Data
+2021-01-06,Athletic Club,Barcelona,athleticclub,barcelona,3764661,0.8415,1.4725,8,13,4,9,518,685,122,140,168,158,3.752,3.0,2.7361,3.2931,StatsBomb Open Data
+2021-01-09,Granada,Barcelona,granada,barcelona,3773565,0.451,1.4928,8,14,4,4,323,830,116,89,130,129,4.121,2.368,1.992,3.5592,StatsBomb Open Data
+2021-01-31,Barcelona,Athletic Club,barcelona,athleticclub,3773403,1.7285,0.2268,12,7,6,2,637,458,92,161,168,175,2.704,2.602,3.0689,2.0375,StatsBomb Open Data
+2021-02-07,Real Betis,Barcelona,realbetis,barcelona,3773631,1.3951,0.9876,8,12,5,3,426,758,162,130,150,151,3.755,2.343,2.5013,3.6699,StatsBomb Open Data
+2021-02-13,Barcelona,Deportivo Alavés,barcelona,deportivoalaves,3773526,2.6926,0.6092,17,6,9,2,899,321,97,200,127,132,2.189,3.231,3.8567,1.5489,StatsBomb Open Data
+2021-02-21,Barcelona,Cádiz,barcelona,cadiz,3773415,2.1456,1.0837,20,3,4,1,956,221,81,124,154,164,1.361,4.156,5.9222,1.0561,StatsBomb Open Data
+2021-02-24,Barcelona,Elche,barcelona,elche,3764440,2.7011,0.6705,9,6,5,1,787,428,135,177,126,127,2.242,4.422,3.867,1.9915,StatsBomb Open Data
+2021-02-27,Sevilla,Barcelona,sevilla,barcelona,3773625,0.0893,1.9293,3,9,1,5,516,612,174,130,161,157,2.453,2.343,1.8055,3.279,StatsBomb Open Data
+2021-03-06,Osasuna,Barcelona,osasuna,barcelona,3773665,1.2082,1.0569,10,13,3,6,449,759,215,159,146,153,2.598,2.148,2.8326,3.9809,StatsBomb Open Data
+2021-03-15,Barcelona,Huesca,barcelona,huesca,3773369,0.9575,2.1016,12,8,5,4,938,419,187,266,200,158,1.559,3.608,4.9023,2.2919,StatsBomb Open Data
+2021-03-21,Real Sociedad,Barcelona,realsociedad,barcelona,3773597,0.6806,2.7191,10,14,5,10,350,778,198,168,166,193,3.107,1.568,1.589,3.7802,StatsBomb Open Data
+2021-04-05,Barcelona,Real Valladolid,barcelona,realvalladolid,3773474,1.823,0.3547,25,7,10,2,742,346,187,187,173,180,1.234,3.327,4.9158,1.9832,StatsBomb Open Data
+2021-04-10,Real Madrid,Barcelona,realmadrid,barcelona,3773497,1.3218,1.4945,14,18,3,4,355,748,218,144,171,163,2.723,1.721,2.5853,4.976,StatsBomb Open Data
+2021-04-22,Barcelona,Getafe,barcelona,getafe,3773661,1.6199,1.5027,9,5,6,1,973,229,140,276,130,133,1.177,2.8,3.4076,2.0466,StatsBomb Open Data
+2021-04-25,Villarreal,Barcelona,villarreal,barcelona,3773689,1.3721,3.3228,10,15,4,5,484,628,116,237,158,168,3.615,1.665,2.9702,3.2846,StatsBomb Open Data
+2021-04-29,Barcelona,Granada,barcelona,granada,3773586,1.2332,0.5357,16,5,4,2,904,209,106,248,142,144,1.098,2.769,5.6076,1.491,StatsBomb Open Data
+2021-05-02,Valencia,Barcelona,valencia,barcelona,3773695,1.3016,3.0857,9,14,4,6,381,807,126,72,138,146,4.467,2.787,1.7271,4.5247,StatsBomb Open Data
+2021-05-08,Barcelona,Atlético Madrid,barcelona,atleticomadrid,3773372,0.8649,0.5556,12,10,6,5,634,445,177,176,199,177,1.912,2.61,3.4799,2.4232,StatsBomb Open Data
+2021-05-11,Levante UD,Barcelona,levanteud,barcelona,3773387,1.0173,2.8138,16,17,6,5,419,657,180,211,141,151,2.403,1.663,2.4004,3.6543,StatsBomb Open Data
+2021-05-16,Barcelona,Celta Vigo,barcelona,celtavigo,3773457,2.1591,0.7297,21,4,4,4,761,440,159,252,187,186,1.822,2.868,5.092,1.0899,StatsBomb Open Data
+2021-08-29,Stade de Reims,Paris Saint-Germain,stadedereims,parissaintgermain,3802696,0.5734,1.0116,11,12,4,3,393,763,185,103,164,169,2.916,2.125,1.704,3.4271,StatsBomb Open Data
+2021-09-19,Paris Saint-Germain,Lyon,parissaintgermain,lyon,3802752,2.0064,0.6762,15,12,5,5,551,479,159,167,166,169,2.05,2.618,3.3227,1.9722,StatsBomb Open Data
+2021-10-03,Rennes,Paris Saint-Germain,rennes,parissaintgermain,3802809,0.7537,1.3219,12,13,4,0,329,651,188,142,149,158,2.7,1.755,2.5807,3.966,StatsBomb Open Data
+2021-10-24,Olympique de Marseille,Paris Saint-Germain,olympiquedemarseille,parissaintgermain,3802902,0.9411,1.0543,15,10,1,4,524,561,136,86,139,134,3.152,3.63,3.0736,3.0715,StatsBomb Open Data
+2021-10-29,Paris Saint-Germain,Lille,parissaintgermain,lille,3802699,2.41,1.7375,17,11,7,3,609,416,123,121,141,164,2.059,3.857,3.6916,2.3886,StatsBomb Open Data
+2021-11-20,Paris Saint-Germain,Nantes,parissaintgermain,nantes,3802984,1.7017,2.1604,14,12,7,6,813,416,116,198,160,154,2.687,4.014,3.7054,2.9961,StatsBomb Open Data
+2021-11-28,Saint-Étienne,Paris Saint-Germain,saintetienne,parissaintgermain,3802837,0.532,2.9232,8,15,4,8,304,753,184,149,145,164,3.225,1.311,1.2832,4.7841,StatsBomb Open Data
+2021-12-01,Paris Saint-Germain,OGC Nice,parissaintgermain,ogcnice,3802793,1.7922,0.9023,22,4,5,2,788,340,119,147,156,166,1.671,4.355,3.9666,1.6184,StatsBomb Open Data
+2021-12-04,Lens,Paris Saint-Germain,lens,parissaintgermain,3802685,1.0683,1.6981,18,13,7,6,421,738,146,136,152,174,3.513,2.008,2.8818,3.2949,StatsBomb Open Data
+2021-12-12,Paris Saint-Germain,AS Monaco,parissaintgermain,asmonaco,3802683,1.4626,0.6936,9,13,2,3,577,519,119,168,154,147,3.343,2.248,1.9369,2.5644,StatsBomb Open Data
+2021-12-22,Lorient,Paris Saint-Germain,lorient,parissaintgermain,3802690,1.2863,2.0402,17,17,5,4,256,838,137,122,135,140,4.85,1.189,2.1289,5.6711,StatsBomb Open Data
+2022-01-23,Paris Saint-Germain,Stade de Reims,parissaintgermain,stadedereims,3802802,2.5334,0.5194,22,7,7,3,878,412,164,188,171,155,1.608,3.797,4.1905,1.8468,StatsBomb Open Data
+2022-02-06,Lille,Paris Saint-Germain,lille,parissaintgermain,3802907,1.0229,2.9327,10,18,5,7,462,648,158,128,164,167,3.169,2.389,3.1286,3.3213,StatsBomb Open Data
+2022-02-11,Paris Saint-Germain,Rennes,parissaintgermain,rennes,3802795,0.9943,0.7518,12,13,1,1,726,426,125,200,144,150,1.939,3.419,3.6486,1.8887,StatsBomb Open Data
+2022-02-19,Nantes,Paris Saint-Germain,nantes,parissaintgermain,3802839,2.3669,3.6631,13,16,7,9,303,740,192,112,159,164,3.184,1.559,2.6471,3.5803,StatsBomb Open Data
+2022-02-26,Paris Saint-Germain,Saint-Étienne,parissaintgermain,saintetienne,3802709,2.0432,0.864,21,13,8,6,667,399,111,207,169,174,2.273,2.581,3.7415,2.6035,StatsBomb Open Data
+2022-03-05,OGC Nice,Paris Saint-Germain,ogcnice,parissaintgermain,3802805,0.634,0.5226,11,8,6,2,512,693,213,152,160,197,2.903,1.984,3.0513,3.015,StatsBomb Open Data
+2022-03-13,Paris Saint-Germain,Bordeaux,parissaintgermain,bordeaux,3802904,1.5778,0.6439,12,15,3,5,659,494,168,207,183,160,2.105,2.72,3.4222,2.8452,StatsBomb Open Data
+2022-04-03,Paris Saint-Germain,Lorient,parissaintgermain,lorient,3802818,1.8679,0.7037,15,11,7,4,756,388,134,213,155,150,1.882,3.583,3.8882,1.4917,StatsBomb Open Data
+2022-04-09,Clermont Foot,Paris Saint-Germain,clermontfoot,parissaintgermain,3803000,1.2051,3.5077,10,17,4,11,429,746,240,144,160,149,3.161,2.16,1.9679,3.6282,StatsBomb Open Data
+2022-04-17,Paris Saint-Germain,Olympique de Marseille,parissaintgermain,olympiquedemarseille,3802983,1.293,0.8135,7,3,3,1,510,678,252,180,155,156,2.126,2.347,1.6714,1.9009,StatsBomb Open Data
+2022-04-23,Paris Saint-Germain,Lens,parissaintgermain,lens,3802676,1.968,0.8458,18,8,6,3,766,408,137,115,156,156,1.723,4.564,4.008,2.0567,StatsBomb Open Data
+2022-04-29,Strasbourg,Paris Saint-Germain,strasbourg,parissaintgermain,3802643,1.4864,1.884,14,14,2,6,491,633,193,172,151,143,2.357,2.442,2.5906,3.1222,StatsBomb Open Data
+2022-05-08,Paris Saint-Germain,Troyes,parissaintgermain,troyes,3802930,2.2232,1.3226,17,10,6,3,657,390,109,172,167,160,2.136,3.16,3.5435,2.0284,StatsBomb Open Data
+2022-05-14,Montpellier,Paris Saint-Germain,montpellier,parissaintgermain,3802665,0.3564,2.7567,10,15,3,9,344,783,153,142,163,162,4.31,1.874,1.7501,3.6551,StatsBomb Open Data
+2022-05-21,Paris Saint-Germain,Metz,parissaintgermain,metz,3802948,4.7668,0.4776,27,4,11,1,787,266,89,173,140,147,1.603,3.947,4.0979,1.5236,StatsBomb Open Data
+2022-08-06,Clermont Foot,Paris Saint-Germain,clermontfoot,parissaintgermain,3837650,0.264,2.6114,7,18,1,12,446,712,99,119,144,145,4.595,2.637,1.3089,3.885,StatsBomb Open Data
+2022-08-13,Paris Saint-Germain,Montpellier,parissaintgermain,montpellier,3837659,3.5296,0.8106,20,7,10,4,644,462,130,133,160,160,2.349,3.836,4.9528,1.2289,StatsBomb Open Data
+2022-08-21,Lille,Paris Saint-Germain,lille,parissaintgermain,3837662,1.974,3.8994,16,16,9,9,576,619,139,134,141,173,3.121,3.5,2.4955,3.5613,StatsBomb Open Data
+2022-08-28,Paris Saint-Germain,AS Monaco,parissaintgermain,asmonaco,3837680,2.5604,0.4528,18,4,5,3,730,366,145,162,158,167,1.688,3.293,3.4557,1.6695,StatsBomb Open Data
+2022-08-31,Toulouse,Paris Saint-Germain,toulouse,parissaintgermain,3837683,0.8038,3.0571,14,21,7,12,397,635,178,53,160,179,3.23,3.077,2.3277,4.1102,StatsBomb Open Data
+2022-09-03,Nantes,Paris Saint-Germain,nantes,parissaintgermain,3837695,0.428,3.8235,11,20,1,6,484,733,103,92,136,136,5.071,3.339,2.2777,5.2836,StatsBomb Open Data
+2022-09-10,Paris Saint-Germain,Stade Brestois,parissaintgermain,stadebrestois,3837706,1.493,1.0818,14,6,4,3,708,457,124,232,172,178,2.313,2.311,3.4625,2.1071,StatsBomb Open Data
+2022-09-18,Lyon,Paris Saint-Germain,lyon,parissaintgermain,3837717,0.8107,1.9485,12,15,2,7,445,819,191,88,144,147,3.026,2.776,2.9113,3.8986,StatsBomb Open Data
+2022-10-01,Paris Saint-Germain,OGC Nice,parissaintgermain,ogcnice,3837727,0.7725,0.3825,12,4,4,1,699,520,137,201,135,147,2.439,2.605,2.9141,1.9877,StatsBomb Open Data
+2022-10-16,Paris Saint-Germain,Olympique de Marseille,parissaintgermain,olympiquedemarseille,3837747,2.0903,0.0,22,0,8,0,542,0,146,0,155,0,2.37,680.0,3.843,0.0,StatsBomb Open Data
+2022-10-21,AC Ajaccio,Paris Saint-Germain,acajaccio,parissaintgermain,3837752,0.24,2.8618,8,11,1,6,389,705,156,99,166,160,2.952,3.012,2.5614,3.7988,StatsBomb Open Data
+2022-10-29,Paris Saint-Germain,Troyes,parissaintgermain,troyes,3837771,2.8355,1.7208,20,16,11,5,715,356,123,173,157,152,1.706,3.463,4.7398,1.8634,StatsBomb Open Data
+2022-11-13,Paris Saint-Germain,Auxerre,parissaintgermain,auxerre,3837785,1.428,0.6674,9,10,6,3,682,479,133,144,129,132,2.131,3.684,3.945,2.5367,StatsBomb Open Data
+2023-01-11,Paris Saint-Germain,Angers,parissaintgermain,angers,3837818,1.3508,0.3542,9,6,6,0,868,432,136,167,123,141,2.0,5.588,3.4957,2.1985,StatsBomb Open Data
+2023-01-15,Rennes,Paris Saint-Germain,rennes,parissaintgermain,3837827,0.5547,1.0387,8,8,6,1,378,711,158,135,142,139,3.089,1.832,1.5762,2.734,StatsBomb Open Data
+2023-01-29,Paris Saint-Germain,Stade de Reims,parissaintgermain,stadedereims,3837839,1.7197,1.9074,12,17,4,5,738,515,139,188,156,144,2.583,3.08,3.4105,3.8155,StatsBomb Open Data
+2023-02-01,Montpellier,Paris Saint-Germain,montpellier,parissaintgermain,3837844,0.3462,3.9969,6,19,3,7,373,733,187,124,148,144,3.359,1.828,1.6428,4.0089,StatsBomb Open Data
+2023-02-04,Paris Saint-Germain,Toulouse,parissaintgermain,toulouse,3837859,1.768,0.7003,22,12,5,5,664,436,151,222,150,146,2.179,2.49,3.9802,1.9168,StatsBomb Open Data
+2023-02-19,Paris Saint-Germain,Lille,parissaintgermain,lille,3837876,1.2549,2.204,12,16,10,8,475,547,162,187,174,179,2.517,1.851,2.6325,2.6823,StatsBomb Open Data
+2023-02-26,Olympique de Marseille,Paris Saint-Germain,olympiquedemarseille,parissaintgermain,3837885,1.5676,2.1975,19,12,4,7,512,446,170,201,167,168,1.589,1.863,2.8858,2.2755,StatsBomb Open Data
+2023-03-04,Paris Saint-Germain,Nantes,parissaintgermain,nantes,3837896,1.472,0.4085,17,8,11,5,792,387,167,255,161,156,1.621,2.839,4.6492,2.1244,StatsBomb Open Data
+2023-03-11,Stade Brestois,Paris Saint-Germain,stadebrestois,parissaintgermain,3837902,0.6218,2.4704,7,17,2,7,412,649,265,159,160,170,2.526,1.799,2.2981,4.3878,StatsBomb Open Data
+2023-03-19,Paris Saint-Germain,Rennes,parissaintgermain,rennes,3837918,1.5897,1.3586,17,10,8,3,679,448,123,236,137,151,2.947,2.478,3.5685,2.6704,StatsBomb Open Data
+2023-04-02,Paris Saint-Germain,Lyon,parissaintgermain,lyon,3837928,1.0643,2.269,16,10,5,3,741,441,205,367,168,173,1.481,1.976,4.2555,2.1433,StatsBomb Open Data
+2023-04-08,OGC Nice,Paris Saint-Germain,ogcnice,parissaintgermain,3837938,1.273,0.7724,21,13,7,4,619,749,243,159,145,143,2.394,3.135,4.1062,2.8873,StatsBomb Open Data
+2023-04-15,Paris Saint-Germain,Lens,parissaintgermain,lens,3837947,1.5001,1.7146,15,14,7,7,753,468,162,204,126,129,2.055,3.02,2.9564,2.874,StatsBomb Open Data
+2023-04-21,Angers,Paris Saint-Germain,angers,parissaintgermain,3837954,1.2455,1.9138,16,10,4,4,463,885,284,133,136,133,2.778,2.111,2.8192,3.5339,StatsBomb Open Data
+2023-04-30,Paris Saint-Germain,Lorient,parissaintgermain,lorient,3837963,1.9842,3.2116,13,14,4,6,618,546,140,185,166,149,2.536,2.762,3.1795,2.4634,StatsBomb Open Data
+2023-05-13,Paris Saint-Germain,AC Ajaccio,parissaintgermain,acajaccio,3837987,2.142,0.3031,16,7,8,1,785,290,110,271,134,126,1.378,3.246,5.0035,1.2558,StatsBomb Open Data
+2023-05-21,Auxerre,Paris Saint-Germain,auxerre,parissaintgermain,3837998,0.8707,1.552,14,15,7,4,467,778,183,140,141,142,3.406,2.295,2.6027,3.3675,StatsBomb Open Data
+2023-05-27,Strasbourg,Paris Saint-Germain,strasbourg,parissaintgermain,3838004,1.4004,0.9099,17,7,4,2,392,752,257,130,125,125,2.96,2.226,2.2721,2.5633,StatsBomb Open Data
+2023-06-03,Paris Saint-Germain,Clermont Foot,parissaintgermain,clermontfoot,3838017,2.0179,3.3718,16,12,6,5,584,494,122,194,134,138,2.918,2.22,2.5455,2.5935,StatsBomb Open Data
+2023-08-19,Bayer Leverkusen,RB Leipzig,bayerleverkusen,rbleipzig,3895052,1.5234,1.7221,11,14,7,6,481,600,122,175,162,167,3.193,1.909,2.5379,2.6553,StatsBomb Open Data
+2023-08-26,Borussia Mönchengladbach,Bayer Leverkusen,borussiamonchengladbach,bayerleverkusen,3895060,0.7993,2.7199,12,24,2,11,502,737,207,90,165,150,2.774,3.34,2.7762,4.41,StatsBomb Open Data
+2023-09-02,Bayer Leverkusen,Darmstadt 98,bayerleverkusen,darmstadt98,3895067,3.3046,0.5792,25,5,13,1,820,310,86,163,129,137,1.992,4.01,5.4738,1.1344,StatsBomb Open Data
+2023-09-15,Bayern Munich,Bayer Leverkusen,bayernmunich,bayerleverkusen,3895074,2.2095,2.2181,16,13,9,5,637,603,184,151,160,158,2.167,2.872,3.6858,2.852,StatsBomb Open Data
+2023-09-15,SC Freiburg,Bayern München W,scfreiburg,bayernmunchenw,3910730,1.8218,2.1186,10,21,4,3,457,606,232,191,185,179,2.576,1.315,1.3779,4.3481,StatsBomb Open Data
+2023-09-16,Fiorentina W,Sassuolo W,fiorentinaw,sassuolow,3910621,1.8118,0.8636,19,4,7,2,452,482,224,192,175,171,1.615,1.503,3.0565,1.8057,StatsBomb Open Data
+2023-09-16,Hoffenheim W,Duisburg WFC,hoffenheimw,duisburgwfc,3910731,3.1572,0.2523,26,4,9,2,528,270,133,281,170,175,1.205,1.7,4.4564,1.05,StatsBomb Open Data
+2023-09-16,Nürnberg W,SV Werder Bremen,nurnbergw,svwerderbremen,3910732,0.1241,3.4676,3,22,3,8,332,525,220,176,176,174,2.323,1.208,0.669,5.4775,StatsBomb Open Data
+2023-09-16,Pomigliano,Juventus W,pomigliano,juventusw,3910623,0.2602,1.9135,8,15,4,5,273,633,183,150,152,148,3.774,1.186,1.4686,4.6619,StatsBomb Open Data
+2023-09-17,AC Milan W,AS Roma W,acmilanw,asromaw,3910622,0.5957,2.7594,6,27,5,7,389,475,135,152,171,176,2.917,1.628,1.9519,3.3274,StatsBomb Open Data
+2023-09-17,Como W,Napoli W,comow,napoliw,3910620,1.1507,1.1304,16,20,8,3,427,323,164,169,163,166,1.266,1.61,2.4767,2.3746,StatsBomb Open Data
+2023-09-17,Köln,RB Leipzig W,koln,rbleipzigw,3910733,0.9975,0.3986,17,9,5,3,383,375,158,264,197,196,1.552,1.124,2.2376,1.4938,StatsBomb Open Data
+2023-09-17,Sampdoria W,FC Internazionale Milano W,sampdoriaw,fcinternazionalemilanow,3910624,0.4159,2.274,9,17,0,3,283,658,190,147,168,160,3.292,1.232,1.554,4.4148,StatsBomb Open Data
+2023-09-17,SGS Essen 19/68,Eintracht Frankfurt W,sgsessen1968,eintrachtfrankfurtw,3910735,0.6536,0.957,9,9,4,2,268,650,185,166,190,190,2.308,0.974,2.8058,3.7575,StatsBomb Open Data
+2023-09-17,VfL Wolfsburg WFC,TSV Bayer 04 Leverkusen,vflwolfsburgwfc,tsvbayer04leverkusen,3910734,2.4201,0.6438,22,7,11,1,610,324,155,283,180,191,1.246,1.791,3.2672,1.2336,StatsBomb Open Data
+2023-09-24,Bayer Leverkusen,FC Heidenheim,bayerleverkusen,fcheidenheim,3895086,3.7084,0.3268,21,2,10,2,873,364,109,245,153,163,1.751,3.644,4.6803,1.2324,StatsBomb Open Data
+2023-09-29,RB Leipzig W,SGS Essen 19/68,rbleipzigw,sgsessen1968,3911755,0.2775,0.9403,8,13,5,5,369,502,154,124,180,184,2.367,1.87,1.769,3.3857,StatsBomb Open Data
+2023-09-30,AS Roma W,Como W,asromaw,comow,3911869,5.1885,1.1107,38,9,13,3,608,348,152,189,160,164,1.332,2.773,5.1196,1.4823,StatsBomb Open Data
+2023-09-30,FSV Mainz 05,Bayer Leverkusen,fsvmainz05,bayerleverkusen,3895095,0.4353,0.7937,10,6,3,3,527,635,169,189,143,144,2.439,2.259,2.6349,2.1964,StatsBomb Open Data
+2023-09-30,SV Werder Bremen,Hoffenheim W,svwerderbremen,hoffenheimw,3911757,1.4878,3.9012,12,21,5,9,420,355,189,155,199,197,1.266,1.497,2.7775,2.2072,StatsBomb Open Data
+2023-09-30,TSV Bayer 04 Leverkusen,Nürnberg W,tsvbayer04leverkusen,nurnbergw,3911756,3.1382,0.3094,23,3,11,1,517,305,115,230,151,151,1.33,2.308,4.6888,0.7655,StatsBomb Open Data
+2023-10-01,Duisburg WFC,SC Freiburg,duisburgwfc,scfreiburg,3911758,0.1982,0.9296,7,14,3,4,332,739,191,152,179,168,3.252,1.243,1.2316,2.9728,StatsBomb Open Data
+2023-10-01,Eintracht Frankfurt W,VfL Wolfsburg WFC,eintrachtfrankfurtw,vflwolfsburgwfc,3911759,1.2836,2.1819,7,20,5,8,466,487,180,224,213,209,1.796,1.304,1.7228,3.1889,StatsBomb Open Data
+2023-10-01,Juventus W,Sampdoria W,juventusw,sampdoriaw,3911872,1.5923,1.0725,27,8,11,3,554,249,130,145,149,155,1.056,3.168,3.8361,1.2599,StatsBomb Open Data
+2023-10-01,Napoli W,AC Milan W,napoliw,acmilanw,3911870,1.0248,2.0103,5,23,1,6,318,534,196,133,181,169,2.044,1.304,1.3041,4.2969,StatsBomb Open Data
+2023-10-01,Sassuolo W,Pomigliano,sassuolow,pomigliano,3911871,1.4881,1.5037,12,9,7,3,463,310,137,170,183,188,1.246,2.27,3.2576,2.1153,StatsBomb Open Data
+2023-10-02,Bayern München W,Köln,bayernmunchenw,koln,3911760,1.6328,0.2217,16,4,10,1,709,287,167,213,182,185,1.15,2.584,4.1635,1.0519,StatsBomb Open Data
+2023-10-02,FC Internazionale Milano W,Fiorentina W,fcinternazionalemilanow,fiorentinaw,3911873,1.656,0.3561,17,7,7,3,553,392,151,165,165,168,1.441,2.025,3.779,1.8132,StatsBomb Open Data
+2023-10-06,VfL Wolfsburg WFC,Nürnberg W,vflwolfsburgwfc,nurnbergw,3911761,1.1881,0.2604,17,4,7,2,605,322,188,229,181,183,1.101,1.914,3.2103,0.698,StatsBomb Open Data
+2023-10-07,AC Milan W,Juventus W,acmilanw,juventusw,3912479,0.0775,0.9508,2,14,1,6,385,449,180,168,184,178,1.799,1.675,2.2637,2.8476,StatsBomb Open Data
+2023-10-07,Eintracht Frankfurt W,RB Leipzig W,eintrachtfrankfurtw,rbleipzigw,3911762,2.7629,0.9096,13,8,5,1,568,343,186,191,182,189,1.035,2.37,3.805,1.4154,StatsBomb Open Data
+2023-10-07,Köln,Duisburg WFC,koln,duisburgwfc,3911763,2.257,0.9946,13,8,6,4,593,378,163,247,194,197,1.432,1.58,2.0302,1.7724,StatsBomb Open Data
+2023-10-07,Pomigliano,AS Roma W,pomigliano,asromaw,3912477,0.612,3.2009,10,27,1,14,273,598,166,123,173,157,2.805,1.178,1.5077,4.7259,StatsBomb Open Data
+2023-10-07,Sampdoria W,Como W,sampdoriaw,comow,3912478,0.7395,0.6939,13,8,5,3,346,523,221,150,177,169,2.097,1.762,1.7813,2.8209,StatsBomb Open Data
+2023-10-08,Bayer Leverkusen,FC Köln,bayerleverkusen,fckoln,3895107,2.9422,1.1905,23,7,10,3,775,436,166,212,141,141,1.624,3.298,4.3923,1.4707,StatsBomb Open Data
+2023-10-08,Fiorentina W,Napoli W,fiorentinaw,napoliw,3912481,2.5497,0.352,19,7,7,1,557,259,117,206,181,188,1.14,1.916,3.7478,1.3107,StatsBomb Open Data
+2023-10-08,Sassuolo W,FC Internazionale Milano W,sassuolow,fcinternazionalemilanow,3912480,0.7171,1.5091,10,12,3,5,398,409,147,155,176,175,1.495,1.853,2.1909,2.4338,StatsBomb Open Data
+2023-10-08,SC Freiburg,SV Werder Bremen,scfreiburg,svwerderbremen,3911765,0.6739,1.2607,14,16,4,4,421,382,173,193,197,197,1.547,1.289,2.123,2.5752,StatsBomb Open Data
+2023-10-08,SGS Essen 19/68,Bayern München W,sgsessen1968,bayernmunchenw,3911764,0.2171,2.3437,5,15,3,6,362,732,254,194,171,170,2.751,1.336,0.9535,4.1402,StatsBomb Open Data
+2023-10-09,Hoffenheim W,TSV Bayer 04 Leverkusen,hoffenheimw,tsvbayer04leverkusen,3911766,1.7423,1.6227,19,14,3,6,608,344,164,236,200,204,1.257,2.178,3.1151,1.6675,StatsBomb Open Data
+2023-10-13,Nürnberg W,Hoffenheim W,nurnbergw,hoffenheimw,3911767,0.1167,3.1691,5,23,1,9,363,532,217,171,178,181,2.22,1.278,1.0169,3.8921,StatsBomb Open Data
+2023-10-14,Bayern München W,Eintracht Frankfurt W,bayernmunchenw,eintrachtfrankfurtw,3911768,0.7867,0.2497,14,7,6,2,600,442,170,172,179,181,1.795,3.094,3.0034,1.4942,StatsBomb Open Data
+2023-10-14,Como W,AC Milan W,comow,acmilanw,3912483,0.1937,0.654,5,16,2,3,297,544,187,167,191,177,2.524,1.107,1.6139,3.2888,StatsBomb Open Data
+2023-10-14,Napoli W,Sampdoria W,napoliw,sampdoriaw,3912485,0.2801,1.5744,9,16,2,8,415,340,161,191,182,181,1.097,1.732,2.1003,2.0975,StatsBomb Open Data
+2023-10-14,SV Werder Bremen,Köln,svwerderbremen,koln,3911769,1.3785,0.1706,14,3,5,1,413,387,230,204,211,211,1.095,1.382,2.5855,1.3007,StatsBomb Open Data
+2023-10-15,AS Roma W,FC Internazionale Milano W,asromaw,fcinternazionalemilanow,3912482,1.2169,0.6138,16,6,4,2,591,297,127,115,161,166,1.318,3.514,3.4545,1.5953,StatsBomb Open Data
+2023-10-15,Juventus W,Sassuolo W,juventusw,sassuolow,3912484,2.2411,0.5606,21,11,10,4,560,366,162,167,159,156,1.789,2.513,3.4461,2.0899,StatsBomb Open Data
+2023-10-15,Pomigliano,Fiorentina W,pomigliano,fiorentinaw,3912486,1.9071,4.181,11,26,2,11,325,485,174,126,177,170,2.299,1.37,2.0016,2.8894,StatsBomb Open Data
+2023-10-15,RB Leipzig W,VfL Wolfsburg WFC,rbleipzigw,vflwolfsburgwfc,3911770,1.0849,1.7575,9,11,3,6,418,636,252,159,222,223,1.701,1.581,1.3611,2.8817,StatsBomb Open Data
+2023-10-15,TSV Bayer 04 Leverkusen,SC Freiburg,tsvbayer04leverkusen,scfreiburg,3911771,1.0208,0.4047,11,8,6,2,473,528,230,242,180,181,1.637,1.34,2.3274,1.8278,StatsBomb Open Data
+2023-10-16,Duisburg WFC,SGS Essen 19/68,duisburgwfc,sgsessen1968,3911772,0.3827,1.2043,8,15,3,5,349,566,220,170,185,182,2.503,1.207,0.9877,3.677,StatsBomb Open Data
+2023-10-20,Köln,TSV Bayer 04 Leverkusen,koln,tsvbayer04leverkusen,3911773,0.2204,0.8027,9,12,2,5,486,474,192,151,196,193,1.635,2.122,1.7322,2.4252,StatsBomb Open Data
+2023-10-21,FC Internazionale Milano W,Napoli W,fcinternazionalemilanow,napoliw,3912489,1.7206,1.4544,16,17,7,6,534,276,96,135,155,163,1.448,3.127,4.0954,1.6503,StatsBomb Open Data
+2023-10-21,Sassuolo W,Como W,sassuolow,comow,3912491,1.8681,0.9695,22,6,5,3,468,349,146,123,200,205,1.103,3.0,3.5694,2.0443,StatsBomb Open Data
+2023-10-21,SC Freiburg,Nürnberg W,scfreiburg,nurnbergw,3911775,2.4176,1.3508,33,11,4,6,573,309,201,229,204,209,0.934,1.611,4.7734,1.2957,StatsBomb Open Data
+2023-10-21,SGS Essen 19/68,SV Werder Bremen,sgsessen1968,svwerderbremen,3911774,0.5241,0.3415,10,2,3,1,454,476,236,256,206,199,1.398,1.48,2.1952,1.4272,StatsBomb Open Data
+2023-10-21,Wolfsburg,Bayer Leverkusen,wolfsburg,bayerleverkusen,3895113,1.1983,1.9627,18,13,7,7,473,654,202,140,165,162,2.236,2.551,2.2746,3.6055,StatsBomb Open Data
+2023-10-22,AC Milan W,Pomigliano,acmilanw,pomigliano,3912488,3.1177,0.5802,17,10,11,6,478,443,194,222,201,208,1.538,1.502,3.8425,2.5854,StatsBomb Open Data
+2023-10-22,Eintracht Frankfurt W,Duisburg WFC,eintrachtfrankfurtw,duisburgwfc,3911777,4.8205,1.1824,20,9,10,3,523,412,128,188,168,172,1.911,2.183,3.707,1.866,StatsBomb Open Data
+2023-10-22,Fiorentina W,Juventus W,fiorentinaw,juventusw,3912490,1.1156,2.1384,19,19,4,10,407,437,195,140,161,159,1.507,1.986,2.7446,2.9202,StatsBomb Open Data
+2023-10-22,RB Leipzig W,Bayern München W,rbleipzigw,bayernmunchenw,3911778,0.2415,2.8114,3,16,0,6,351,676,224,144,176,170,2.578,1.316,1.2901,3.9058,StatsBomb Open Data
+2023-10-22,Sampdoria W,AS Roma W,sampdoriaw,asromaw,3912487,1.2538,2.796,12,19,5,11,271,601,157,103,178,170,2.969,1.142,1.5947,3.666,StatsBomb Open Data
+2023-10-22,VfL Wolfsburg WFC,Hoffenheim W,vflwolfsburgwfc,hoffenheimw,3911776,2.613,0.5841,25,5,6,1,512,384,189,199,209,217,1.226,1.689,3.685,1.6164,StatsBomb Open Data
+2023-10-29,Bayer Leverkusen,Freiburg,bayerleverkusen,freiburg,3895121,1.4253,0.7683,18,10,3,4,752,329,93,140,146,146,1.611,4.125,4.555,1.7466,StatsBomb Open Data
+2023-11-03,Duisburg WFC,RB Leipzig W,duisburgwfc,rbleipzigw,3911781,0.6718,0.5999,17,12,4,2,515,467,232,144,193,196,1.488,2.238,2.1097,1.9212,StatsBomb Open Data
+2023-11-04,Fiorentina W,AC Milan W,fiorentinaw,acmilanw,3912492,1.9138,0.5509,17,12,7,2,366,393,180,144,173,173,1.397,1.483,3.3061,2.7207,StatsBomb Open Data
+2023-11-04,Hoffenheim,Bayer Leverkusen,hoffenheim,bayerleverkusen,3895134,1.4835,1.2745,12,10,7,5,540,588,192,181,148,156,2.227,2.597,2.5752,3.736,StatsBomb Open Data
+2023-11-04,Hoffenheim W,SC Freiburg,hoffenheimw,scfreiburg,3911779,1.4895,1.467,15,9,5,4,595,424,179,221,204,202,1.291,2.296,2.7159,2.818,StatsBomb Open Data
+2023-11-04,Pomigliano,Sampdoria W,pomigliano,sampdoriaw,3912495,0.2801,2.2313,7,25,1,10,412,347,183,198,229,223,1.226,1.33,2.0455,3.1912,StatsBomb Open Data
+2023-11-04,TSV Bayer 04 Leverkusen,SGS Essen 19/68,tsvbayer04leverkusen,sgsessen1968,3911782,0.5471,1.455,8,17,3,5,539,351,185,232,193,193,1.356,1.51,1.9426,2.1224,StatsBomb Open Data
+2023-11-05,Bayern München W,VfL Wolfsburg WFC,bayernmunchenw,vflwolfsburgwfc,3911783,2.4707,0.5787,13,7,6,1,403,425,257,174,195,194,1.147,1.489,2.9898,1.3724,StatsBomb Open Data
+2023-11-05,Como W,FC Internazionale Milano W,comow,fcinternazionalemilanow,3912496,0.7356,1.6004,8,19,3,5,306,534,91,125,169,168,3.404,1.24,1.6872,3.2755,StatsBomb Open Data
+2023-11-05,Juventus W,AS Roma W,juventusw,asromaw,3912493,1.274,1.1331,25,9,6,6,514,380,159,204,169,178,1.608,1.989,3.2105,2.3068,StatsBomb Open Data
+2023-11-05,Napoli W,Sassuolo W,napoliw,sassuolow,3912494,0.442,1.5807,6,14,3,6,441,480,168,188,212,213,1.594,1.348,1.7289,3.3184,StatsBomb Open Data
+2023-11-05,Nürnberg W,Köln,nurnbergw,koln,3911784,0.7722,2.6077,12,23,4,8,426,447,217,169,212,202,1.355,1.476,1.8572,3.6994,StatsBomb Open Data
+2023-11-06,SV Werder Bremen,Eintracht Frankfurt W,svwerderbremen,eintrachtfrankfurtw,3911780,0.1248,2.0831,3,16,2,7,397,559,287,168,206,199,1.643,1.766,1.8082,2.5147,StatsBomb Open Data
+2023-11-10,Eintracht Frankfurt W,TSV Bayer 04 Leverkusen,eintrachtfrankfurtw,tsvbayer04leverkusen,3911786,1.2469,0.5481,11,9,5,4,538,413,123,136,171,175,1.833,2.415,2.8774,1.8231,StatsBomb Open Data
+2023-11-11,AC Milan W,Sassuolo W,acmilanw,sassuolow,3912500,1.2912,0.8055,18,15,3,6,497,375,150,176,179,177,1.631,2.117,3.6696,2.2018,StatsBomb Open Data
+2023-11-11,AS Roma W,Napoli W,asromaw,napoliw,3912497,1.8082,0.5539,17,6,10,4,664,300,131,187,174,179,1.469,2.835,4.5296,1.0949,StatsBomb Open Data
+2023-11-11,RB Leipzig W,SV Werder Bremen,rbleipzigw,svwerderbremen,3911790,0.788,2.7575,10,13,0,7,377,491,241,153,208,200,1.467,1.724,1.7364,2.1444,StatsBomb Open Data
+2023-11-11,SGS Essen 19/68,Nürnberg W,sgsessen1968,nurnbergw,3911787,2.8054,0.2225,26,4,11,3,473,396,167,166,176,176,1.479,1.934,4.2556,0.9964,StatsBomb Open Data
+2023-11-12,Bayer Leverkusen,Union Berlin,bayerleverkusen,unionberlin,3895139,1.8832,0.0389,18,2,10,2,855,402,134,247,142,136,2.038,3.579,4.0821,1.44,StatsBomb Open Data
+2023-11-12,Bayern München W,Duisburg WFC,bayernmunchenw,duisburgwfc,3911788,3.4933,0.0215,23,1,7,0,801,273,112,216,148,158,1.225,4.449,5.5048,0.4618,StatsBomb Open Data
+2023-11-12,Como W,Juventus W,comow,juventusw,3912498,0.4384,2.6295,5,23,0,9,289,665,285,169,182,177,2.362,1.083,1.1025,4.1646,StatsBomb Open Data
+2023-11-12,FC Internazionale Milano W,Pomigliano,fcinternazionalemilanow,pomigliano,3912499,3.794,0.352,28,7,10,2,532,313,129,140,173,180,1.573,3.384,6.1317,1.7012,StatsBomb Open Data
+2023-11-12,Sampdoria W,Fiorentina W,sampdoriaw,fiorentinaw,3912501,0.5491,1.9373,10,11,4,3,292,583,182,163,190,186,2.256,1.069,1.5286,3.5644,StatsBomb Open Data
+2023-11-12,VfL Wolfsburg WFC,SC Freiburg,vflwolfsburgwfc,scfreiburg,3911785,2.9885,0.2745,28,6,11,1,561,358,149,157,194,205,1.303,2.685,4.3543,1.1959,StatsBomb Open Data
+2023-11-13,Köln,Hoffenheim W,koln,hoffenheimw,3911789,0.8083,1.1362,12,16,2,3,342,550,160,227,190,193,2.478,0.978,2.1867,3.6706,StatsBomb Open Data
+2023-11-17,Hoffenheim W,SGS Essen 19/68,hoffenheimw,sgsessen1968,3911793,1.1398,1.5925,6,13,2,5,737,330,152,221,184,191,1.292,2.882,2.7993,2.5897,StatsBomb Open Data
+2023-11-18,AC Milan W,Sampdoria W,acmilanw,sampdoriaw,3912504,1.5038,1.4635,13,14,4,4,563,315,116,176,190,194,1.48,1.995,2.8287,2.0915,StatsBomb Open Data
+2023-11-18,Fiorentina W,Como W,fiorentinaw,comow,3912506,1.8669,0.6938,16,11,9,6,504,432,201,231,187,183,1.587,1.849,3.5134,2.5225,StatsBomb Open Data
+2023-11-18,Nürnberg W,Eintracht Frankfurt W,nurnbergw,eintrachtfrankfurtw,3911796,0.5392,2.2715,13,21,2,8,310,528,250,168,198,195,1.362,1.286,1.0848,4.149,StatsBomb Open Data
+2023-11-18,VfL Wolfsburg WFC,Duisburg WFC,vflwolfsburgwfc,duisburgwfc,3911791,2.3099,0.241,24,2,8,0,785,289,82,296,159,189,1.534,3.387,4.5103,0.7722,StatsBomb Open Data
+2023-11-19,Juventus W,FC Internazionale Milano W,juventusw,fcinternazionalemilanow,3912505,1.9383,0.8928,17,9,7,2,414,439,167,160,176,175,1.968,1.621,3.4046,2.9595,StatsBomb Open Data
+2023-11-19,Pomigliano,Napoli W,pomigliano,napoliw,3912503,1.6458,1.1604,11,22,2,8,367,410,150,179,190,181,1.623,1.221,2.1487,3.2199,StatsBomb Open Data
+2023-11-19,Sassuolo W,AS Roma W,sassuolow,asromaw,3912502,0.1249,2.0276,3,15,0,6,360,729,162,163,179,180,3.467,1.411,0.8496,4.1952,StatsBomb Open Data
+2023-11-19,SV Werder Bremen,Bayern München W,svwerderbremen,bayernmunchenw,3911795,0.052,1.388,3,9,0,5,386,511,223,141,187,180,1.63,1.6,1.4794,2.6312,StatsBomb Open Data
+2023-11-19,TSV Bayer 04 Leverkusen,RB Leipzig W,tsvbayer04leverkusen,rbleipzigw,3911794,1.1206,0.9551,12,10,3,3,580,329,180,193,192,197,1.283,2.027,2.6333,1.6195,StatsBomb Open Data
+2023-11-20,SC Freiburg,Köln,scfreiburg,koln,3911792,1.8345,1.6616,14,13,5,6,517,396,179,178,208,211,1.544,2.021,2.66,1.9929,StatsBomb Open Data
+2023-11-25,Como W,Pomigliano,comow,pomigliano,3912508,1.3126,0.5267,16,11,2,2,466,303,135,137,202,206,1.43,1.912,3.6046,1.9529,StatsBomb Open Data
+2023-11-25,FC Internazionale Milano W,AC Milan W,fcinternazionalemilanow,acmilanw,3912510,1.2753,1.1463,22,13,9,3,393,318,130,210,193,199,1.304,1.258,3.2814,2.7549,StatsBomb Open Data
+2023-11-25,Werder Bremen,Bayer Leverkusen,werderbremen,bayerleverkusen,3895153,0.1859,1.0911,2,14,1,4,537,772,210,206,148,148,2.498,2.031,2.1666,3.4467,StatsBomb Open Data
+2023-11-26,AS Roma W,Fiorentina W,asromaw,fiorentinaw,3912507,1.94,0.7203,27,10,8,1,622,341,160,228,177,188,1.295,2.423,4.3897,1.8849,StatsBomb Open Data
+2023-11-26,Napoli W,Juventus W,napoliw,juventusw,3912511,1.1952,2.2627,12,13,3,6,274,515,191,124,184,191,1.825,1.342,2.3418,2.9862,StatsBomb Open Data
+2023-11-26,Sampdoria W,Sassuolo W,sampdoriaw,sassuolow,3912509,0.1762,2.1951,5,16,3,11,310,660,185,139,168,166,2.703,1.299,1.3584,2.5775,StatsBomb Open Data
+2023-12-03,Bayer Leverkusen,Borussia Dortmund,bayerleverkusen,borussiadortmund,3895158,2.1447,0.8077,24,6,6,2,727,339,119,187,160,168,1.313,3.436,5.8877,1.7716,StatsBomb Open Data
+2023-12-08,RB Leipzig W,Nürnberg W,rbleipzigw,nurnbergw,3911801,0.7488,1.1112,12,8,2,3,367,339,145,184,204,207,1.224,1.21,1.8282,1.4114,StatsBomb Open Data
+2023-12-09,FC Internazionale Milano W,Sampdoria W,fcinternazionalemilanow,sampdoriaw,3912512,2.3707,0.4064,20,8,9,5,556,248,96,189,183,187,1.172,2.37,3.804,0.9145,StatsBomb Open Data
+2023-12-09,Juventus W,Pomigliano,juventusw,pomigliano,3912516,2.7297,0.3257,23,6,10,1,570,315,118,159,162,175,1.457,2.128,5.2099,1.3281,StatsBomb Open Data
+2023-12-09,Köln,VfL Wolfsburg WFC,koln,vflwolfsburgwfc,3911798,1.4659,2.1162,12,11,4,6,329,601,241,190,207,207,2.17,1.019,1.3603,2.6533,StatsBomb Open Data
+2023-12-09,SGS Essen 19/68,SC Freiburg,sgsessen1968,scfreiburg,3911797,1.0354,1.2803,14,10,2,2,410,474,187,216,196,195,1.568,1.497,3.5133,1.8016,StatsBomb Open Data
+2023-12-10,AS Roma W,AC Milan W,asromaw,acmilanw,3912515,1.1049,1.2302,18,8,5,3,603,365,159,204,182,188,1.432,2.298,3.8645,1.5035,StatsBomb Open Data
+2023-12-10,Duisburg WFC,SV Werder Bremen,duisburgwfc,svwerderbremen,3911799,0.5941,1.5985,5,13,0,5,327,558,183,149,176,172,2.25,1.187,1.1706,4.0211,StatsBomb Open Data
+2023-12-10,Eintracht Frankfurt W,Hoffenheim W,eintrachtfrankfurtw,hoffenheimw,3911802,2.9346,0.7549,24,6,9,2,610,385,174,151,183,193,1.229,2.889,3.6311,1.3314,StatsBomb Open Data
+2023-12-10,Napoli W,Como W,napoliw,comow,3912513,0.7241,0.6252,12,12,5,5,333,400,180,159,178,175,1.338,1.244,1.7292,2.5362,StatsBomb Open Data
+2023-12-10,VfB Stuttgart,Bayer Leverkusen,vfbstuttgart,bayerleverkusen,3895167,2.4035,1.5324,22,19,10,5,608,564,178,144,163,160,1.979,2.887,2.8657,3.6059,StatsBomb Open Data
+2023-12-11,Bayern München W,TSV Bayer 04 Leverkusen,bayernmunchenw,tsvbayer04leverkusen,3911800,0.9302,0.3624,9,7,6,3,689,374,155,197,153,154,1.457,3.583,3.4723,1.4598,StatsBomb Open Data
+2023-12-11,Sassuolo W,Fiorentina W,sassuolow,fiorentinaw,3912514,0.6566,1.6122,11,16,5,7,484,483,177,190,175,178,1.783,1.79,2.6924,2.9062,StatsBomb Open Data
+2023-12-15,TSV Bayer 04 Leverkusen,Duisburg WFC,tsvbayer04leverkusen,duisburgwfc,3913800,1.8366,1.2203,19,10,9,4,564,335,158,200,183,189,1.267,1.914,2.8405,2.1774,StatsBomb Open Data
+2023-12-16,AC Milan W,Napoli W,acmilanw,napoliw,3912519,2.1963,0.9246,24,8,7,3,502,348,165,148,206,198,1.133,2.685,4.5083,1.3468,StatsBomb Open Data
+2023-12-16,Köln,SGS Essen 19/68,koln,sgsessen1968,3912185,0.4293,0.6877,8,14,3,8,480,484,191,222,206,210,1.883,1.56,1.855,2.776,StatsBomb Open Data
+2023-12-16,Sampdoria W,Juventus W,sampdoriaw,juventusw,3912520,0.353,1.5436,4,19,3,4,300,609,203,137,185,178,2.692,1.183,1.6705,4.1577,StatsBomb Open Data
+2023-12-16,SC Freiburg,Eintracht Frankfurt W,scfreiburg,eintrachtfrankfurtw,3912184,0.7148,1.6233,12,13,2,5,489,563,210,140,181,173,1.874,2.35,2.1155,2.8604,StatsBomb Open Data
+2023-12-17,Bayer Leverkusen,Eintracht Frankfurt,bayerleverkusen,eintrachtfrankfurt,3895180,2.7532,0.1849,14,4,6,2,779,494,168,211,168,172,1.869,2.71,3.5288,1.4281,StatsBomb Open Data
+2023-12-17,Como W,AS Roma W,comow,asromaw,3912518,0.5023,4.322,6,36,3,11,313,638,187,101,175,162,3.475,1.489,1.3763,5.5637,StatsBomb Open Data
+2023-12-17,Hoffenheim W,RB Leipzig W,hoffenheimw,rbleipzigw,3912183,1.1646,0.7046,12,15,8,5,586,355,158,315,190,187,1.475,1.494,3.1445,1.5611,StatsBomb Open Data
+2023-12-17,Nürnberg W,Bayern München W,nurnbergw,bayernmunchenw,3912187,1.0544,3.253,8,23,3,6,289,674,208,137,186,183,2.785,1.164,1.0615,5.4564,StatsBomb Open Data
+2023-12-17,Pomigliano,Sassuolo W,pomigliano,sassuolow,3912517,1.1056,1.9153,11,15,2,6,424,495,172,189,181,173,1.971,1.598,2.5245,3.1896,StatsBomb Open Data
+2023-12-18,Fiorentina W,FC Internazionale Milano W,fiorentinaw,fcinternazionalemilanow,3912521,3.6829,0.8745,19,11,7,5,436,404,149,212,177,179,1.599,1.76,3.3426,2.0698,StatsBomb Open Data
+2023-12-18,VfL Wolfsburg WFC,SV Werder Bremen,vflwolfsburgwfc,svwerderbremen,3912186,1.0555,0.2541,12,4,6,0,623,287,157,249,194,205,1.008,2.067,2.943,0.7904,StatsBomb Open Data
+2023-12-20,Bayer Leverkusen,Bochum,bayerleverkusen,bochum,3895182,3.4008,0.2877,16,6,8,1,786,351,147,258,154,161,1.593,2.125,3.9334,1.7017,StatsBomb Open Data
+2024-01-13,AS Roma W,Pomigliano,asromaw,pomigliano,3912525,3.2115,0.1005,38,3,9,0,753,305,178,186,164,173,1.056,3.943,7.5038,1.1726,StatsBomb Open Data
+2024-01-13,Augsburg,Bayer Leverkusen,augsburg,bayerleverkusen,3895194,0.3159,1.5755,4,25,0,6,280,852,266,118,153,150,2.004,1.358,1.4575,5.1469,StatsBomb Open Data
+2024-01-13,Juventus W,AC Milan W,juventusw,acmilanw,3912524,0.9976,1.6875,14,11,5,4,423,421,165,191,167,170,1.718,1.497,3.0059,2.3483,StatsBomb Open Data
+2024-01-13,Napoli W,Fiorentina W,napoliw,fiorentinaw,3912523,2.3321,1.3185,16,14,5,7,319,541,191,138,177,176,2.031,1.367,2.5577,4.2276,StatsBomb Open Data
+2024-01-14,Como W,Sampdoria W,comow,sampdoriaw,3912526,1.1029,0.7853,13,12,3,5,545,331,168,153,208,205,1.191,2.381,3.3707,2.1525,StatsBomb Open Data
+2024-01-14,FC Internazionale Milano W,Sassuolo W,fcinternazionalemilanow,sassuolow,3912522,1.7944,0.5879,16,6,4,3,510,460,229,183,208,209,1.282,1.817,3.1513,1.5766,StatsBomb Open Data
+2024-01-20,FC Internazionale Milano W,AS Roma W,fcinternazionalemilanow,asromaw,3912527,0.8902,1.4434,8,14,2,6,439,519,139,210,190,188,2.623,1.28,1.324,4.1273,StatsBomb Open Data
+2024-01-20,RB Leipzig,Bayer Leverkusen,rbleipzig,bayerleverkusen,3895202,1.0868,1.8806,10,18,6,5,455,675,164,149,145,141,2.594,2.19,2.2683,4.3974,StatsBomb Open Data
+2024-01-20,Sampdoria W,Napoli W,sampdoriaw,napoliw,3912530,0.6372,0.626,17,17,7,6,300,373,157,162,189,190,1.451,0.959,1.643,2.9669,StatsBomb Open Data
+2024-01-21,Fiorentina W,Pomigliano,fiorentinaw,pomigliano,3912531,2.6004,1.4794,24,13,8,6,494,295,179,137,153,156,1.126,2.299,3.9228,1.9443,StatsBomb Open Data
+2024-01-21,Sassuolo W,Juventus W,sassuolow,juventusw,3912529,0.5443,1.7442,6,22,1,10,395,550,159,176,188,181,2.414,1.266,1.7291,3.7218,StatsBomb Open Data
+2024-01-22,AC Milan W,Como W,acmilanw,comow,3912528,2.0892,1.1228,15,14,7,3,462,336,225,195,190,187,0.986,1.479,3.105,1.6503,StatsBomb Open Data
+2024-01-26,SV Werder Bremen,TSV Bayer 04 Leverkusen,svwerderbremen,tsvbayer04leverkusen,3912189,1.2412,0.3098,14,4,2,2,446,412,216,169,184,184,1.299,1.778,2.9609,1.61,StatsBomb Open Data
+2024-01-27,AS Roma W,Sampdoria W,asromaw,sampdoriaw,3912536,2.7287,0.2728,23,5,10,1,758,270,132,242,161,165,1.147,2.682,4.2935,1.2719,StatsBomb Open Data
+2024-01-27,Bayer Leverkusen,Borussia Mönchengladbach,bayerleverkusen,borussiamonchengladbach,3895210,2.5613,0.1837,28,4,9,3,1002,344,160,325,137,153,1.204,3.309,7.0423,1.0355,StatsBomb Open Data
+2024-01-27,Bayern München W,Hoffenheim W,bayernmunchenw,hoffenheimw,3912190,1.3806,0.3553,14,4,3,3,485,428,238,172,195,187,1.365,2.356,3.5406,2.0463,StatsBomb Open Data
+2024-01-27,Napoli W,FC Internazionale Milano W,napoliw,fcinternazionalemilanow,3912534,1.5671,2.6562,10,18,3,9,291,543,218,171,168,171,1.953,1.203,1.5028,3.6253,StatsBomb Open Data
+2024-01-27,RB Leipzig W,SC Freiburg,rbleipzigw,scfreiburg,3912191,0.2691,1.9254,7,9,4,4,463,457,236,192,216,213,1.228,1.474,1.1416,2.2822,StatsBomb Open Data
+2024-01-28,Como W,Sassuolo W,comow,sassuolow,3912532,0.3699,1.1496,6,11,2,2,372,539,215,169,181,180,2.011,1.149,1.603,2.6652,StatsBomb Open Data
+2024-01-28,Duisburg WFC,Nürnberg W,duisburgwfc,nurnbergw,3912188,0.7235,1.2187,13,10,3,4,375,451,259,179,196,196,1.239,1.347,2.3091,1.8764,StatsBomb Open Data
+2024-01-28,Eintracht Frankfurt W,Köln,eintrachtfrankfurtw,koln,3912193,1.3006,0.2124,17,6,4,1,631,349,155,197,182,192,1.268,2.612,3.4836,1.3968,StatsBomb Open Data
+2024-01-28,Pomigliano,AC Milan W,pomigliano,acmilanw,3912535,0.5456,0.678,12,16,3,1,332,513,184,190,189,191,1.964,1.116,2.0869,3.1912,StatsBomb Open Data
+2024-01-29,Juventus W,Fiorentina W,juventusw,fiorentinaw,3912533,2.1126,1.3248,24,9,10,3,661,298,120,167,158,160,1.345,2.759,5.3548,1.8945,StatsBomb Open Data
+2024-01-29,SGS Essen 19/68,VfL Wolfsburg WFC,sgsessen1968,vflwolfsburgwfc,3912192,0.3953,1.3105,5,14,1,5,287,690,190,176,184,177,3.118,1.059,1.4009,4.2961,StatsBomb Open Data
+2024-02-02,Duisburg WFC,Hoffenheim W,duisburgwfc,hoffenheimw,3912198,0.3174,1.5357,7,18,3,3,316,651,232,95,182,176,2.993,1.45,1.3911,4.3821,StatsBomb Open Data
+2024-02-03,AC Milan W,Fiorentina W,acmilanw,fiorentinaw,3912539,2.8929,1.1478,15,11,5,3,397,376,153,181,182,185,1.456,1.379,3.0152,2.0737,StatsBomb Open Data
+2024-02-03,Darmstadt 98,Bayer Leverkusen,darmstadt98,bayerleverkusen,3895220,0.7709,1.9519,8,20,6,7,391,803,296,119,163,159,2.349,1.826,1.8099,3.5995,StatsBomb Open Data
+2024-02-03,FC Internazionale Milano W,Como W,fcinternazionalemilanow,comow,3912555,2.9126,1.2152,24,8,8,4,521,292,180,222,173,182,0.959,2.173,3.8316,1.6361,StatsBomb Open Data
+2024-02-03,RB Leipzig W,Köln,rbleipzigw,koln,3912195,1.2327,1.627,13,12,4,3,406,537,230,173,207,209,1.454,1.521,1.8164,2.3075,StatsBomb Open Data
+2024-02-03,Sassuolo W,Napoli W,sassuolow,napoliw,3912537,3.4738,0.1837,20,3,11,1,578,244,136,226,169,179,1.077,1.783,4.4097,0.9736,StatsBomb Open Data
+2024-02-03,SV Werder Bremen,Nürnberg W,svwerderbremen,nurnbergw,3912199,2.7588,1.1064,24,6,7,2,401,299,139,190,155,160,1.264,1.531,3.6863,0.9293,StatsBomb Open Data
+2024-02-04,AS Roma W,Juventus W,asromaw,juventusw,3912538,1.9656,1.6459,16,23,10,6,396,417,174,104,173,169,1.804,1.865,2.1415,3.0706,StatsBomb Open Data
+2024-02-04,Eintracht Frankfurt W,SGS Essen 19/68,eintrachtfrankfurtw,sgsessen1968,3912194,1.2329,0.2976,12,7,5,1,560,327,135,221,187,199,1.23,1.943,2.8872,1.7818,StatsBomb Open Data
+2024-02-04,Sampdoria W,Pomigliano,sampdoriaw,pomigliano,3912556,2.1446,0.6759,27,15,8,3,450,343,188,176,195,192,1.156,1.594,3.4183,1.9198,StatsBomb Open Data
+2024-02-04,TSV Bayer 04 Leverkusen,VfL Wolfsburg WFC,tsvbayer04leverkusen,vflwolfsburgwfc,3912197,0.766,2.2712,9,19,4,5,326,563,187,145,182,174,2.609,1.235,1.0101,4.3003,StatsBomb Open Data
+2024-02-05,Bayern München W,SC Freiburg,bayernmunchenw,scfreiburg,3912196,1.5632,0.0,19,0,7,0,695,377,152,213,167,179,1.381,2.85,5.1102,0.9082,StatsBomb Open Data
+2024-02-09,SGS Essen 19/68,RB Leipzig W,sgsessen1968,rbleipzigw,3912204,3.8201,0.8511,19,9,9,6,453,342,169,212,202,200,1.038,1.56,3.1967,1.6309,StatsBomb Open Data
+2024-02-10,Bayer Leverkusen,Bayern Munich,bayerleverkusen,bayernmunich,3895232,1.0338,0.6181,14,9,9,1,453,713,219,181,173,174,2.656,1.767,2.1824,3.2705,StatsBomb Open Data
+2024-02-10,Hoffenheim W,SV Werder Bremen,hoffenheimw,svwerderbremen,3912201,2.4816,0.7731,17,11,8,4,430,388,175,166,184,184,1.27,1.533,1.8046,3.2041,StatsBomb Open Data
+2024-02-10,Köln,Bayern München W,koln,bayernmunchenw,3912203,0.131,3.2354,4,21,0,10,358,682,229,184,174,169,2.728,1.155,1.4784,4.0761,StatsBomb Open Data
+2024-02-10,Napoli W,AS Roma W,napoliw,asromaw,3912543,0.8038,2.0138,11,19,2,8,317,537,213,133,205,194,1.921,1.291,1.7024,4.2399,StatsBomb Open Data
+2024-02-10,Sassuolo W,AC Milan W,sassuolow,acmilanw,3912541,1.1225,0.8257,11,14,5,4,445,417,141,182,207,208,1.659,1.373,1.6966,3.0897,StatsBomb Open Data
+2024-02-11,Fiorentina W,Sampdoria W,fiorentinaw,sampdoriaw,3912544,0.6515,1.0806,8,18,2,5,576,352,164,211,181,176,1.343,2.279,2.6144,2.3223,StatsBomb Open Data
+2024-02-11,Juventus W,Como W,juventusw,comow,3912540,2.7852,0.7685,23,6,11,1,589,318,107,124,161,162,1.554,4.298,4.9062,1.6714,StatsBomb Open Data
+2024-02-11,Pomigliano,FC Internazionale Milano W,pomigliano,fcinternazionalemilanow,3912542,0.5,2.5086,12,19,3,10,363,669,210,183,181,179,2.308,1.398,2.3504,3.1432,StatsBomb Open Data
+2024-02-11,SC Freiburg,Duisburg WFC,scfreiburg,duisburgwfc,3912202,1.8812,0.4274,20,9,6,4,607,341,190,202,203,199,1.134,2.506,4.2493,1.0719,StatsBomb Open Data
+2024-02-11,VfL Wolfsburg WFC,Eintracht Frankfurt W,vflwolfsburgwfc,eintrachtfrankfurtw,3912200,0.9477,0.5473,14,7,5,2,464,451,176,189,184,191,1.677,1.833,3.1481,2.1131,StatsBomb Open Data
+2024-02-12,Nürnberg W,TSV Bayer 04 Leverkusen,nurnbergw,tsvbayer04leverkusen,3912205,0.5431,0.6099,7,11,1,4,404,436,186,172,176,179,1.627,1.616,1.7974,2.0923,StatsBomb Open Data
+2024-02-13,AS Roma W,Sassuolo W,asromaw,sassuolow,3912549,4.1946,0.282,33,7,8,3,663,428,173,234,158,167,1.518,2.328,5.4102,1.6912,StatsBomb Open Data
+2024-02-14,Como W,Fiorentina W,comow,fiorentinaw,3912545,1.2958,1.0311,14,13,4,4,421,572,209,172,174,175,2.015,1.67,2.2282,3.9143,StatsBomb Open Data
+2024-02-14,FC Internazionale Milano W,Juventus W,fcinternazionalemilanow,juventusw,3912546,1.3998,0.8096,18,11,5,4,438,503,255,171,182,183,1.545,1.54,2.0068,3.4263,StatsBomb Open Data
+2024-02-14,Sampdoria W,AC Milan W,sampdoriaw,acmilanw,3912547,1.0125,2.4762,11,27,2,10,302,458,192,129,205,201,1.676,1.226,2.223,4.2916,StatsBomb Open Data
+2024-02-15,Napoli W,Pomigliano,napoliw,pomigliano,3912548,1.6436,0.5915,17,10,6,4,444,429,218,144,209,208,1.474,1.791,2.6061,2.0758,StatsBomb Open Data
+2024-02-16,RB Leipzig W,Eintracht Frankfurt W,rbleipzigw,eintrachtfrankfurtw,3912210,1.1442,2.4682,8,17,5,8,353,630,224,233,222,214,2.207,1.121,1.8793,3.5716,StatsBomb Open Data
+2024-02-17,FC Heidenheim,Bayer Leverkusen,fcheidenheim,bayerleverkusen,3895244,0.4573,1.8191,6,18,3,3,422,662,250,162,184,173,1.893,1.64,2.4076,3.9855,StatsBomb Open Data
+2024-02-17,Fiorentina W,AS Roma W,fiorentinaw,asromaw,3912551,0.3681,1.99,6,19,2,4,443,553,202,146,171,159,2.239,1.651,1.7524,3.8486,StatsBomb Open Data
+2024-02-17,Nürnberg W,VfL Wolfsburg WFC,nurnbergw,vflwolfsburgwfc,3912207,0.6654,6.0146,6,24,4,13,253,532,180,115,165,158,2.438,1.26,0.9274,4.9595,StatsBomb Open Data
+2024-02-17,Sassuolo W,Sampdoria W,sassuolow,sampdoriaw,3912552,1.3385,0.3211,17,6,5,2,598,411,219,215,187,192,1.163,2.245,2.7157,1.5126,StatsBomb Open Data
+2024-02-17,SV Werder Bremen,SC Freiburg,svwerderbremen,scfreiburg,3912206,0.5717,1.3446,7,14,2,7,409,500,230,161,223,209,1.582,1.505,2.0911,2.5352,StatsBomb Open Data
+2024-02-18,AC Milan W,FC Internazionale Milano W,acmilanw,fcinternazionalemilanow,3912554,0.9311,0.9907,9,17,4,6,329,584,179,174,174,174,2.178,1.122,2.6299,2.9713,StatsBomb Open Data
+2024-02-18,Bayern München W,SGS Essen 19/68,bayernmunchenw,sgsessen1968,3912211,2.5056,0.4512,12,10,4,5,516,410,224,234,190,188,1.403,1.473,3.1989,2.4494,StatsBomb Open Data
+2024-02-18,Duisburg WFC,Köln,duisburgwfc,koln,3912208,0.0769,1.434,3,17,1,8,415,585,201,176,196,191,2.191,1.419,1.6574,2.6933,StatsBomb Open Data
+2024-02-18,Juventus W,Napoli W,juventusw,napoliw,3912553,3.0966,1.3339,27,6,14,3,581,262,132,155,156,156,1.216,2.735,4.8273,1.6494,StatsBomb Open Data
+2024-02-18,Pomigliano,Como W,pomigliano,comow,3912550,2.5188,2.3883,14,21,6,7,332,416,147,135,185,183,1.833,1.457,2.0592,2.7302,StatsBomb Open Data
+2024-02-18,TSV Bayer 04 Leverkusen,Hoffenheim W,tsvbayer04leverkusen,hoffenheimw,3912209,0.6053,1.0977,9,12,2,5,582,446,148,192,165,169,2.394,2.045,2.4634,2.363,StatsBomb Open Data
+2024-02-23,Bayer Leverkusen,FSV Mainz 05,bayerleverkusen,fsvmainz05,3895250,1.1127,1.1412,17,13,5,4,723,364,131,169,164,164,1.774,2.37,3.4343,1.7359,StatsBomb Open Data
+2024-03-03,FC Köln,Bayer Leverkusen,fckoln,bayerleverkusen,3895258,0.6864,1.2934,6,17,0,5,257,874,192,122,145,134,4.424,1.304,1.34,5.2929,StatsBomb Open Data
+2024-03-08,SGS Essen 19/68,Duisburg WFC,sgsessen1968,duisburgwfc,3912214,2.308,1.094,12,17,7,6,525,362,173,200,189,191,1.304,2.011,3.2967,1.6082,StatsBomb Open Data
+2024-03-09,Eintracht Frankfurt W,Bayern München W,eintrachtfrankfurtw,bayernmunchenw,3912215,1.4444,1.3147,16,11,3,5,523,412,98,194,180,191,1.737,1.869,3.1145,2.7416,StatsBomb Open Data
+2024-03-09,Hoffenheim W,Nürnberg W,hoffenheimw,nurnbergw,3912217,1.8976,1.2269,18,12,5,3,580,295,130,158,178,183,1.367,2.589,4.0523,1.3066,StatsBomb Open Data
+2024-03-10,Bayer Leverkusen,Wolfsburg,bayerleverkusen,wolfsburg,3895266,1.7859,0.2268,19,3,8,1,940,300,110,115,117,127,1.556,6.615,5.7335,1.1369,StatsBomb Open Data
+2024-03-10,Köln,SV Werder Bremen,koln,svwerderbremen,3912213,2.3949,2.2878,17,15,6,5,306,377,166,176,198,199,1.441,1.017,2.7052,3.2422,StatsBomb Open Data
+2024-03-10,SC Freiburg,TSV Bayer 04 Leverkusen,scfreiburg,tsvbayer04leverkusen,3912212,0.8374,0.7713,13,12,0,5,558,465,186,226,198,201,1.515,1.738,2.8641,1.978,StatsBomb Open Data
+2024-03-11,VfL Wolfsburg WFC,RB Leipzig W,vflwolfsburgwfc,rbleipzigw,3912216,4.4912,0.1322,19,4,6,1,601,396,181,176,193,199,1.294,2.487,3.8032,1.136,StatsBomb Open Data
+2024-03-15,Hoffenheim W,VfL Wolfsburg WFC,hoffenheimw,vflwolfsburgwfc,3912219,1.1405,3.0329,8,34,4,8,332,503,149,169,198,195,2.103,1.201,1.1746,4.54,StatsBomb Open Data
+2024-03-16,Bayern München W,RB Leipzig W,bayernmunchenw,rbleipzigw,3912218,4.5058,0.5511,23,10,10,1,688,348,164,139,170,168,1.295,3.199,3.7952,1.3708,StatsBomb Open Data
+2024-03-16,Pomigliano,Sampdoria W,pomigliano,sampdoriaw,3928984,0.8035,1.0869,11,8,4,5,451,434,176,170,198,201,1.599,1.729,2.4313,2.6073,StatsBomb Open Data
+2024-03-16,Sassuolo W,Fiorentina W,sassuolow,fiorentinaw,3928985,1.3211,0.8356,10,9,4,6,489,456,160,159,201,201,1.68,2.0,2.4975,2.6966,StatsBomb Open Data
+2024-03-16,SV Werder Bremen,SGS Essen 19/68,svwerderbremen,sgsessen1968,3912221,0.6363,2.0084,7,12,4,1,431,357,156,153,181,181,1.565,1.668,2.1598,2.4154,StatsBomb Open Data
+2024-03-17,Como W,Napoli W,comow,napoliw,3928987,0.6621,0.889,10,11,2,3,472,352,129,174,167,180,1.747,1.916,2.2882,1.6989,StatsBomb Open Data
+2024-03-17,Duisburg WFC,Eintracht Frankfurt W,duisburgwfc,eintrachtfrankfurtw,3912223,0.0093,1.9573,2,20,1,4,316,816,290,130,158,148,2.316,1.468,0.8706,4.5702,StatsBomb Open Data
+2024-03-17,FC Internazionale Milano W,Juventus W,fcinternazionalemilanow,juventusw,3928986,2.4191,4.9863,14,30,6,13,439,413,194,178,188,182,1.61,1.506,2.1207,4.7428,StatsBomb Open Data
+2024-03-17,Freiburg,Bayer Leverkusen,freiburg,bayerleverkusen,3895275,0.9306,2.5962,11,19,3,7,373,764,124,129,131,128,3.922,1.719,2.0206,4.3685,StatsBomb Open Data
+2024-03-17,Nürnberg W,SC Freiburg,nurnbergw,scfreiburg,3912222,0.1413,1.9427,3,19,3,5,259,568,192,106,205,195,2.013,1.03,1.1901,4.1482,StatsBomb Open Data
+2024-03-18,TSV Bayer 04 Leverkusen,Köln,tsvbayer04leverkusen,koln,3912220,1.3575,1.4502,16,15,7,8,496,469,215,214,221,214,1.448,1.475,3.0048,2.038,StatsBomb Open Data
+2024-03-22,SC Freiburg,Hoffenheim W,scfreiburg,hoffenheimw,3912227,1.8555,2.3708,10,19,5,7,519,467,228,171,170,166,1.486,2.353,3.1038,3.2449,StatsBomb Open Data
+2024-03-23,AS Roma W,Sassuolo W,asromaw,sassuolow,3928989,1.8953,0.5009,13,7,5,1,549,398,183,205,185,188,1.336,1.756,3.3056,1.1975,StatsBomb Open Data
+2024-03-23,Köln,Nürnberg W,koln,nurnbergw,3912226,2.7465,2.39,23,15,11,7,451,255,135,173,216,223,0.985,1.497,3.8428,1.5576,StatsBomb Open Data
+2024-03-23,Sampdoria W,Como W,sampdoriaw,comow,3928988,0.924,1.4019,13,15,2,3,399,496,161,174,173,173,1.749,1.641,2.2242,2.8144,StatsBomb Open Data
+2024-03-23,VfL Wolfsburg WFC,Bayern München W,vflwolfsburgwfc,bayernmunchenw,3912224,1.6319,1.2831,17,13,4,6,476,367,101,189,171,180,2.03,2.041,3.2733,1.9937,StatsBomb Open Data
+2024-03-24,AC Milan W,Pomigliano,acmilanw,pomigliano,3928991,3.0339,0.378,22,14,7,3,547,376,123,222,165,174,1.533,2.033,3.5792,1.7793,StatsBomb Open Data
+2024-03-24,Fiorentina W,FC Internazionale Milano W,fiorentinaw,fcinternazionalemilanow,3928990,0.7243,2.438,9,14,1,5,408,517,185,146,179,172,1.724,1.516,2.7422,3.3378,StatsBomb Open Data
+2024-03-24,RB Leipzig W,Duisburg WFC,rbleipzigw,duisburgwfc,3912228,2.2349,1.8972,14,15,8,5,495,454,146,198,182,197,2.127,1.677,2.6688,2.0658,StatsBomb Open Data
+2024-03-24,SGS Essen 19/68,TSV Bayer 04 Leverkusen,sgsessen1968,tsvbayer04leverkusen,3912225,0.8158,0.7689,8,12,1,1,378,459,233,199,177,172,1.324,1.275,2.3097,2.749,StatsBomb Open Data
+2024-03-25,Eintracht Frankfurt W,SV Werder Bremen,eintrachtfrankfurtw,svwerderbremen,3912229,1.1513,0.4249,14,4,7,2,575,326,185,233,190,198,1.178,2.771,3.4281,1.3714,StatsBomb Open Data
+2024-03-29,FC Internazionale Milano W,AS Roma W,fcinternazionalemilanow,asromaw,3928992,2.0189,1.6011,20,17,7,6,447,466,138,217,184,191,2.094,1.471,2.5641,3.0647,StatsBomb Open Data
+2024-03-30,Bayer Leverkusen,Hoffenheim,bayerleverkusen,hoffenheim,3895286,2.77,0.6492,34,6,11,2,785,369,127,164,155,166,1.551,3.592,7.2546,1.6511,StatsBomb Open Data
+2024-03-30,Como W,AC Milan W,comow,acmilanw,3928993,0.9348,2.3213,16,27,8,9,372,515,201,173,195,191,2.511,1.358,1.9272,4.6659,StatsBomb Open Data
+2024-03-30,Juventus W,Fiorentina W,juventusw,fiorentinaw,3928994,1.7423,0.6923,10,12,9,3,463,451,125,168,154,156,2.692,1.777,2.5731,3.2547,StatsBomb Open Data
+2024-03-30,Napoli W,Sampdoria W,napoliw,sampdoriaw,3928995,2.0877,0.6627,11,14,5,5,352,435,153,129,184,194,2.427,1.545,1.4018,1.9255,StatsBomb Open Data
+2024-04-06,Union Berlin,Bayer Leverkusen,unionberlin,bayerleverkusen,3895292,0.5451,2.5635,9,20,0,8,372,708,154,124,157,155,2.918,2.072,1.8566,4.34,StatsBomb Open Data
+2024-04-12,SV Werder Bremen,RB Leipzig W,svwerderbremen,rbleipzigw,3912234,0.8209,0.1549,11,4,2,1,527,393,163,195,179,189,1.317,2.104,3.1706,0.771,StatsBomb Open Data
+2024-04-13,Sassuolo W,FC Internazionale Milano W,sassuolow,fcinternazionalemilanow,3928998,0.5243,2.356,9,18,3,8,367,542,169,160,191,191,2.006,1.511,1.7076,3.9264,StatsBomb Open Data
+2024-04-13,SC Freiburg,VfL Wolfsburg WFC,scfreiburg,vflwolfsburgwfc,3912231,1.9581,2.9297,10,22,4,11,402,480,187,133,207,196,1.711,1.787,1.9436,3.8757,StatsBomb Open Data
+2024-04-13,TSV Bayer 04 Leverkusen,Eintracht Frankfurt W,tsvbayer04leverkusen,eintrachtfrankfurtw,3912235,1.4732,1.5609,9,11,4,1,382,509,168,184,176,178,2.116,1.34,1.3877,3.7449,StatsBomb Open Data
+2024-04-14,AC Milan W,Napoli W,acmilanw,napoliw,3928996,1.0417,0.7527,13,13,5,4,469,320,154,114,166,161,1.332,2.829,2.7455,2.2394,StatsBomb Open Data
+2024-04-14,Bayer Leverkusen,Werder Bremen,bayerleverkusen,werderbremen,3895302,3.0042,0.6837,20,7,10,3,651,521,220,212,135,134,1.836,2.736,3.5528,1.9769,StatsBomb Open Data
+2024-04-14,Duisburg WFC,Bayern München W,duisburgwfc,bayernmunchenw,3912233,0.4359,5.0648,9,32,4,12,307,688,167,134,187,185,2.305,1.204,1.0442,4.7787,StatsBomb Open Data
+2024-04-14,Nürnberg W,SGS Essen 19/68,nurnbergw,sgsessen1968,3912230,0.0966,1.8663,4,24,0,10,331,427,136,132,174,175,2.0,1.536,0.8979,3.8843,StatsBomb Open Data
+2024-04-14,Pomigliano,Como W,pomigliano,comow,3928999,0.8097,1.5835,12,24,4,7,346,552,174,157,181,169,2.102,1.209,1.8729,4.2281,StatsBomb Open Data
+2024-04-15,AS Roma W,Juventus W,asromaw,juventusw,3928997,2.126,1.1045,19,13,7,3,477,375,171,121,167,160,1.625,2.504,3.1363,2.6772,StatsBomb Open Data
+2024-04-15,Hoffenheim W,Köln,hoffenheimw,koln,3912232,0.928,0.7863,14,12,6,3,613,336,177,223,192,197,0.937,1.986,3.6656,1.6572,StatsBomb Open Data
+2024-04-19,RB Leipzig W,TSV Bayer 04 Leverkusen,rbleipzigw,tsvbayer04leverkusen,3912240,0.2954,0.5136,6,8,2,2,462,480,241,147,185,180,1.312,1.915,1.578,2.1851,StatsBomb Open Data
+2024-04-20,Eintracht Frankfurt W,Nürnberg W,eintrachtfrankfurtw,nurnbergw,3912241,2.7737,0.9211,20,7,8,2,581,309,95,305,178,195,1.585,1.519,4.8927,1.1603,StatsBomb Open Data
+2024-04-20,Fiorentina W,AS Roma W,fiorentinaw,asromaw,3929000,1.1102,1.3633,7,14,1,4,404,581,169,176,157,153,2.841,1.429,1.7749,4.1466,StatsBomb Open Data
+2024-04-20,Juventus W,Sassuolo W,juventusw,sassuolow,3929003,1.0855,0.2561,16,7,4,5,487,390,147,207,184,187,1.8,1.539,3.2179,1.7782,StatsBomb Open Data
+2024-04-20,SGS Essen 19/68,Hoffenheim W,sgsessen1968,hoffenheimw,3912236,1.8061,2.8276,16,16,7,5,387,454,137,190,181,174,2.141,1.346,2.238,3.2005,StatsBomb Open Data
+2024-04-21,Borussia Dortmund,Bayer Leverkusen,borussiadortmund,bayerleverkusen,3895309,0.5548,1.3641,8,13,2,3,520,564,208,151,150,147,2.033,2.395,2.49,3.8538,StatsBomb Open Data
+2024-04-21,Duisburg WFC,VfL Wolfsburg WFC,duisburgwfc,vflwolfsburgwfc,3912237,0.3933,5.6679,3,35,2,11,247,647,210,128,187,175,2.246,0.945,1.0058,5.4227,StatsBomb Open Data
+2024-04-21,Köln,SC Freiburg,koln,scfreiburg,3912238,1.7045,0.4544,14,11,7,3,342,479,164,131,199,192,1.816,1.339,2.1205,1.9813,StatsBomb Open Data
+2024-04-21,Napoli W,Pomigliano,napoliw,pomigliano,3929002,1.5179,0.7007,22,9,7,2,498,380,139,152,180,188,1.913,2.916,4.3715,1.7208,StatsBomb Open Data
+2024-04-21,Sampdoria W,AC Milan W,sampdoriaw,acmilanw,3929001,0.9769,3.5701,14,21,5,11,388,500,169,136,188,183,1.95,1.551,2.7949,4.8941,StatsBomb Open Data
+2024-04-22,Bayern München W,SV Werder Bremen,bayernmunchenw,svwerderbremen,3912239,1.8877,1.104,17,5,8,1,583,387,204,283,178,186,1.209,1.855,3.1137,1.4348,StatsBomb Open Data
+2024-04-26,Juventus W,FC Internazionale Milano W,juventusw,fcinternazionalemilanow,3929004,1.3778,0.4897,17,8,5,3,505,486,130,208,175,179,1.952,2.114,3.6434,2.2161,StatsBomb Open Data
+2024-04-27,Bayer Leverkusen,VfB Stuttgart,bayerleverkusen,vfbstuttgart,3895320,1.6525,1.7994,14,11,6,4,530,546,148,195,160,164,2.418,1.829,3.2889,2.4062,StatsBomb Open Data
+2024-04-27,Fiorentina W,Sassuolo W,fiorentinaw,sassuolow,3929005,1.4727,1.1426,16,11,8,5,414,481,157,216,187,182,2.089,1.248,2.6966,2.8979,StatsBomb Open Data
+2024-04-27,Napoli W,Como W,napoliw,comow,3929007,0.5458,0.958,9,16,3,2,404,444,134,160,160,164,1.825,1.867,2.1611,2.8583,StatsBomb Open Data
+2024-04-27,Sampdoria W,Pomigliano,sampdoriaw,pomigliano,3929006,0.9625,0.303,16,10,6,5,711,321,161,147,168,173,1.316,5.341,3.7029,1.7626,StatsBomb Open Data
+2024-05-01,Como W,Sampdoria W,comow,sampdoriaw,3929010,2.1248,1.428,8,15,4,5,389,496,165,121,218,215,2.277,1.558,1.911,3.4035,StatsBomb Open Data
+2024-05-01,FC Internazionale Milano W,Fiorentina W,fcinternazionalemilanow,fiorentinaw,3929011,3.7627,1.4641,19,12,11,4,443,413,177,213,178,177,1.591,1.432,3.0891,2.8152,StatsBomb Open Data
+2024-05-01,Pomigliano,AC Milan W,pomigliano,acmilanw,3929009,0.4551,2.3228,4,22,2,9,279,630,150,99,184,169,2.992,1.254,1.7376,5.1947,StatsBomb Open Data
+2024-05-01,Sassuolo W,AS Roma W,sassuolow,asromaw,3929008,1.9034,2.0693,22,15,8,10,446,425,153,166,195,199,1.686,1.981,3.2751,2.161,StatsBomb Open Data
+2024-05-03,VfL Wolfsburg WFC,Köln,vflwolfsburgwfc,koln,3912245,3.5075,0.9183,18,6,7,2,607,367,202,172,209,206,1.135,2.723,3.7721,1.531,StatsBomb Open Data
+2024-05-04,Hoffenheim W,Eintracht Frankfurt W,hoffenheimw,eintrachtfrankfurtw,3912243,0.6777,1.5896,8,14,1,5,407,634,142,151,170,168,2.817,1.678,2.2526,3.4875,StatsBomb Open Data
+2024-05-04,TSV Bayer 04 Leverkusen,Bayern München W,tsvbayer04leverkusen,bayernmunchenw,3912247,0.6835,1.7543,4,8,2,5,328,772,198,125,162,152,3.771,1.554,1.2922,4.5122,StatsBomb Open Data
+2024-05-05,AC Milan W,Como W,acmilanw,comow,3929013,1.3503,0.5152,15,14,3,3,454,395,151,140,168,168,1.795,2.551,3.5622,1.984,StatsBomb Open Data
+2024-05-05,AS Roma W,FC Internazionale Milano W,asromaw,fcinternazionalemilanow,3929015,2.9856,1.1662,20,12,6,6,541,467,235,136,173,166,1.464,2.89,3.4006,2.0482,StatsBomb Open Data
+2024-05-05,Eintracht Frankfurt,Bayer Leverkusen,eintrachtfrankfurt,bayerleverkusen,3895333,1.4415,2.5858,17,9,5,6,566,441,162,157,142,142,1.741,3.492,3.0623,2.1183,StatsBomb Open Data
+2024-05-05,Sampdoria W,Napoli W,sampdoriaw,napoliw,3929014,2.0365,0.3111,20,8,6,0,362,448,169,171,188,197,1.724,1.294,2.3691,2.4954,StatsBomb Open Data
+2024-05-05,SC Freiburg,SGS Essen 19/68,scfreiburg,sgsessen1968,3912244,0.8705,1.3511,13,9,4,4,513,376,172,183,225,219,1.214,1.939,3.6091,2.0642,StatsBomb Open Data
+2024-05-05,SV Werder Bremen,Duisburg WFC,svwerderbremen,duisburgwfc,3912246,3.909,0.7586,24,8,12,3,554,306,151,228,197,197,1.194,1.888,3.6898,1.1733,StatsBomb Open Data
+2024-05-06,Fiorentina W,Juventus W,fiorentinaw,juventusw,3929012,1.1523,1.4297,9,16,1,6,452,564,117,233,165,168,3.45,1.322,2.2238,3.2828,StatsBomb Open Data
+2024-05-06,Nürnberg W,RB Leipzig W,nurnbergw,rbleipzigw,3912242,0.5713,2.3758,11,21,3,5,381,448,191,169,194,192,1.632,1.598,1.5855,2.9218,StatsBomb Open Data
+2024-05-10,RB Leipzig W,Hoffenheim W,rbleipzigw,hoffenheimw,3912248,1.4275,0.7665,13,6,6,0,391,562,162,175,181,183,2.704,1.571,1.8498,2.8112,StatsBomb Open Data
+2024-05-11,Duisburg WFC,TSV Bayer 04 Leverkusen,duisburgwfc,tsvbayer04leverkusen,3912251,0.3524,3.3457,6,26,1,10,295,548,260,170,194,184,1.701,1.026,1.1146,4.5098,StatsBomb Open Data
+2024-05-11,SGS Essen 19/68,Köln,sgsessen1968,koln,3912249,0.7125,0.9375,14,8,5,4,413,514,195,166,189,190,1.715,1.897,2.8773,1.7366,StatsBomb Open Data
+2024-05-12,Bayern München W,Nürnberg W,bayernmunchenw,nurnbergw,3912252,2.2863,0.0478,18,2,6,1,750,286,98,156,157,161,1.643,4.153,4.737,0.797,StatsBomb Open Data
+2024-05-12,Bochum,Bayer Leverkusen,bochum,bayerleverkusen,3895340,0.3141,4.3017,3,29,0,10,311,645,113,73,144,138,3.452,1.789,1.6508,5.0949,StatsBomb Open Data
+2024-05-12,Como W,Pomigliano,comow,pomigliano,3929018,1.451,1.1217,20,11,5,2,555,373,159,151,193,198,1.473,3.072,4.0407,1.9859,StatsBomb Open Data
+2024-05-12,FC Internazionale Milano W,Sassuolo W,fcinternazionalemilanow,sassuolow,3929019,2.636,1.7674,17,11,10,5,538,349,125,155,173,175,1.606,2.163,2.6807,1.9633,StatsBomb Open Data
+2024-05-12,Napoli W,AC Milan W,napoliw,acmilanw,3929016,0.2327,1.3352,4,21,2,4,328,469,211,135,165,159,1.5,1.477,1.4819,3.7854,StatsBomb Open Data
+2024-05-12,SV Werder Bremen,VfL Wolfsburg WFC,svwerderbremen,vflwolfsburgwfc,3912250,0.8684,2.523,12,13,3,5,365,412,169,201,195,191,1.672,1.195,2.1537,2.5462,StatsBomb Open Data
+2024-05-13,Eintracht Frankfurt W,SC Freiburg,eintrachtfrankfurtw,scfreiburg,3912253,1.9201,1.7917,20,15,8,4,574,367,163,192,184,190,1.494,2.286,3.3449,2.4459,StatsBomb Open Data
+2024-05-13,Juventus W,AS Roma W,juventusw,asromaw,3929017,1.5344,2.0022,16,23,7,3,425,542,168,201,183,183,2.263,1.464,2.5782,3.6321,StatsBomb Open Data
+2024-05-18,AC Milan W,Sampdoria W,acmilanw,sampdoriaw,3929022,1.7627,1.2922,16,15,10,6,513,394,171,150,185,191,1.458,2.514,4.2976,2.7086,StatsBomb Open Data
+2024-05-18,Bayer Leverkusen,Augsburg,bayerleverkusen,augsburg,3895348,2.1649,0.7803,20,10,8,2,771,417,122,163,123,125,2.308,3.448,5.0725,2.5272,StatsBomb Open Data
+2024-05-18,Sassuolo W,Juventus W,sassuolow,juventusw,3929023,1.9595,0.7137,17,11,5,8,459,428,221,195,211,208,1.402,1.507,3.3006,2.452,StatsBomb Open Data
+2024-05-19,AS Roma W,Fiorentina W,asromaw,fiorentinaw,3929020,3.7114,0.8469,24,10,11,1,572,374,120,134,144,151,1.949,3.127,4.3724,2.1715,StatsBomb Open Data
+2024-05-19,Pomigliano,Napoli W,pomigliano,napoliw,3929021,1.1256,0.7753,15,11,7,3,533,425,119,147,142,145,2.233,2.784,3.361,2.019,StatsBomb Open Data
+2024-05-20,Hoffenheim W,Bayern München W,hoffenheimw,bayernmunchenw,3912256,0.5626,4.1107,7,19,2,9,399,559,174,124,148,142,2.761,2.168,1.5943,3.1397,StatsBomb Open Data
+2024-05-20,Köln,Eintracht Frankfurt W,koln,eintrachtfrankfurtw,3912257,0.8551,1.4564,10,14,4,4,415,572,200,147,201,202,2.382,1.782,1.8986,3.7353,StatsBomb Open Data
+2024-05-20,Nürnberg W,Duisburg WFC,nurnbergw,duisburgwfc,3912255,1.3311,1.2046,16,15,5,1,384,387,104,146,164,170,2.101,1.641,2.3176,2.7951,StatsBomb Open Data
+2024-05-20,SC Freiburg,RB Leipzig W,scfreiburg,rbleipzigw,3912258,1.7568,1.6577,13,15,4,5,449,444,198,143,202,200,1.597,1.911,2.4288,2.6394,StatsBomb Open Data
+2024-05-20,TSV Bayer 04 Leverkusen,SV Werder Bremen,tsvbayer04leverkusen,svwerderbremen,3912254,2.5764,1.7952,14,11,6,6,391,431,152,191,177,173,1.954,1.539,2.2188,2.5195,StatsBomb Open Data
+2024-05-20,VfL Wolfsburg WFC,SGS Essen 19/68,vflwolfsburgwfc,sgsessen1968,3912259,4.856,0.5857,24,7,10,2,552,261,160,185,180,186,0.927,2.359,5.7374,1.1124,StatsBomb Open Data
