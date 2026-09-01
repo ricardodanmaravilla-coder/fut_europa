@@ -4,12 +4,13 @@ from datetime import datetime, timezone
 from urllib.parse import quote
 
 import google.auth
+import requests
 from google.auth.transport.requests import AuthorizedSession
 
 SPREADSHEET_ID = os.environ.get("GOOGLE_SHEETS_ID", "1VsB21QUsQL5EyXu7Sek5WVeNVznECiTuoIMMB4JXno4")
 WORKSHEET = os.environ.get("FUT_SHEETS_WORKSHEET", "FUT_Europa_Picks")
 BANKROLL_MXN = float(os.environ.get("BANKROLL_MXN", "5000"))
-MODEL_VERSION = os.environ.get("FUT_MODEL_VERSION", "fut-europa-v2.2-sheets")
+MODEL_VERSION = os.environ.get("FUT_MODEL_VERSION", "fut-europa-v2.3-sheets")
 
 HEADERS = [
     "record_key", "snapshot_utc", "game_date", "fixture_id", "league", "away", "home",
@@ -51,9 +52,50 @@ def _values_url(range_a1):
 
 def _existing_keys(session):
     response = session.get(_values_url(f"{WORKSHEET}!A2:A2000"), timeout=15)
-    response.raise_for_status()
+    if not response.ok:
+        raise RuntimeError(f"Sheets read {response.status_code}: {response.text[:500]}")
     values = response.json().get("values", [])
     return {str(row[0]) for row in values if row}
+
+
+def _runtime_service_account():
+    try:
+        response = requests.get(
+            "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email",
+            headers={"Metadata-Flavor": "Google"}, timeout=2,
+        )
+        if response.ok:
+            return response.text.strip()
+    except Exception:
+        pass
+    return "unknown"
+
+
+def sheets_diagnostic():
+    out = {
+        "configured": bool(SPREADSHEET_ID),
+        "spreadsheet_id": SPREADSHEET_ID,
+        "worksheet": WORKSHEET,
+        "service_account": _runtime_service_account(),
+        "model_version": MODEL_VERSION,
+    }
+    try:
+        session = _session()
+        keys = _existing_keys(session)
+        header_response = session.get(_values_url(f"{WORKSHEET}!A1:Y1"), timeout=15)
+        if not header_response.ok:
+            raise RuntimeError(f"Sheets header read {header_response.status_code}: {header_response.text[:500]}")
+        headers = (header_response.json().get("values") or [[]])[0]
+        out.update({
+            "ok": True,
+            "read_access": True,
+            "existing_rows": len(keys),
+            "header_count": len(headers),
+            "schema_ok": headers == HEADERS,
+        })
+    except Exception as exc:
+        out.update({"ok": False, "read_access": False, "error": f"{type(exc).__name__}: {exc}"})
+    return out
 
 
 def _build_row(liga, fixture, bet):
@@ -81,10 +123,7 @@ def _build_row(liga, fixture, bet):
 
 
 def persist_recommendations(liga, fixture, bets):
-    """Append scanner recommendations to FUT_Europa_Picks, idempotently.
-
-    Uses Cloud Run Application Default Credentials and fails soft so a Sheets problem never breaks the scanner.
-    """
+    """Append scanner recommendations to FUT_Europa_Picks, idempotently."""
     if not SPREADSHEET_ID:
         return {"ok": False, "configured": False, "written": 0, "skipped": 0, "error": "GOOGLE_SHEETS_ID missing"}
     if not bets:
@@ -110,7 +149,14 @@ def persist_recommendations(liga, fixture, bets):
             json={"majorDimension": "ROWS", "values": rows},
             timeout=20,
         )
-        response.raise_for_status()
+        if not response.ok:
+            return {
+                "ok": False,
+                "configured": True,
+                "written": 0,
+                "skipped": skipped,
+                "error": f"Sheets append {response.status_code}: {response.text[:700]}",
+            }
         return {"ok": True, "configured": True, "written": len(rows), "skipped": skipped}
     except Exception as exc:
         return {
