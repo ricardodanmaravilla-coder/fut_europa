@@ -4,18 +4,35 @@ from fastapi.responses import HTMLResponse, StreamingResponse
 
 import web_app as core
 from modules.fut_sheet_ledger import persist_recommendations, sheets_diagnostic
+from modules.fut_sheet_settlement import settle_pending_sheet
 
-app = FastAPI(title="FUT Europa", version="2.3-sheets-diagnostic")
+app = FastAPI(title="FUT Europa", version="2.4-sheets-settlement")
 
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "runtime": "fastapi", "streamlit": False, "scanner": "streaming", "sheets_ledger": True, "version": "2.3"}
+    return {
+        "status": "ok",
+        "runtime": "fastapi",
+        "streamlit": False,
+        "scanner": "streaming",
+        "sheets_ledger": True,
+        "automatic_settlement": True,
+        "version": "2.4",
+    }
 
 
 @app.get("/api/sheets-status")
 def sheets_status():
     return sheets_diagnostic()
+
+
+@app.post("/api/settle")
+def settle():
+    result = settle_pending_sheet()
+    if not result.get("ok"):
+        raise HTTPException(status_code=503, detail=result)
+    return result
 
 
 @app.get("/api/status")
@@ -89,7 +106,20 @@ def scan_stream():
                 done += 1
                 yield _json_line({"type": "progress", "liga": liga, "partido": f"{fx.get('local','?')} vs {fx.get('visita','?')}", "done": done, "total": total, "found": len(rows), "saved": saved, "skipped": skipped, "errors": len(errors)})
 
-        yield _json_line({"type": "done", "rows": rows, "errors": errors[:50], "done": done, "total": total, "saved": saved, "skipped": skipped, "sheets": sheets_diagnostic()})
+        settlement = settle_pending_sheet()
+        if not settlement.get("ok"):
+            errors.append("Settlement: " + "; ".join(settlement.get("errors", [])[:3]))
+        yield _json_line({
+            "type": "done",
+            "rows": rows,
+            "errors": errors[:50],
+            "done": done,
+            "total": total,
+            "saved": saved,
+            "skipped": skipped,
+            "sheets": sheets_diagnostic(),
+            "settlement": settlement,
+        })
 
     return StreamingResponse(generate(), media_type="application/x-ndjson", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
@@ -130,14 +160,14 @@ document.getElementById('scan').onclick=async function(){
     }
     if(!finalData)throw new Error('El escáner terminó sin respuesta final.');
     const sh=finalData.sheets||{};
-    const sheetLine=`Sheets: ${sh.ok?'conectado':'ERROR'} · filas existentes: ${sh.existing_rows??'—'} · schema: ${sh.schema_ok?'OK':'revisar'}`;
+    const st=finalData.settlement||{};
+    const sheetLine=`Sheets: ${sh.ok?'conectado':'ERROR'} · filas existentes: ${sh.existing_rows??'—'} · schema: ${sh.schema_ok?'OK':'revisar'} · liquidadas: ${st.settled||0}`;
     box.innerHTML=`<div class="panel"><h3>Escáner Global EV+</h3><div class="ok">Escaneo terminado: ${finalData.done}/${finalData.total} partidos · ${finalData.saved||0} picks nuevos guardados en Sheets · ${finalData.skipped||0} duplicados omitidos.</div><div class="meta">${esc(sheetLine)}</div><div style="margin-top:12px">${table(finalData.rows)}</div>${finalData.errors?.length?`<details open><summary>${finalData.errors.length} avisos</summary><div class="meta error">${finalData.errors.map(esc).join('<br>')}</div></details>`:''}</div>`;
   }catch(e){box.innerHTML=`<div class="panel error">Error del escáner: ${esc(e.message)}</div>`}
   finally{btn.disabled=false;btn.textContent='Escáner Global EV+'}
 }
 """
 
-# Always append the override after core's own script; this avoids fragile string matching.
 HTML = core.HTML.replace("</body>", f"<script>{SCAN_OVERRIDE}</script></body>")
 
 
