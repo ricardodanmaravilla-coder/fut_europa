@@ -83,15 +83,16 @@ def analizar_partido(nombre_liga,fixture):
     loc_api,vis_api=fixture["local"],fixture["visita"]; loc,vis=resolver_nombre(loc_api,df),resolver_nombre(vis_api,df)
     tabla,ml,ml_ok=obtener_motores(nombre_liga,df); e_loc,e_vis=rating(tabla,loc),rating(tabla,vis)
     odds=obtener_cuotas_europa(fixture.get("fixture_id"),nombre_liga,loc_api,vis_api)
-    mc=simular_partido_europa(loc,vis,df,e_loc,e_vis)
+    lineas_casino=odds.get("_lineas",{}) if isinstance(odds,dict) else {}
+    mc=simular_partido_europa(loc,vis,df,e_loc,e_vis,lineas_casino=lineas_casino)
     preds=ml.predecir_mercados_completos(loc,vis,elo_local=e_loc,elo_visita=e_vis,cuotas_1x2=odds,fecha_partido=fixture.get("fecha")) if ml_ok else {}
     bets=analizar_apuestas_europa(mc,preds,fixture.get("fixture_id"),cuotas_personalizadas=odds,nombre_liga=nombre_liga,local=loc_api,visita=vis_api)
     mm=preds.get("Meta",{}) if isinstance(preds,dict) else {}
-    meta={"local_modelo":loc,"visita_modelo":vis,"elo_local":round(e_loc,1),"elo_visita":round(e_vis,1),"ml_ok":ml_ok,"train_rows":getattr(ml,"n_train",0),"temperature_1x2":mm.get("temperature_1x2",1.0),"market_model_weight":mm.get("market_model_weight",1.0),"market_blend_used":mm.get("market_blend_used",False),"rest_local":mm.get("rest_local",7.0),"rest_visita":mm.get("rest_visita",7.0)}
+    meta={"local_modelo":loc,"visita_modelo":vis,"elo_local":round(e_loc,1),"elo_visita":round(e_vis,1),"ml_ok":ml_ok,"train_rows":getattr(ml,"n_train",0),"temperature_1x2":mm.get("temperature_1x2",1.0),"market_model_weight":mm.get("market_model_weight",1.0),"market_blend_used":mm.get("market_blend_used",False),"rest_local":mm.get("rest_local",7.0),"rest_visita":mm.get("rest_visita",7.0),"lineas_casino":lineas_casino,"bookmaker":odds.get("_bookmaker") if isinstance(odds,dict) else None}
     return mc,preds,bets,meta
 
 st.title("🇪🇺 European Elite Leagues Analytics")
-st.caption("Parquet + DuckDB · fixtures reales · forma reciente y descanso real · ML temporal calibrado · mercado no-vig aprendido · Monte Carlo ataque/defensa · EV sólo con cuota real.")
+st.caption("Parquet + DuckDB · fixtures reales · forma reciente y descanso real · ML temporal calibrado · mercado no-vig aprendido · Monte Carlo sobre línea real del casino · EV sólo con cuota real.")
 with st.expander("✅ Estado del sistema",expanded=True):
     cols=st.columns(5)
     for i,liga in enumerate(LIGAS_IDS):
@@ -108,6 +109,10 @@ for idx,(liga,league_id) in enumerate(LIGAS_IDS.items()):
             with st.spinner("Ejecutando motores prepartido..."): mc,ml,bets,meta=analizar_partido(liga,fx)
             if mc is None: st.error(meta); continue
             st.caption(f"Mapeo: {meta['local_modelo']} vs {meta['visita_modelo']} · Elo {meta['elo_local']} / {meta['elo_visita']} · ML n={meta['train_rows']} · Temp={meta['temperature_1x2']} · peso modelo={meta['market_model_weight']:.2f} · descanso {meta['rest_local']:.0f}/{meta['rest_visita']:.0f} días")
+            if meta.get("lineas_casino"):
+                st.success(f"🎰 Línea casino usada por Monte Carlo: {meta['lineas_casino']}" + (f" · {meta['bookmaker']}" if meta.get('bookmaker') else ""))
+            else:
+                st.warning("No se recibió línea O/U real del casino para este fixture; no se fabricará una línea para apostar.")
             c1,c2,c3=st.columns(3); c1.metric("Local MC",f"{mc['Resultado_1X2']['Gana Local']}%"); c2.metric("Empate MC",f"{mc['Resultado_1X2']['Empate']}%"); c3.metric("Visita MC",f"{mc['Resultado_1X2']['Gana Visita']}%")
             if ml and "Resultado_1X2" in ml:
                 m1,m2,m3=st.columns(3); m1.metric("Local ML calibrado",f"{ml['Resultado_1X2']['Gana Local']}%"); m2.metric("Empate ML calibrado",f"{ml['Resultado_1X2']['Empate']}%"); m3.metric("Visita ML calibrado",f"{ml['Resultado_1X2']['Gana Visita']}%")
@@ -117,7 +122,7 @@ for idx,(liga,league_id) in enumerate(LIGAS_IDS.items()):
 
 with tabs[5]:
     st.subheader("🌐 Escáner Global EV+")
-    st.info("Analiza exclusivamente fixtures reales y exige cuota real. La primera ejecución puede tardar mientras carga un modelo por liga; después quedan en caché.")
+    st.info("Analiza exclusivamente fixtures reales y exige cuota real. Monte Carlo usa la línea O/U publicada por el bookmaker; ML sólo valida una línea si coincide con la línea para la que fue entrenado.")
     if st.button("🚀 Escanear próximas jornadas",type="primary",key="scan_global"):
         status=st.status("Iniciando escáner global...",expanded=True)
         rows=[]; errores=[]; total_fixtures=0; analizados=0
