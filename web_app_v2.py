@@ -7,7 +7,7 @@ import web_app as core
 from modules.fut_sheet_ledger import persist_recommendations, sheets_diagnostic
 from modules.fut_sheet_settlement import settle_pending_sheet
 
-app = FastAPI(title="FUT Europa", version="2.5-casino-lines")
+app = FastAPI(title="FUT Europa", version="2.6-resilient-scanner")
 
 
 def _analizar_partido_linea_real(nombre_liga, fixture):
@@ -51,7 +51,6 @@ def _analizar_partido_linea_real(nombre_liga, fixture):
     return core._clean({"mc": mc, "ml": preds, "bets": bet_rows, "meta": meta})
 
 
-# Todo el runtime V2 (análisis individual y escáner) pasa por el mismo núcleo corregido.
 core.analizar_partido = _analizar_partido_linea_real
 
 
@@ -61,11 +60,11 @@ def health():
         "status": "ok",
         "runtime": "fastapi",
         "streamlit": False,
-        "scanner": "streaming",
+        "scanner": "sequential_requests",
         "sheets_ledger": True,
         "automatic_settlement": True,
         "casino_line_montecarlo": True,
-        "version": "2.5",
+        "version": "2.6",
     }
 
 
@@ -84,7 +83,13 @@ def settle():
 
 @app.get("/api/status")
 def status():
-    return {liga: {"partidos": len(core.cargar_historico_liga(liga)), "ready": len(core.cargar_historico_liga(liga)) >= 150} for liga in core.LIGAS_IDS}
+    return {
+        liga: {
+            "partidos": len(core.cargar_historico_liga(liga)),
+            "ready": len(core.cargar_historico_liga(liga)) >= 150,
+        }
+        for liga in core.LIGAS_IDS
+    }
 
 
 @app.get("/api/fixtures/{liga}")
@@ -95,16 +100,61 @@ def fixtures(liga: str):
     return [{"key": k, **v} for k, v in data.items()]
 
 
-@app.post("/api/analyze")
-def analyze(req: core.AnalyzeRequest):
+def _resolve_fixture(req: core.AnalyzeRequest):
     if req.liga not in core.LIGAS_IDS:
         raise HTTPException(404, "Liga no válida")
     fixtures_map = core.obtener_proximos_partidos_europa(core.LIGAS_IDS[req.liga])
     fixture = fixtures_map.get(req.fixture_key)
     if not fixture:
         raise HTTPException(404, "Fixture no encontrado")
+    return fixture
+
+
+@app.post("/api/analyze")
+def analyze(req: core.AnalyzeRequest):
+    fixture = _resolve_fixture(req)
     try:
         return core.analizar_partido(req.liga, fixture)
+    except Exception as exc:
+        raise HTTPException(500, f"{type(exc).__name__}: {exc}") from exc
+
+
+@app.post("/api/scan-one")
+def scan_one(req: core.AnalyzeRequest):
+    """Analiza y persiste un solo partido.
+
+    El navegador llama este endpoint una vez por fixture. Así el escaneo global
+    puede durar lo necesario sin depender de una única conexión HTTP larga.
+    """
+    fixture = _resolve_fixture(req)
+    try:
+        result = core.analizar_partido(req.liga, fixture)
+        good = [
+            r for r in result.get("bets", [])
+            if "🔥" in str(r.get("Veredicto", "")) or "✅" in str(r.get("Veredicto", ""))
+        ]
+        rows = [
+            {
+                "Liga": req.liga,
+                "Partido": f"{fixture['local']} vs {fixture['visita']}",
+                "Fecha": fixture.get("fecha", ""),
+                **row,
+            }
+            for row in good
+        ]
+        ledger = {"ok": True, "written": 0, "skipped": 0}
+        if good:
+            ledger = persist_recommendations(req.liga, fixture, good)
+        return core._clean({
+            "ok": True,
+            "liga": req.liga,
+            "partido": f"{fixture['local']} vs {fixture['visita']}",
+            "rows": rows,
+            "written": int(ledger.get("written", 0) or 0),
+            "skipped": int(ledger.get("skipped", 0) or 0),
+            "ledger_ok": bool(ledger.get("ok", False)),
+            "ledger_error": ledger.get("error"),
+        })
     except Exception as exc:
         raise HTTPException(500, f"{type(exc).__name__}: {exc}") from exc
 
@@ -115,6 +165,7 @@ def _json_line(payload):
 
 @app.get("/api/scan-stream")
 def scan_stream():
+    """Compatibilidad con clientes antiguos. La UI 2.6 ya no usa este flujo largo."""
     def generate():
         total = 0
         league_fixtures = {}
@@ -122,96 +173,96 @@ def scan_stream():
             fixtures_map = core.obtener_proximos_partidos_europa(league_id)
             league_fixtures[liga] = list(fixtures_map.values())
             total += len(fixtures_map)
-
-        diag = sheets_diagnostic()
-        yield _json_line({"type": "start", "total": total, "leagues": len(core.LIGAS_IDS), "sheets": diag})
-
-        rows = []
-        errors = []
-        saved = 0
-        skipped = 0
+        yield _json_line({"type": "start", "total": total})
         done = 0
-        if not diag.get("ok"):
-            errors.append(f"Sheets diagnóstico: {diag.get('error', 'sin acceso')}")
-
         for liga, fixtures_list in league_fixtures.items():
-            yield _json_line({"type": "league", "liga": liga, "count": len(fixtures_list), "done": done, "total": total})
             for fx in fixtures_list:
                 try:
-                    result = core.analizar_partido(liga, fx)
-                    good = [r for r in result["bets"] if "🔥" in str(r.get("Veredicto", "")) or "✅" in str(r.get("Veredicto", ""))]
-                    for row in good:
-                        rows.append({"Liga": liga, "Partido": f"{fx['local']} vs {fx['visita']}", "Fecha": fx.get("fecha", ""), **row})
-                    if good:
-                        ledger = persist_recommendations(liga, fx, good)
-                        saved += int(ledger.get("written", 0) or 0)
-                        skipped += int(ledger.get("skipped", 0) or 0)
-                        if not ledger.get("ok", False):
-                            errors.append(f"Sheets · {liga} · {fx.get('local','?')} vs {fx.get('visita','?')}: {ledger.get('error','error desconocido')}")
-                except Exception as exc:
-                    errors.append(f"{liga} · {fx.get('local','?')} vs {fx.get('visita','?')}: {type(exc).__name__}: {exc}")
+                    core.analizar_partido(liga, fx)
+                except Exception:
+                    pass
                 done += 1
-                yield _json_line({"type": "progress", "liga": liga, "partido": f"{fx.get('local','?')} vs {fx.get('visita','?')}", "done": done, "total": total, "found": len(rows), "saved": saved, "skipped": skipped, "errors": len(errors)})
-
-        settlement = settle_pending_sheet()
-        if not settlement.get("ok"):
-            errors.append("Settlement: " + "; ".join(settlement.get("errors", [])[:3]))
-        yield _json_line({
-            "type": "done",
-            "rows": rows,
-            "errors": errors[:50],
-            "done": done,
-            "total": total,
-            "saved": saved,
-            "skipped": skipped,
-            "sheets": sheets_diagnostic(),
-            "settlement": settlement,
-        })
-
-    return StreamingResponse(generate(), media_type="application/x-ndjson", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+                yield _json_line({"type": "progress", "liga": liga, "done": done, "total": total})
+        yield _json_line({"type": "done", "done": done, "total": total})
+    return StreamingResponse(
+        generate(), media_type="application/x-ndjson",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
 
 
 SCAN_OVERRIDE = r"""
 document.getElementById('scan').onclick=async function(){
   const btn=this,box=document.getElementById('scanResult');
+  const leagues=['Premier League','La Liga','Serie A','Bundesliga','Ligue 1'];
   btn.disabled=true;
   btn.textContent='Escaneando...';
-  box.innerHTML='<div class="panel"><h3>Escáner Global EV+</h3><div id="scanProgress">Preparando fixtures...</div><div class="meta" id="scanMeta"></div></div>';
+  box.innerHTML='<div class="panel"><h3>Escáner Global EV+</h3><div id="scanProgress">Cargando partidos de la semana...</div><div class="meta" id="scanMeta"></div></div>';
   try{
-    const r=await fetch('/api/scan-stream',{cache:'no-store'});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    if(!r.body)throw new Error('El navegador no recibió el flujo del escáner.');
-    const reader=r.body.getReader(),decoder=new TextDecoder();
-    let buffer='',finalData=null;
-    while(true){
-      const packet=await reader.read();
-      if(packet.done)break;
-      buffer+=decoder.decode(packet.value,{stream:true});
-      const lines=buffer.split('\n'); buffer=lines.pop();
-      for(const line of lines){
-        if(!line.trim())continue;
-        const d=JSON.parse(line);
-        const p=document.getElementById('scanProgress'),m=document.getElementById('scanMeta');
-        if(d.type==='start'){
-          p.textContent=`0 / ${d.total} partidos analizados`;
-          const sh=d.sheets||{};
-          m.textContent=`Sheets: ${sh.ok?'conectado':'ERROR'} · Cuenta: ${sh.service_account||'desconocida'}`;
-        } else if(d.type==='league'){
-          m.textContent=`${d.liga}: ${d.count} partidos encontrados.`;
-        } else if(d.type==='progress'){
-          const pct=d.total?Math.round(d.done*100/d.total):100;
-          p.innerHTML=`<b>${d.done} / ${d.total}</b> (${pct}%) · ${esc(d.liga)} · ${esc(d.partido)}`;
-          m.textContent=`Oportunidades: ${d.found} · Guardadas: ${d.saved||0} · Duplicadas: ${d.skipped||0} · Avisos: ${d.errors}`;
-        } else if(d.type==='done') finalData=d;
-      }
+    const queue=[];
+    const fixtureErrors=[];
+    for(const liga of leagues){
+      try{
+        const r=await fetch('/api/fixtures/'+encodeURIComponent(liga),{cache:'no-store'});
+        if(!r.ok)throw new Error('HTTP '+r.status);
+        const items=await r.json();
+        for(const fx of items)queue.push({liga:liga,key:fx.key,partido:`${fx.local} vs ${fx.visita}`});
+      }catch(e){fixtureErrors.push(`${liga}: ${e.message}`)}
     }
-    if(!finalData)throw new Error('El escáner terminó sin respuesta final.');
-    const sh=finalData.sheets||{};
-    const st=finalData.settlement||{};
-    const sheetLine=`Sheets: ${sh.ok?'conectado':'ERROR'} · filas existentes: ${sh.existing_rows??'—'} · schema: ${sh.schema_ok?'OK':'revisar'} · liquidadas: ${st.settled||0}`;
-    box.innerHTML=`<div class="panel"><h3>Escáner Global EV+</h3><div class="ok">Escaneo terminado: ${finalData.done}/${finalData.total} partidos · ${finalData.saved||0} picks nuevos guardados en Sheets · ${finalData.skipped||0} duplicados omitidos.</div><div class="meta">${esc(sheetLine)}</div><div style="margin-top:12px">${table(finalData.rows)}</div>${finalData.errors?.length?`<details open><summary>${finalData.errors.length} avisos</summary><div class="meta error">${finalData.errors.map(esc).join('<br>')}</div></details>`:''}</div>`;
-  }catch(e){box.innerHTML=`<div class="panel error">Error del escáner: ${esc(e.message)}</div>`}
-  finally{btn.disabled=false;btn.textContent='Escáner Global EV+'}
+    const total=queue.length;
+    if(!total)throw new Error('No se encontraron partidos para analizar.');
+
+    let done=0,saved=0,skipped=0;
+    const rows=[];
+    const errors=[...fixtureErrors];
+    const p=document.getElementById('scanProgress'),m=document.getElementById('scanMeta');
+    p.textContent=`0 / ${total} partidos analizados`;
+
+    for(const item of queue){
+      const pct=Math.round(done*100/total);
+      p.innerHTML=`<b>${done} / ${total}</b> (${pct}%) · Analizando ${esc(item.liga)} · ${esc(item.partido)}`;
+      m.textContent=`Oportunidades: ${rows.length} · Guardadas: ${saved} · Duplicadas: ${skipped} · Avisos: ${errors.length}`;
+      try{
+        const r=await fetch('/api/scan-one',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          cache:'no-store',
+          body:JSON.stringify({liga:item.liga,fixture_key:item.key})
+        });
+        let d=null;
+        try{d=await r.json()}catch(_e){}
+        if(!r.ok)throw new Error((d&&d.detail)?String(d.detail):('HTTP '+r.status));
+        if(Array.isArray(d.rows))rows.push(...d.rows);
+        saved+=Number(d.written||0);
+        skipped+=Number(d.skipped||0);
+        if(d.ledger_ok===false)errors.push(`Sheets · ${item.liga} · ${item.partido}: ${d.ledger_error||'error'}`);
+      }catch(e){
+        errors.push(`${item.liga} · ${item.partido}: ${e.message}`);
+      }
+      done++;
+      const pct2=Math.round(done*100/total);
+      p.innerHTML=`<b>${done} / ${total}</b> (${pct2}%) · Último: ${esc(item.liga)} · ${esc(item.partido)}`;
+      m.textContent=`Oportunidades: ${rows.length} · Guardadas: ${saved} · Duplicadas: ${skipped} · Avisos: ${errors.length}`;
+    }
+
+    let settlement={ok:false,settled:0},sh={};
+    try{
+      const sr=await fetch('/api/settle',{method:'POST',cache:'no-store'});
+      settlement=await sr.json();
+      if(!sr.ok)errors.push('Settlement: '+JSON.stringify(settlement.detail||settlement));
+    }catch(e){errors.push('Settlement: '+e.message)}
+    try{
+      const hr=await fetch('/api/sheets-status',{cache:'no-store'});
+      sh=await hr.json();
+    }catch(e){errors.push('Sheets status: '+e.message)}
+
+    const sheetLine=`Sheets: ${sh.ok?'conectado':'ERROR'} · filas existentes: ${sh.existing_rows??'—'} · schema: ${sh.schema_ok?'OK':'revisar'} · liquidadas: ${settlement.settled||0}`;
+    box.innerHTML=`<div class="panel"><h3>Escáner Global EV+</h3><div class="ok">Escaneo terminado: ${done}/${total} partidos · ${saved} picks nuevos guardados en Sheets · ${skipped} duplicados omitidos.</div><div class="meta">${esc(sheetLine)}</div><div style="margin-top:12px">${table(rows)}</div>${errors.length?`<details open><summary>${errors.length} avisos</summary><div class="meta error">${errors.map(esc).join('<br>')}</div></details>`:''}</div>`;
+  }catch(e){
+    box.innerHTML=`<div class="panel error">Error del escáner: ${esc(e.message)}</div>`;
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Escáner Global EV+';
+  }
 }
 """
 
@@ -220,4 +271,7 @@ HTML = core.HTML.replace("</body>", f"<script>{SCAN_OVERRIDE}</script></body>")
 
 @app.get("/", response_class=HTMLResponse)
 def index():
-    return HTMLResponse(HTML, headers={"Cache-Control": "no-store, max-age=0", "Pragma": "no-cache"})
+    return HTMLResponse(
+        HTML,
+        headers={"Cache-Control": "no-store, max-age=0", "Pragma": "no-cache"},
+    )
