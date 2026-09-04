@@ -9,6 +9,7 @@ on:
       - 'modules/odds_europa.py'
       - 'weekly_entrypoint.py'
       - 'Dockerfile'
+      - 'requirements.txt'
       - '.github/workflows/validate-line-aware.yml'
 
 jobs:
@@ -19,8 +20,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install test dependencies
-        run: pip install numpy pandas scikit-learn requests pyarrow duckdb fastapi uvicorn
+      - name: Install project dependencies
+        run: pip install -r requirements.txt
       - name: Compile changed modules
         run: python -m py_compile modules/ml_europa.py modules/montecarlo_europa.py modules/odds_europa.py weekly_entrypoint.py web_app.py web_app_v2.py
       - name: Train and verify dynamic lines and weekly window
@@ -59,7 +60,6 @@ jobs:
           start2,end2=weekly._week_window(date(2026,9,6))
           assert start2==end2==date(2026,9,6)
 
-          # Verify explicit from/to API-Football query and that >15 fixtures are retained.
           fake_response=[]
           for i in range(20):
               fake_response.append({
