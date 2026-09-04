@@ -1,0 +1,49 @@
+name: Validate Fut Europa Line-Aware ML
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'modules/ml_europa.py'
+      - 'modules/montecarlo_europa.py'
+      - 'modules/odds_europa.py'
+      - '.github/workflows/validate-line-aware.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install test dependencies
+        run: pip install numpy pandas scikit-learn requests pyarrow duckdb
+      - name: Compile changed modules
+        run: python -m py_compile modules/ml_europa.py modules/montecarlo_europa.py modules/odds_europa.py
+      - name: Train and verify dynamic lines
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          from modules.ml_europa import PredictorMLEuropa
+          from modules.montecarlo_europa import simular_partido_europa
+
+          path='data/historico_premier.csv'
+          df=pd.read_csv(path)
+          model=PredictorMLEuropa()
+          assert model.entrenar(df), 'ML training failed'
+          teams=sorted(set(df['Local'].dropna()).intersection(set(df['Visitante'].dropna())))
+          assert len(teams)>=2
+          a,b=teams[0],teams[1]
+          pred=model.predecir_mercados_completos(a,b,cuotas_1x2={'1':2.2,'X':3.3,'2':3.1,'_lineas':{'goles':3.5,'corners':10.5,'tarjetas':5.5}})
+          assert pred['Meta']['line_aware'] is True
+          assert pred['Meta']['lineas_modeladas']['goles']==3.5
+          assert 'Over 3.5' in pred['Goles_Over_Under']
+          assert 'Over 10.5 Corners' in pred['Corners_Totales']
+          assert 'Over 5.5 Tarjetas' in pred['Tarjetas_Totales']
+          mc=simular_partido_europa(a,b,df,1500,1500)
+          assert 'Over 3.5 Goles' in mc['Lineas_Casino']['goles']
+          assert 'Over 10.5 Corners' in mc['Lineas_Casino']['corners']
+          assert 'Over 5.5 Tarjetas' in mc['Lineas_Casino']['tarjetas']
+          print('OK line-aware training rows:', pred['Meta']['train_rows_line_aware'])
+          PY
