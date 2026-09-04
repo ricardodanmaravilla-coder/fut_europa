@@ -83,10 +83,7 @@ def extraer_cuotas_espn(nombre_liga, local, visita):
 
 
 def obtener_cuotas_europa(fixture_id, nombre_liga=None, local=None, visita=None):
-    """Devuelve precios reales y, cuando existen, la línea real del sportsbook.
-
-    Las claves `_lineas` y `_bookmaker` son metadatos y no son cuotas.
-    """
+    """Devuelve precios reales y la línea real seleccionada del sportsbook."""
     cuotas = {"1": 0.0, "X": 0.0, "2": 0.0, "_lineas": {}, "_bookmaker": None}
 
     exito_api = False
@@ -125,7 +122,8 @@ def obtener_cuotas_europa(fixture_id, nombre_liga=None, local=None, visita=None)
                                     continue
 
                                 if mid == 1 and key == "Home":
-                                    cuotas["1"] = odd; exito_api = True
+                                    cuotas["1"] = odd
+                                    exito_api = True
                                 elif mid == 1 and key == "Draw":
                                     cuotas["X"] = odd
                                 elif mid == 1 and key == "Away":
@@ -151,7 +149,6 @@ def obtener_cuotas_europa(fixture_id, nombre_liga=None, local=None, visita=None)
     if not exito_api and nombre_liga and local and visita:
         for k, v in extraer_cuotas_espn(nombre_liga, local, visita).items():
             cuotas[k] = v
-
     return cuotas
 
 
@@ -190,7 +187,7 @@ def analizar_apuestas_europa(resultados_mc, preds_ml, fixture_id, cuotas_persona
     ]
 
     lineas = cuotas.get("_lineas", {}) if isinstance(cuotas.get("_lineas", {}), dict) else {}
-    for tipo, canonical in (("goles", 2.5), ("corners", 9.5), ("tarjetas", 4.5)):
+    for tipo in ("goles", "corners", "tarjetas"):
         line = lineas.get(tipo)
         if line is None:
             continue
@@ -201,14 +198,7 @@ def analizar_apuestas_europa(resultados_mc, preds_ml, fixture_id, cuotas_persona
         label = "Goles" if tipo == "goles" else "Corners" if tipo == "corners" else "Tarjetas"
         for side in ("Over", "Under"):
             odd_key = f"{side} {line:g} {label}"
-            mercados.append({
-                "nombre": odd_key,
-                "odd_key": odd_key,
-                "tipo": tipo,
-                "line": line,
-                "canonical": canonical,
-                "side": side,
-            })
+            mercados.append({"nombre": odd_key, "odd_key": odd_key, "tipo": tipo, "line": line, "side": side})
 
     rows = []
     for m in mercados:
@@ -222,43 +212,31 @@ def analizar_apuestas_europa(resultados_mc, preds_ml, fixture_id, cuotas_persona
         if m["tipo"] == "1x2":
             prob_mc = get_prob(resultados_mc, m["cat"], m["key"])
             prob_ml = get_prob(preds_ml, m["cat"], m["key"])
-            ml_comparable = prob_ml > 0
         else:
             line = float(m["line"])
             prob_mc = _mc_market_probability(resultados_mc, m["tipo"], m["side"], line)
-            ml_comparable = abs(line - float(m["canonical"])) < 1e-9
-            if ml_comparable:
-                if m["tipo"] == "goles":
-                    cat, key = "Goles_Over_Under", f"{m['side']} 2.5"
-                elif m["tipo"] == "corners":
-                    cat, key = "Corners_Totales", f"{m['side']} 9.5 Corners"
-                else:
-                    cat, key = "Tarjetas_Totales", f"{m['side']} 4.5 Tarjetas"
-                prob_ml = get_prob(preds_ml, cat, key)
-                ml_comparable = prob_ml > 0
+            if m["tipo"] == "goles":
+                cat, key = "Goles_Over_Under", f"{m['side']} {line:g}"
+            elif m["tipo"] == "corners":
+                cat, key = "Corners_Totales", f"{m['side']} {line:g} Corners"
             else:
-                prob_ml = 0.0
+                cat, key = "Tarjetas_Totales", f"{m['side']} {line:g} Tarjetas"
+            prob_ml = get_prob(preds_ml, cat, key)
 
-        if prob_mc <= 0:
+        if prob_mc <= 0 or prob_ml <= 0:
             continue
 
-        if ml_comparable:
-            disagreement = abs(prob_mc - prob_ml)
-            prob_modelo_pct = 0.65 * prob_ml + 0.35 * prob_mc
-            source = "ML+MC"
-        else:
-            disagreement = None
-            prob_modelo_pct = prob_mc
-            source = "MC línea casino"
-
+        disagreement = abs(prob_mc - prob_ml)
+        prob_modelo_pct = 0.65 * prob_ml + 0.35 * prob_mc
+        source = "ML line-aware + MC"
         p = prob_modelo_pct / 100.0
         ev_pct = ((p * cuota) - 1.0) * 100.0
         kelly = calcular_kelly_fraccional(p, cuota)
 
-        if ml_comparable and disagreement > 12.0:
+        if disagreement > 12.0:
             verdict = "❌ NO BET — modelos en desacuerdo"
             kelly = 0.0
-        elif prob_modelo_pct < 55.0:
+        elif min(prob_mc, prob_ml) < 55.0:
             verdict = "❌ NO BET — confianza insuficiente"
             kelly = 0.0
         elif ev_pct >= 8.0 and kelly >= 1.0:
@@ -276,9 +254,9 @@ def analizar_apuestas_europa(resultados_mc, preds_ml, fixture_id, cuotas_persona
             "Mercado": m["nombre"],
             "Fuente prob.": source,
             "Prob. MC": f"{prob_mc:.1f}%",
-            "Prob. ML": f"{prob_ml:.1f}%" if ml_comparable else "N/A línea distinta",
+            "Prob. ML": f"{prob_ml:.1f}%",
             "Prob. usada": f"{prob_modelo_pct:.1f}%",
-            "Desacuerdo pp": round(disagreement, 1) if disagreement is not None else "N/A",
+            "Desacuerdo pp": round(disagreement, 1),
             "Cuota real": round(cuota, 3),
             "EV (Valor)": f"{ev_pct:.2f}%",
             "Stake Recomendado": f"{kelly:.2f}% Bank",
