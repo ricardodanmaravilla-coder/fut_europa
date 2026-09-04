@@ -14,4 +14,4 @@ COPY . .
 
 EXPOSE 8080
 
-CMD ["sh", "-c", "uvicorn web_app_v2:app --host 0.0.0.0 --port ${PORT:-8080} --workers 1"]
+CMD ["sh", "-c", "uvicorn weekly_entrypoint:app --host 0.0.0.0 --port ${PORT:-8080} --workers 1"]
