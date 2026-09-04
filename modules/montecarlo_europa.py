@@ -42,20 +42,34 @@ def _team_recent(df, team, n=12):
     }
 
 
-def simular_partido_europa(local, visita, df_historico, elo_local, elo_visita, n_simulaciones=50000, seed=42):
+def _ou_probs(values, line):
+    """Probabilidades O/U para una línea real del sportsbook.
+
+    En líneas enteras se reporta además push. Over/Under se calculan sobre el
+    total de simulaciones, por lo que el push no se convierte artificialmente
+    en victoria de ninguno de los lados.
+    """
+    line = float(line)
+    over = 100.0 * np.mean(values > line)
+    under = 100.0 * np.mean(values < line)
+    push = 100.0 * np.mean(values == line) if float(line).is_integer() else 0.0
+    return round(over, 1), round(under, 1), round(push, 1)
+
+
+def simular_partido_europa(local, visita, df_historico, elo_local, elo_visita,
+                            n_simulaciones=50000, seed=42, lineas_casino=None):
     """Simulación prepartido con ataque/defensa rival + forma reciente + Elo.
 
-    No usa estadísticas del partido objetivo. `df_historico` debe contener sólo
-    partidos ya finalizados disponibles al momento del pronóstico.
+    `lineas_casino` puede contener `goles`, `corners` y `tarjetas`. Cuando se
+    reciben, Monte Carlo calcula exactamente esas líneas en lugar de asumir
+    2.5/9.5/4.5. Se mantienen las líneas canónicas por compatibilidad con ML.
     """
     pl = _team_recent(df_historico, local) or {"xgf": 1.35, "xga": 1.25, "cf": 5.0, "ca": 4.8, "cards": 2.0, "n": 0}
     pv = _team_recent(df_historico, visita) or {"xgf": 1.15, "xga": 1.35, "cf": 4.5, "ca": 5.0, "cards": 2.1, "n": 0}
 
-    # Ataque propio combinado con lo que concede el rival.
     base_l = 0.55 * pl["xgf"] + 0.45 * pv["xga"]
     base_v = 0.55 * pv["xgf"] + 0.45 * pl["xga"]
 
-    # Ajuste Elo acotado para impedir que domine el modelo de goles.
     elo_diff = float(np.clip((float(elo_local) - float(elo_visita)) / 400.0, -1.0, 1.0))
     home_adv = 0.10
     lambda_l = float(np.clip(base_l * np.exp(0.10 * elo_diff) + home_adv, 0.25, 3.50))
@@ -69,7 +83,6 @@ def simular_partido_europa(local, visita, df_historico, elo_local, elo_visita, n
     rng = np.random.default_rng(seed)
     goles_l = rng.poisson(lambda_l, n_simulaciones)
     goles_v = rng.poisson(lambda_v, n_simulaciones)
-    # Córners son discretos y sobredispersos; Poisson es más coherente que normal continua.
     sim_corners_l = rng.poisson(corners_l, n_simulaciones)
     sim_corners_v = rng.poisson(corners_v, n_simulaciones)
     sim_cards_l = rng.poisson(cards_l, n_simulaciones)
@@ -82,17 +95,46 @@ def simular_partido_europa(local, visita, df_historico, elo_local, elo_visita, n
     p_home = 100.0 * np.mean(goles_l > goles_v)
     p_draw = 100.0 * np.mean(goles_l == goles_v)
     p_away = 100.0 * np.mean(goles_l < goles_v)
-    p_o25 = 100.0 * np.mean(total_g > 2.5)
-    p_c95 = 100.0 * np.mean(total_c > 9.5)
-    p_t45 = 100.0 * np.mean(total_t > 4.5)
 
-    return {
+    g_over, g_under, g_push = _ou_probs(total_g, 2.5)
+    c_over, c_under, c_push = _ou_probs(total_c, 9.5)
+    t_over, t_under, t_push = _ou_probs(total_t, 4.5)
+
+    out = {
         "Resultado_1X2": {"Gana Local": round(p_home, 1), "Empate": round(p_draw, 1), "Gana Visita": round(p_away, 1)},
-        "Goles_Over_Under": {"Over 2.5": round(p_o25, 1), "Under 2.5": round(100-p_o25, 1)},
-        "Corners_Totales": {"Over 9.5 Corners": round(p_c95, 1), "Under 9.5 Corners": round(100-p_c95, 1)},
-        "Tarjetas_Totales": {"Over 4.5 Tarjetas": round(p_t45, 1), "Under 4.5 Tarjetas": round(100-p_t45, 1)},
+        "Goles_Over_Under": {"Over 2.5": g_over, "Under 2.5": g_under},
+        "Corners_Totales": {"Over 9.5 Corners": c_over, "Under 9.5 Corners": c_under},
+        "Tarjetas_Totales": {"Over 4.5 Tarjetas": t_over, "Under 4.5 Tarjetas": t_under},
         "Goles_Individuales": {local: {"goles": round(lambda_l, 2)}, visita: {"goles": round(lambda_v, 2)}},
         "Corners_Individuales": {local: {"corners": round(corners_l, 2)}, visita: {"corners": round(corners_v, 2)}},
         "Tarjetas_Individuales": {local: {"tarjetas": round(cards_l, 2)}, visita: {"tarjetas": round(cards_v, 2)}},
-        "Meta": {"recent_local": pl["n"], "recent_away": pv["n"], "elo_diff": round(elo_diff, 3)},
+        "Lineas_Casino": {},
+        "Meta": {
+            "recent_local": pl["n"], "recent_away": pv["n"], "elo_diff": round(elo_diff, 3),
+            "canonical_push": {"goles_2.5": g_push, "corners_9.5": c_push, "tarjetas_4.5": t_push},
+        },
     }
+
+    lineas_casino = lineas_casino or {}
+    specs = {
+        "goles": (total_g, "Goles"),
+        "corners": (total_c, "Corners"),
+        "tarjetas": (total_t, "Tarjetas"),
+    }
+    for tipo, (values, label) in specs.items():
+        raw = lineas_casino.get(tipo)
+        if raw is None:
+            continue
+        try:
+            line = float(raw)
+        except Exception:
+            continue
+        over, under, push = _ou_probs(values, line)
+        out["Lineas_Casino"][tipo] = {
+            "linea": line,
+            f"Over {line:g} {label}": over,
+            f"Under {line:g} {label}": under,
+            "Push": push,
+        }
+
+    return out
