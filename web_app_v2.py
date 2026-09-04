@@ -1,4 +1,5 @@
 import json
+import numpy as np
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, StreamingResponse
 
@@ -6,7 +7,52 @@ import web_app as core
 from modules.fut_sheet_ledger import persist_recommendations, sheets_diagnostic
 from modules.fut_sheet_settlement import settle_pending_sheet
 
-app = FastAPI(title="FUT Europa", version="2.4-sheets-settlement")
+app = FastAPI(title="FUT Europa", version="2.5-casino-lines")
+
+
+def _analizar_partido_linea_real(nombre_liga, fixture):
+    """Núcleo productivo: Monte Carlo usa exactamente la línea O/U del bookmaker."""
+    df = core.cargar_historico_liga(nombre_liga)
+    if df.empty:
+        raise ValueError("Sin histórico disponible")
+    loc_api, vis_api = fixture["local"], fixture["visita"]
+    loc, vis = core.resolver_nombre(loc_api, df), core.resolver_nombre(vis_api, df)
+    tabla, ml, ml_ok = core.obtener_motores(nombre_liga, df)
+    e_loc, e_vis = core.rating(tabla, loc), core.rating(tabla, vis)
+    odds = core.obtener_cuotas_europa(fixture.get("fixture_id"), nombre_liga, loc_api, vis_api)
+    lineas_casino = odds.get("_lineas", {}) if isinstance(odds, dict) else {}
+    mc = core.simular_partido_europa(loc, vis, df, e_loc, e_vis, lineas_casino=lineas_casino)
+    preds = ml.predecir_mercados_completos(
+        loc, vis, elo_local=e_loc, elo_visita=e_vis, cuotas_1x2=odds,
+        fecha_partido=fixture.get("fecha")
+    ) if ml_ok else {}
+    bets = core.analizar_apuestas_europa(
+        mc, preds, fixture.get("fixture_id"), cuotas_personalizadas=odds,
+        nombre_liga=nombre_liga, local=loc_api, visita=vis_api
+    )
+    mm = preds.get("Meta", {}) if isinstance(preds, dict) else {}
+    meta = {
+        "local_modelo": loc,
+        "visita_modelo": vis,
+        "elo_local": round(e_loc, 1),
+        "elo_visita": round(e_vis, 1),
+        "ml_ok": ml_ok,
+        "train_rows": getattr(ml, "n_train", 0),
+        "temperature_1x2": mm.get("temperature_1x2", 1.0),
+        "market_model_weight": mm.get("market_model_weight", 1.0),
+        "market_blend_used": mm.get("market_blend_used", False),
+        "rest_local": mm.get("rest_local", 7.0),
+        "rest_visita": mm.get("rest_visita", 7.0),
+        "lineas_casino": lineas_casino,
+        "bookmaker": odds.get("_bookmaker") if isinstance(odds, dict) else None,
+        "mc_uses_casino_line": bool(lineas_casino),
+    }
+    bet_rows = [] if bets is None or bets.empty else bets.replace({np.nan: None}).to_dict(orient="records")
+    return core._clean({"mc": mc, "ml": preds, "bets": bet_rows, "meta": meta})
+
+
+# Todo el runtime V2 (análisis individual y escáner) pasa por el mismo núcleo corregido.
+core.analizar_partido = _analizar_partido_linea_real
 
 
 @app.get("/health")
@@ -18,7 +64,8 @@ def health():
         "scanner": "streaming",
         "sheets_ledger": True,
         "automatic_settlement": True,
-        "version": "2.4",
+        "casino_line_montecarlo": True,
+        "version": "2.5",
     }
 
 
