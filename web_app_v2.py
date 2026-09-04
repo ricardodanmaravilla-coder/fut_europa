@@ -7,11 +7,11 @@ import web_app as core
 from modules.fut_sheet_ledger import persist_recommendations, sheets_diagnostic
 from modules.fut_sheet_settlement import settle_pending_sheet
 
-app = FastAPI(title="FUT Europa", version="2.6-resilient-scanner")
+app = FastAPI(title="FUT Europa", version="2.7-playdoit-strict")
 
 
 def _analizar_partido_linea_real(nombre_liga, fixture):
-    """Núcleo productivo: Monte Carlo usa exactamente la línea O/U del bookmaker."""
+    """Núcleo productivo: Monte Carlo usa solo líneas válidas del bookmaker elegido."""
     df = core.cargar_historico_liga(nombre_liga)
     if df.empty:
         raise ValueError("Sin histórico disponible")
@@ -44,7 +44,10 @@ def _analizar_partido_linea_real(nombre_liga, fixture):
         "rest_local": mm.get("rest_local", 7.0),
         "rest_visita": mm.get("rest_visita", 7.0),
         "lineas_casino": lineas_casino,
+        "line_status": odds.get("_line_status", {}) if isinstance(odds, dict) else {},
         "bookmaker": odds.get("_bookmaker") if isinstance(odds, dict) else None,
+        "pricing_mode": odds.get("_pricing_mode", "unavailable") if isinstance(odds, dict) else "unavailable",
+        "persist_allowed": bool(odds.get("_persist_allowed")) if isinstance(odds, dict) else False,
         "mc_uses_casino_line": bool(lineas_casino),
     }
     bet_rows = [] if bets is None or bets.empty else bets.replace({np.nan: None}).to_dict(orient="records")
@@ -64,7 +67,9 @@ def health():
         "sheets_ledger": True,
         "automatic_settlement": True,
         "casino_line_montecarlo": True,
-        "version": "2.6",
+        "bookmaker_policy": "playdoit_strict_bet365_reference",
+        "ambiguous_totals_blocked": True,
+        "version": "2.7",
     }
 
 
@@ -121,18 +126,17 @@ def analyze(req: core.AnalyzeRequest):
 
 @app.post("/api/scan-one")
 def scan_one(req: core.AnalyzeRequest):
-    """Analiza y persiste un solo partido.
-
-    El navegador llama este endpoint una vez por fixture. Así el escaneo global
-    puede durar lo necesario sin depender de una única conexión HTTP larga.
-    """
+    """Analiza un fixture y solo persiste picks oficiales de Playdoit."""
     fixture = _resolve_fixture(req)
     try:
         result = core.analizar_partido(req.liga, fixture)
+        meta = result.get("meta", {}) if isinstance(result, dict) else {}
+        persist_allowed = bool(meta.get("persist_allowed"))
         good = [
             r for r in result.get("bets", [])
             if "🔥" in str(r.get("Veredicto", "")) or "✅" in str(r.get("Veredicto", ""))
         ]
+        official_good = good if persist_allowed else []
         rows = [
             {
                 "Liga": req.liga,
@@ -140,11 +144,11 @@ def scan_one(req: core.AnalyzeRequest):
                 "Fecha": fixture.get("fecha", ""),
                 **row,
             }
-            for row in good
+            for row in official_good
         ]
         ledger = {"ok": True, "written": 0, "skipped": 0}
-        if good:
-            ledger = persist_recommendations(req.liga, fixture, good)
+        if official_good:
+            ledger = persist_recommendations(req.liga, fixture, official_good)
         return core._clean({
             "ok": True,
             "liga": req.liga,
@@ -154,6 +158,11 @@ def scan_one(req: core.AnalyzeRequest):
             "skipped": int(ledger.get("skipped", 0) or 0),
             "ledger_ok": bool(ledger.get("ok", False)),
             "ledger_error": ledger.get("error"),
+            "bookmaker": meta.get("bookmaker"),
+            "pricing_mode": meta.get("pricing_mode"),
+            "persist_allowed": persist_allowed,
+            "blocked_reference_picks": len(good) - len(official_good),
+            "line_status": meta.get("line_status", {}),
         })
     except Exception as exc:
         raise HTTPException(500, f"{type(exc).__name__}: {exc}") from exc
@@ -165,7 +174,7 @@ def _json_line(payload):
 
 @app.get("/api/scan-stream")
 def scan_stream():
-    """Compatibilidad con clientes antiguos. La UI 2.6 ya no usa este flujo largo."""
+    """Compatibilidad con clientes antiguos. La UI productiva usa /api/scan-one."""
     def generate():
         total = 0
         league_fixtures = {}
@@ -211,7 +220,7 @@ document.getElementById('scan').onclick=async function(){
     const total=queue.length;
     if(!total)throw new Error('No se encontraron partidos para analizar.');
 
-    let done=0,saved=0,skipped=0;
+    let done=0,saved=0,skipped=0,blocked=0;
     const rows=[];
     const errors=[...fixtureErrors];
     const p=document.getElementById('scanProgress'),m=document.getElementById('scanMeta');
@@ -220,7 +229,7 @@ document.getElementById('scan').onclick=async function(){
     for(const item of queue){
       const pct=Math.round(done*100/total);
       p.innerHTML=`<b>${done} / ${total}</b> (${pct}%) · Analizando ${esc(item.liga)} · ${esc(item.partido)}`;
-      m.textContent=`Oportunidades: ${rows.length} · Guardadas: ${saved} · Duplicadas: ${skipped} · Avisos: ${errors.length}`;
+      m.textContent=`Oficiales Playdoit: ${rows.length} · Guardadas: ${saved} · Referencias bloqueadas: ${blocked} · Avisos: ${errors.length}`;
       try{
         const r=await fetch('/api/scan-one',{
           method:'POST',
@@ -234,6 +243,7 @@ document.getElementById('scan').onclick=async function(){
         if(Array.isArray(d.rows))rows.push(...d.rows);
         saved+=Number(d.written||0);
         skipped+=Number(d.skipped||0);
+        blocked+=Number(d.blocked_reference_picks||0);
         if(d.ledger_ok===false)errors.push(`Sheets · ${item.liga} · ${item.partido}: ${d.ledger_error||'error'}`);
       }catch(e){
         errors.push(`${item.liga} · ${item.partido}: ${e.message}`);
@@ -241,7 +251,7 @@ document.getElementById('scan').onclick=async function(){
       done++;
       const pct2=Math.round(done*100/total);
       p.innerHTML=`<b>${done} / ${total}</b> (${pct2}%) · Último: ${esc(item.liga)} · ${esc(item.partido)}`;
-      m.textContent=`Oportunidades: ${rows.length} · Guardadas: ${saved} · Duplicadas: ${skipped} · Avisos: ${errors.length}`;
+      m.textContent=`Oficiales Playdoit: ${rows.length} · Guardadas: ${saved} · Referencias bloqueadas: ${blocked} · Avisos: ${errors.length}`;
     }
 
     let settlement={ok:false,settled:0},sh={};
@@ -256,7 +266,7 @@ document.getElementById('scan').onclick=async function(){
     }catch(e){errors.push('Sheets status: '+e.message)}
 
     const sheetLine=`Sheets: ${sh.ok?'conectado':'ERROR'} · filas existentes: ${sh.existing_rows??'—'} · schema: ${sh.schema_ok?'OK':'revisar'} · liquidadas: ${settlement.settled||0}`;
-    box.innerHTML=`<div class="panel"><h3>Escáner Global EV+</h3><div class="ok">Escaneo terminado: ${done}/${total} partidos · ${saved} picks nuevos guardados en Sheets · ${skipped} duplicados omitidos.</div><div class="meta">${esc(sheetLine)}</div><div style="margin-top:12px">${table(rows)}</div>${errors.length?`<details open><summary>${errors.length} avisos</summary><div class="meta error">${errors.map(esc).join('<br>')}</div></details>`:''}</div>`;
+    box.innerHTML=`<div class="panel"><h3>Escáner Global EV+</h3><div class="ok">Escaneo terminado: ${done}/${total} partidos · ${rows.length} picks oficiales Playdoit · ${saved} nuevos guardados · ${blocked} referencias Bet365 bloqueadas.</div><div class="meta">${esc(sheetLine)}</div><div style="margin-top:12px">${table(rows)}</div>${errors.length?`<details open><summary>${errors.length} avisos</summary><div class="meta error">${errors.map(esc).join('<br>')}</div></details>`:''}</div>`;
   }catch(e){
     box.innerHTML=`<div class="panel error">Error del escáner: ${esc(e.message)}</div>`;
   }finally{
