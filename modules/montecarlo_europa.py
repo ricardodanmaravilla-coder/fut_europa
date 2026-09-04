@@ -75,10 +75,13 @@ def simular_partido_europa(local, visita, df_historico, elo_local, elo_visita,
     p_home = 100.0 * np.mean(goles_l > goles_v)
     p_draw = 100.0 * np.mean(goles_l == goles_v)
     p_away = 100.0 * np.mean(goles_l < goles_v)
+
+    # Salidas canónicas solo para diagnóstico visual. No alimentan recomendaciones.
     g_over, g_under, _ = _ou_probs(total_g, 2.5)
     c_over, c_under, _ = _ou_probs(total_c, 9.5)
     t_over, t_under, _ = _ou_probs(total_t, 4.5)
 
+    requested = lineas_casino if isinstance(lineas_casino, dict) else {}
     out = {
         "Resultado_1X2": {"Gana Local": round(p_home, 1), "Empate": round(p_draw, 1), "Gana Visita": round(p_away, 1)},
         "Goles_Over_Under": {"Over 2.5": g_over, "Under 2.5": g_under},
@@ -87,29 +90,36 @@ def simular_partido_europa(local, visita, df_historico, elo_local, elo_visita,
         "Goles_Individuales": {local: {"goles": round(lambda_l, 2)}, visita: {"goles": round(lambda_v, 2)}},
         "Corners_Individuales": {local: {"corners": round(corners_l, 2)}, visita: {"corners": round(corners_v, 2)}},
         "Tarjetas_Individuales": {local: {"tarjetas": round(cards_l, 2)}, visita: {"tarjetas": round(cards_v, 2)}},
-        "Lineas_Casino": {},
-        "Meta": {"recent_local": pl["n"], "recent_away": pv["n"], "elo_diff": round(elo_diff, 3)},
+        "Lineas_Casino": {"goles": {}, "corners": {}, "tarjetas": {}},
+        "Meta": {
+            "recent_local": pl["n"],
+            "recent_away": pv["n"],
+            "elo_diff": round(elo_diff, 3),
+            "n_simulaciones": int(n_simulaciones),
+            "sportsbook_lines_only": True,
+            "lineas_modeladas": {},
+        },
     }
 
     specs = {
-        "goles": (total_g, "Goles", np.arange(0.5, 6.01, 0.25)),
-        "corners": (total_c, "Corners", np.arange(5.0, 16.01, 0.5)),
-        "tarjetas": (total_t, "Tarjetas", np.arange(1.0, 10.01, 0.5)),
+        "goles": (total_g, "Goles"),
+        "corners": (total_c, "Corners"),
+        "tarjetas": (total_t, "Tarjetas"),
     }
-    requested = lineas_casino if isinstance(lineas_casino, dict) else {}
-    for tipo, (values, label, grid) in specs.items():
-        lines = {round(float(x), 2) for x in grid}
-        if requested.get(tipo) is not None:
-            try:
-                lines.add(round(float(requested[tipo]), 2))
-            except Exception:
-                pass
-        markets = {}
-        for line in sorted(lines):
-            over, under, push = _ou_probs(values, line)
-            markets[f"Over {line:g} {label}"] = over
-            markets[f"Under {line:g} {label}"] = under
-            markets[f"Push {line:g} {label}"] = push
-        out["Lineas_Casino"][tipo] = markets
+    for tipo, (values, label) in specs.items():
+        raw_line = requested.get(tipo)
+        if raw_line is None:
+            continue
+        try:
+            line = round(float(raw_line), 2)
+        except Exception:
+            continue
+        over, under, push = _ou_probs(values, line)
+        out["Lineas_Casino"][tipo] = {
+            f"Over {line:g} {label}": over,
+            f"Under {line:g} {label}": under,
+            f"Push {line:g} {label}": push,
+        }
+        out["Meta"]["lineas_modeladas"][tipo] = line
 
     return out
