@@ -10,6 +10,26 @@ HEADERS = {"x-apisports-key": API_KEY} if API_KEY else {}
 
 PRIMARY_BOOKMAKER = "playdoit"
 REFERENCE_BOOKMAKER = "bet365"
+CALIBRATION_VERSION = "strict-v1"
+
+# Solo permitimos líneas dentro del soporte directo de entrenamiento y sin push.
+# Esto evita extrapolar a líneas que el ML no vio de forma suficiente y evita
+# mezclar probabilidades binarias con mercados enteros que pueden terminar push.
+SUPPORTED_HALF_LINES = {
+    "goles": {1.5, 2.5, 3.5, 4.5},
+    "corners": {7.5, 8.5, 9.5, 10.5, 11.5, 12.5},
+    "tarjetas": {2.5, 3.5, 4.5, 5.5, 6.5, 7.5},
+}
+
+# Capa de decisión conservadora. No cambia ML ni Monte Carlo; únicamente exige
+# más acuerdo y más margen antes de convertir una probabilidad en pick oficial.
+MAX_DISAGREEMENT_PP = 8.0
+MIN_MODEL_PROB_PCT = 60.0
+STRONG_EV_PCT = 10.0
+MODERATE_EV_PCT = 5.0
+STRONG_KELLY_PCT = 1.0
+MODERATE_KELLY_PCT = 0.75
+KELLY_FRACTION = 0.10
 
 
 def american_to_decimal(american):
@@ -32,11 +52,7 @@ def _extract_line(value):
 
 
 def _select_bookmaker(bookmakers):
-    """Playdoit primero; Bet365 únicamente como referencia.
-
-    Nunca cae al 'primer bookmaker disponible', porque eso puede producir cuotas
-    y EV que el usuario no puede reproducir en su casa de apuestas.
-    """
+    """Playdoit primero; Bet365 únicamente como referencia."""
     normalized = [(normalizar_nombre(b.get("name", "")), b) for b in (bookmakers or [])]
     primary = next((b for name, b in normalized if PRIMARY_BOOKMAKER in name), None)
     if primary:
@@ -48,12 +64,7 @@ def _select_bookmaker(bookmakers):
 
 
 def _unambiguous_line(price_map):
-    """Acepta un total únicamente si existe una sola línea O/U completa.
-
-    API-Football puede devolver varias líneas alternativas dentro del mismo
-    mercado. No inferimos cuál es la principal mediante cuotas equilibradas.
-    Si hay más de una pareja completa, el mercado se omite.
-    """
+    """Acepta un total únicamente si existe una sola pareja O/U completa."""
     complete = []
     for line, sides in (price_map or {}).items():
         try:
@@ -66,6 +77,13 @@ def _unambiguous_line(price_map):
     return complete[0] if len(complete) == 1 else None
 
 
+def _supported_line(tipo, line):
+    try:
+        return round(float(line), 2) in SUPPORTED_HALF_LINES.get(tipo, set())
+    except Exception:
+        return False
+
+
 def obtener_cuotas_europa(fixture_id, nombre_liga=None, local=None, visita=None):
     cuotas = {
         "1": 0.0, "X": 0.0, "2": 0.0,
@@ -74,6 +92,7 @@ def obtener_cuotas_europa(fixture_id, nombre_liga=None, local=None, visita=None)
         "_pricing_mode": "unavailable",
         "_persist_allowed": False,
         "_line_status": {},
+        "_calibration": CALIBRATION_VERSION,
     }
     if not API_KEY or fixture_id in (None, 999999):
         return cuotas
@@ -143,9 +162,11 @@ def obtener_cuotas_europa(fixture_id, nombre_liga=None, local=None, visita=None)
                 except Exception:
                     pass
             chosen = _unambiguous_line(price_map)
-            if chosen is not None:
+            if chosen is not None and _supported_line(tipo, chosen):
                 cuotas["_lineas"][tipo] = chosen
-                cuotas["_line_status"][tipo] = "unambiguous"
+                cuotas["_line_status"][tipo] = "unambiguous_supported"
+            elif chosen is not None:
+                cuotas["_line_status"][tipo] = f"unsupported:{chosen:g}"
             elif len(complete) > 1:
                 cuotas["_line_status"][tipo] = f"ambiguous:{len(complete)}"
             else:
@@ -156,7 +177,7 @@ def obtener_cuotas_europa(fixture_id, nombre_liga=None, local=None, visita=None)
     return cuotas
 
 
-def calcular_kelly_fraccional(prob_modelo_decimal, cuota_decimal, fraccion=0.20):
+def calcular_kelly_fraccional(prob_modelo_decimal, cuota_decimal, fraccion=KELLY_FRACTION):
     if cuota_decimal <= 1.0 or not 0 < prob_modelo_decimal < 1:
         return 0.0
     b = cuota_decimal - 1.0
@@ -228,19 +249,20 @@ def analizar_apuestas_europa(resultados_mc, preds_ml, fixture_id, cuotas_persona
 
         if prob_mc <= 0 or prob_ml <= 0:
             continue
+
         disagreement = abs(prob_mc - prob_ml)
         prob_modelo_pct = 0.65 * prob_ml + 0.35 * prob_mc
         p = prob_modelo_pct / 100.0
         ev_pct = ((p * cuota) - 1.0) * 100.0
         kelly = calcular_kelly_fraccional(p, cuota)
 
-        if disagreement > 12.0:
+        if disagreement > MAX_DISAGREEMENT_PP:
             verdict = "❌ NO BET — modelos en desacuerdo"; kelly = 0.0
-        elif min(prob_mc, prob_ml) < 55.0:
+        elif min(prob_mc, prob_ml) < MIN_MODEL_PROB_PCT:
             verdict = "❌ NO BET — confianza insuficiente"; kelly = 0.0
-        elif ev_pct >= 8.0 and kelly >= 1.0:
+        elif ev_pct >= STRONG_EV_PCT and kelly >= STRONG_KELLY_PCT:
             verdict = "🔥 Value Fuerte"
-        elif ev_pct >= 3.0 and kelly >= 0.5:
+        elif ev_pct >= MODERATE_EV_PCT and kelly >= MODERATE_KELLY_PCT:
             verdict = "✅ Value Moderado"
         elif ev_pct > 0:
             verdict = "⚠️ EV Positivo Marginal"; kelly = 0.0
@@ -255,6 +277,7 @@ def analizar_apuestas_europa(resultados_mc, preds_ml, fixture_id, cuotas_persona
             "Mercado": m["nombre"],
             "Bookmaker": bookmaker,
             "Modo cuota": pricing_mode,
+            "Calibración": CALIBRATION_VERSION,
             "Fuente prob.": "ML line-aware + MC",
             "Prob. MC": f"{prob_mc:.1f}%",
             "Prob. ML": f"{prob_ml:.1f}%",
