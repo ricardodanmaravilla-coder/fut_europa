@@ -5,9 +5,10 @@ import pandas as pd
 import unicodedata
 
 API_KEY=os.environ.get("API_SPORTS_KEY"); BASE_URL="https://v3.football.api-sports.io"; HEADERS={"x-apisports-key":API_KEY} if API_KEY else {}
-PRIMARY_BOOKMAKER="playdoit"; REFERENCE_BOOKMAKER="bet365"; CALIBRATION_VERSION="strict-v2-line-lock"
+PRIMARY_BOOKMAKER="playdoit"; REFERENCE_BOOKMAKER="bet365"; CALIBRATION_VERSION="strict-v3-balanced-main-line"
 SUPPORTED_HALF_LINES={"goles":{1.5,2.5,3.5,4.5},"corners":{7.5,8.5,9.5,10.5,11.5,12.5},"tarjetas":{2.5,3.5,4.5,5.5,6.5,7.5}}
 MAX_DISAGREEMENT_PP=8.0; MIN_MODEL_PROB_PCT=60.0; STRONG_EV_PCT=10.0; MODERATE_EV_PCT=5.0; STRONG_KELLY_PCT=1.0; MODERATE_KELLY_PCT=0.75; KELLY_FRACTION=0.10
+
 
 def american_to_decimal(american):
     try: american=float(american)
@@ -15,9 +16,12 @@ def american_to_decimal(american):
     if american==0:return 0.0
     return round((american/100.0)+1.0,3) if american>0 else round((100.0/abs(american))+1.0,3)
 
+
 def normalizar_nombre(nombre): return unicodedata.normalize("NFKD",str(nombre)).encode("ASCII","ignore").decode("utf-8").lower().strip()
+
 def _extract_line(value):
     m=re.search(r"(?:Over|Under)\s*([0-9]+(?:\.[0-9]+)?)",str(value),flags=re.I); return float(m.group(1)) if m else None
+
 
 def _select_bookmaker(bookmakers):
     normalized=[(normalizar_nombre(b.get("name","")),b) for b in (bookmakers or [])]
@@ -27,17 +31,45 @@ def _select_bookmaker(bookmakers):
     if reference:return reference,"bet365_reference",False
     return None,"unavailable",False
 
-def _unambiguous_line(price_map):
-    complete=[]
-    for line,sides in (price_map or {}).items():
-        try: over=float(sides.get("Over",0)); under=float(sides.get("Under",0))
-        except Exception:continue
-        if over>1.01 and under>1.01:complete.append(float(line))
-    return complete[0] if len(complete)==1 else None
 
 def _supported_line(tipo,line):
     try:return round(float(line),2) in SUPPORTED_HALF_LINES.get(tipo,set())
     except Exception:return False
+
+
+def _balanced_supported_line(tipo, price_map):
+    """Pick the most market-central supported line from complete O/U pairs.
+
+    Pre-match odds can contain several valid total lines. API-Football does not expose
+    the live `main` flag on pre-match values, so use price balance only among lines
+    that are directly supported by the trained model. Lower score = more balanced.
+    Fail closed on exact score ties so we never guess between equally plausible lines.
+    """
+    candidates=[]
+    for line,sides in (price_map or {}).items():
+        try:
+            line=float(line); over=float(sides.get("Over",0)); under=float(sides.get("Under",0))
+        except Exception:
+            continue
+        if over<=1.01 or under<=1.01 or not _supported_line(tipo,line):
+            continue
+        # Convert to no-vig implied probabilities. The primary market tends to have
+        # the two sides closest to 50/50. Tie-breaker uses raw price symmetry only.
+        io,iu=1.0/over,1.0/under
+        total=io+iu
+        if total<=0:continue
+        p_over=io/total
+        balance=abs(p_over-0.5)
+        symmetry=abs(over-under)
+        candidates.append((round(balance,8),round(symmetry,8),line))
+    if not candidates:return None,"missing_supported"
+    candidates.sort(key=lambda x:(x[0],x[1],x[2]))
+    best=candidates[0]
+    # If two lines are indistinguishable on both balance criteria, do not guess.
+    tied=[c for c in candidates if abs(c[0]-best[0])<1e-8 and abs(c[1]-best[1])<1e-8]
+    if len(tied)>1:return None,f"balanced_tie:{len(tied)}"
+    return best[2],f"balanced_supported:{len(candidates)}"
+
 
 def obtener_cuotas_europa(fixture_id,nombre_liga=None,local=None,visita=None):
     cuotas={"1":0.0,"X":0.0,"2":0.0,"_lineas":{},"_bookmaker":None,"_pricing_mode":"unavailable","_persist_allowed":False,"_line_status":{},"_calibration":CALIBRATION_VERSION}
@@ -70,28 +102,37 @@ def obtener_cuotas_europa(fixture_id,nombre_liga=None,local=None,visita=None):
                     suffix="Goles" if tipo=="goles" else "Corners" if tipo=="corners" else "Tarjetas"; side="Over" if key.lower().startswith("over") else "Under"
                     cuotas[f"{side} {line:g} {suffix}"]=odd; line_prices[tipo].setdefault(float(line),{})[side]=odd
         for tipo,price_map in line_prices.items():
-            complete=[]
-            for line,sides in price_map.items():
-                try:
-                    if float(sides.get("Over",0))>1.01 and float(sides.get("Under",0))>1.01:complete.append(float(line))
-                except Exception:pass
-            chosen=_unambiguous_line(price_map)
-            if chosen is not None and _supported_line(tipo,chosen):cuotas["_lineas"][tipo]=chosen; cuotas["_line_status"][tipo]="unambiguous_supported"
-            elif chosen is not None:cuotas["_line_status"][tipo]=f"unsupported:{chosen:g}"
-            elif len(complete)>1:cuotas["_line_status"][tipo]=f"ambiguous:{len(complete)}"
-            else:cuotas["_line_status"][tipo]="missing"
+            chosen,status=_balanced_supported_line(tipo,price_map)
+            if chosen is not None:
+                cuotas["_lineas"][tipo]=chosen
+                cuotas["_line_status"][tipo]=status
+            else:
+                complete=[]
+                for line,sides in price_map.items():
+                    try:
+                        if float(sides.get("Over",0))>1.01 and float(sides.get("Under",0))>1.01:complete.append(float(line))
+                    except Exception:pass
+                if status.startswith("balanced_tie"):
+                    cuotas["_line_status"][tipo]=status
+                elif complete:
+                    cuotas["_line_status"][tipo]="unsupported_or_no_supported_complete"
+                else:
+                    cuotas["_line_status"][tipo]="missing"
     except Exception:return cuotas
     return cuotas
+
 
 def calcular_kelly_fraccional(prob_modelo_decimal,cuota_decimal,fraccion=KELLY_FRACTION):
     if cuota_decimal<=1.0 or not 0<prob_modelo_decimal<1:return 0.0
     b=cuota_decimal-1.0; kelly=((b*prob_modelo_decimal)-(1.0-prob_modelo_decimal))/b
     return round(max(0.0,kelly)*fraccion*100.0,2)
 
+
 def _mc_market_probability(resultados_mc,tipo,side,line):
     label="Goles" if tipo=="goles" else "Corners" if tipo=="corners" else "Tarjetas"
     try:return float(resultados_mc.get("Lineas_Casino",{}).get(tipo,{}).get(f"{side} {line:g} {label}",0.0))
     except Exception:return 0.0
+
 
 def _line_locked(cuotas,preds_ml,resultados_mc,tipo,line,side):
     """Fail closed: sportsbook, ML metadata and MC exact market must all agree."""
@@ -102,6 +143,7 @@ def _line_locked(cuotas,preds_ml,resultados_mc,tipo,line,side):
         key=f"{side} {line:g} {label}"
         return key in resultados_mc.get("Lineas_Casino",{}).get(tipo,{})
     except Exception:return False
+
 
 def analizar_apuestas_europa(resultados_mc,preds_ml,fixture_id,cuotas_personalizadas=None,nombre_liga=None,local=None,visita=None):
     cuotas=cuotas_personalizadas if cuotas_personalizadas is not None else obtener_cuotas_europa(fixture_id,nombre_liga,local,visita)
