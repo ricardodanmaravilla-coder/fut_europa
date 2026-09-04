@@ -7,6 +7,8 @@ on:
       - 'modules/ml_europa.py'
       - 'modules/montecarlo_europa.py'
       - 'modules/odds_europa.py'
+      - 'weekly_entrypoint.py'
+      - 'Dockerfile'
       - '.github/workflows/validate-line-aware.yml'
 
 jobs:
@@ -18,15 +20,17 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install test dependencies
-        run: pip install numpy pandas scikit-learn requests pyarrow duckdb
+        run: pip install numpy pandas scikit-learn requests pyarrow duckdb fastapi uvicorn
       - name: Compile changed modules
-        run: python -m py_compile modules/ml_europa.py modules/montecarlo_europa.py modules/odds_europa.py
-      - name: Train and verify dynamic lines
+        run: python -m py_compile modules/ml_europa.py modules/montecarlo_europa.py modules/odds_europa.py weekly_entrypoint.py web_app.py web_app_v2.py
+      - name: Train and verify dynamic lines and weekly window
         run: |
           python - <<'PY'
+          from datetime import date
           import pandas as pd
           from modules.ml_europa import PredictorMLEuropa
           from modules.montecarlo_europa import simular_partido_europa
+          from weekly_entrypoint import _week_window
 
           path='data/historico_premier.csv'
           df=pd.read_csv(path)
@@ -35,15 +39,24 @@ jobs:
           teams=sorted(set(df['Local'].dropna()).intersection(set(df['Visitante'].dropna())))
           assert len(teams)>=2
           a,b=teams[0],teams[1]
-          pred=model.predecir_mercados_completos(a,b,cuotas_1x2={'1':2.2,'X':3.3,'2':3.1,'_lineas':{'goles':3.5,'corners':10.5,'tarjetas':5.5}})
+          lines={'goles':3.5,'corners':10.5,'tarjetas':5.5}
+          odds={'1':2.2,'X':3.3,'2':3.1,'_lineas':lines}
+          pred=model.predecir_mercados_completos(a,b,cuotas_1x2=odds,lineas_casino=lines)
           assert pred['Meta']['line_aware'] is True
           assert pred['Meta']['lineas_modeladas']['goles']==3.5
           assert 'Over 3.5' in pred['Goles_Over_Under']
           assert 'Over 10.5 Corners' in pred['Corners_Totales']
           assert 'Over 5.5 Tarjetas' in pred['Tarjetas_Totales']
-          mc=simular_partido_europa(a,b,df,1500,1500)
+          mc=simular_partido_europa(a,b,df,1500,1500,lineas_casino=lines)
           assert 'Over 3.5 Goles' in mc['Lineas_Casino']['goles']
           assert 'Over 10.5 Corners' in mc['Lineas_Casino']['corners']
           assert 'Over 5.5 Tarjetas' in mc['Lineas_Casino']['tarjetas']
+
+          start,end=_week_window(date(2026,9,4))
+          assert start.isoformat()=='2026-09-04'
+          assert end.isoformat()=='2026-09-06'
+          start2,end2=_week_window(date(2026,9,6))
+          assert start2==end2==date(2026,9,6)
           print('OK line-aware training rows:', pred['Meta']['train_rows_line_aware'])
+          print('OK weekly window:', start, end)
           PY
