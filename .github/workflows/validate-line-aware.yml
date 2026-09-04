@@ -27,10 +27,11 @@ jobs:
         run: |
           python - <<'PY'
           from datetime import date
+          from unittest.mock import patch
           import pandas as pd
           from modules.ml_europa import PredictorMLEuropa
           from modules.montecarlo_europa import simular_partido_europa
-          from weekly_entrypoint import _week_window
+          import weekly_entrypoint as weekly
 
           path='data/historico_premier.csv'
           df=pd.read_csv(path)
@@ -52,11 +53,34 @@ jobs:
           assert 'Over 10.5 Corners' in mc['Lineas_Casino']['corners']
           assert 'Over 5.5 Tarjetas' in mc['Lineas_Casino']['tarjetas']
 
-          start,end=_week_window(date(2026,9,4))
+          start,end=weekly._week_window(date(2026,9,4))
           assert start.isoformat()=='2026-09-04'
           assert end.isoformat()=='2026-09-06'
-          start2,end2=_week_window(date(2026,9,6))
+          start2,end2=weekly._week_window(date(2026,9,6))
           assert start2==end2==date(2026,9,6)
+
+          # Verify explicit from/to API-Football query and that >15 fixtures are retained.
+          fake_response=[]
+          for i in range(20):
+              fake_response.append({
+                  'fixture': {'id': 1000+i, 'date': '2026-09-05T18:00:00-06:00'},
+                  'teams': {'home': {'name': f'Home {i}'}, 'away': {'name': f'Away {i}'}}
+              })
+          class Resp:
+              status_code=200
+              def json(self): return {'response': fake_response}
+          captured={}
+          def fake_get(url, headers=None, params=None, timeout=None):
+              captured['params']=params
+              return Resp()
+          with patch.object(weekly.core, 'API_KEY', 'test-key'), patch.object(weekly.requests, 'get', side_effect=fake_get):
+              got=weekly._api_sports_week(39, start, end)
+          assert len(got)==20, len(got)
+          assert captured['params']['from']=='2026-09-04'
+          assert captured['params']['to']=='2026-09-06'
+          assert captured['params']['timezone']=='America/Mexico_City'
+          assert 'next' not in captured['params']
+
           print('OK line-aware training rows:', pred['Meta']['train_rows_line_aware'])
-          print('OK weekly window:', start, end)
+          print('OK weekly Mexico City window:', start, end, 'fixtures:', len(got))
           PY
