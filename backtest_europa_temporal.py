@@ -5,7 +5,13 @@ Compara modelo puro, mercado de apertura, mercado de cierre (benchmark) y
 probabilidad final calibrada con APERTURA. El cierre nunca se usa para construir
 una predicción retrospectiva temprana: sólo mide cuánta información incorporó
 el mercado hasta el kickoff.
+
+Modo normal: walk-forward completo (3 bloques por liga).
+Modo CI (FUT_BACKTEST_FAST=1): una ventana temporal reciente por cada liga,
+con hasta 120 partidos de prueba. Conserva la separación estricta train/test,
+pero evita reentrenamientos redundantes en GitHub Actions.
 """
+import os
 import numpy as np
 import pandas as pd
 from sklearn.metrics import log_loss, accuracy_score
@@ -20,6 +26,9 @@ FILES = {
     "Bundesliga": "data/historico_bundesliga.csv",
     "Ligue1": "data/historico_ligue1.csv",
 }
+
+FAST_MODE = os.getenv("FUT_BACKTEST_FAST", "0").strip().lower() in {"1", "true", "yes", "on"}
+FAST_TEST_ROWS = max(80, int(os.getenv("FUT_BACKTEST_FAST_ROWS", "120")))
 
 
 def rating(tabla, team):
@@ -69,13 +78,31 @@ def pred_vec(ml, loc, vis, el, ev, fecha, odds=None):
     return v / v.sum()
 
 
-def evaluate(path, n_blocks=3):
-    df = pd.read_csv(path)
-    df["_fecha"] = pd.to_datetime(df["Fecha"], errors="coerce", format="%Y-%m-%d")
-    df = df.sort_values("_fecha", kind="stable").reset_index(drop=True)
+def temporal_windows(df, n_blocks=3, fast=False):
+    """Devuelve ventanas (train_end, test_end) sin fuga temporal."""
+    if fast:
+        # Una ventana reciente por liga. Se deja al menos 400 partidos para train.
+        test_rows = min(FAST_TEST_ROWS, max(80, len(df) - 400))
+        bstart = max(400, len(df) - test_rows)
+        if len(df) - bstart < 20:
+            return []
+        return [(bstart, len(df))]
+
     start = max(400, int(len(df) * 0.70))
     remaining = len(df) - start
     block = max(80, int(np.ceil(remaining / n_blocks)))
+    windows = []
+    for bstart in range(start, len(df), block):
+        bend = min(len(df), bstart + block)
+        if bend - bstart >= 20:
+            windows.append((bstart, bend))
+    return windows
+
+
+def evaluate(path, n_blocks=3, fast=False):
+    df = pd.read_csv(path)
+    df["_fecha"] = pd.to_datetime(df["Fecha"], errors="coerce", format="%Y-%m-%d")
+    df = df.dropna(subset=["_fecha"]).sort_values("_fecha", kind="stable").reset_index(drop=True)
 
     y, pure, final = [], [], []
     opening, opening_y = [], []
@@ -83,12 +110,12 @@ def evaluate(path, n_blocks=3):
     move_abs_pp = []
     learned = []
 
-    for bstart in range(start, len(df), block):
-        bend = min(len(df), bstart + block)
+    windows = temporal_windows(df, n_blocks=n_blocks, fast=fast)
+    assert windows, (path, "sin ventanas temporales")
+
+    for bstart, bend in windows:
         train = df.iloc[:bstart].copy()
         test = df.iloc[bstart:bend].copy()
-        if len(test) < 20:
-            continue
 
         ml = PredictorMLEuropa()
         assert ml.entrenar(train), path
@@ -125,7 +152,8 @@ def evaluate(path, n_blocks=3):
     y = np.asarray(y, dtype=int)
     pure = np.asarray(pure)
     final = np.asarray(final)
-    assert len(y) >= 100, (path, len(y))
+    min_required = 60 if fast else 100
+    assert len(y) >= min_required, (path, len(y))
     onehot = np.eye(3)[y]
 
     out = {
@@ -140,11 +168,11 @@ def evaluate(path, n_blocks=3):
         "blocks": len(learned),
     }
 
-    if len(opening) >= 80:
+    if len(opening) >= min_required:
         out["opening_n"] = len(opening)
         out["logloss_opening"] = float(log_loss(np.asarray(opening_y), np.asarray(opening), labels=[0, 1, 2]))
         out["accuracy_opening"] = float(accuracy_score(np.asarray(opening_y), np.asarray(opening).argmax(axis=1)))
-    if len(closing) >= 80:
+    if len(closing) >= min_required:
         out["closing_n"] = len(closing)
         out["logloss_closing"] = float(log_loss(np.asarray(closing_y), np.asarray(closing), labels=[0, 1, 2]))
         out["accuracy_closing"] = float(accuracy_score(np.asarray(closing_y), np.asarray(closing).argmax(axis=1)))
@@ -155,7 +183,10 @@ def evaluate(path, n_blocks=3):
 
 
 def main():
-    out = {name: evaluate(path) for name, path in FILES.items()}
+    mode = "CI_FAST" if FAST_MODE else "FULL"
+    print(f"BACKTEST_MODE={mode} fast_rows={FAST_TEST_ROWS if FAST_MODE else 'n/a'}")
+
+    out = {name: evaluate(path, fast=FAST_MODE) for name, path in FILES.items()}
     for name, m in out.items():
         print(name, {k: round(v, 4) if isinstance(v, float) else v for k, v in m.items()})
 
@@ -166,11 +197,15 @@ def main():
     pure_acc = float(np.average([v["accuracy_pure"] for v in out.values()], weights=weights))
     final_acc = float(np.average([v["accuracy_final"] for v in out.values()], weights=weights))
 
-    assert total >= 1000
+    assert total >= (300 if FAST_MODE else 1000), total
     assert np.isfinite(final_ll) and final_ll < 1.099
-    assert final_ll <= pure_ll + 0.008, (pure_ll, final_ll)
+    # En CI la muestra es más pequeña: permitimos una tolerancia ligeramente mayor
+    # sin eliminar la prueba de que incorporar mercado no degrade severamente el modelo.
+    tolerance = 0.02 if FAST_MODE else 0.008
+    assert final_ll <= pure_ll + tolerance, (pure_ll, final_ll, tolerance)
 
     summary = {
+        "mode": mode,
         "n": total,
         "pure_logloss": round(pure_ll, 4),
         "final_logloss": round(final_ll, 4),
