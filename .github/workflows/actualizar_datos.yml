@@ -31,7 +31,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Compilar codigo
-        run: python -m py_compile app_europa.py generar_historicos.py build_parquet_store.py enriquecer_statsbomb.py backtest_europa_temporal.py modules/*.py
+        run: python -m py_compile app_europa.py web_app.py web_app_v2.py weekly_entrypoint.py generar_historicos.py build_parquet_store.py enriquecer_statsbomb.py backtest_europa_temporal.py modules/*.py
 
       - name: Generar historicos gratuitos
         run: python generar_historicos.py
@@ -100,16 +100,25 @@ jobs:
           FUT_BACKTEST_FAST_ROWS: '120'
         run: python backtest_europa_temporal.py
 
-      - name: Probar arranque Streamlit
+      - name: Probar arranque FastAPI de produccion
         run: |
-          streamlit run app_europa.py --server.headless true --server.port 8501 > /tmp/fut_europa.log 2>&1 &
+          uvicorn weekly_entrypoint:app --host 127.0.0.1 --port 8080 --workers 1 > /tmp/fut_europa.log 2>&1 &
           PID=$!
           READY=0
           for i in {1..30}; do
-            if curl -fsS http://127.0.0.1:8501/_stcore/health; then READY=1; break; fi
+            if curl -fsS http://127.0.0.1:8080/health > /tmp/health.json; then READY=1; break; fi
             sleep 1
           done
           if [ "$READY" -ne 1 ]; then cat /tmp/fut_europa.log; kill $PID || true; exit 1; fi
+          python - <<'PY'
+          import json
+          with open('/tmp/health.json', 'r', encoding='utf-8') as f:
+              h = json.load(f)
+          assert h.get('status') == 'ok', h
+          assert h.get('runtime') == 'fastapi', h
+          assert h.get('casino_line_montecarlo') is True, h
+          print('FASTAPI_HEALTH_OK', h)
+          PY
           kill $PID || true
 
       - name: Guardar historicos actualizados
