@@ -95,6 +95,9 @@ jobs:
           PY
 
       - name: Diagnostico temporal estricto
+        env:
+          FUT_BACKTEST_FAST: '1'
+          FUT_BACKTEST_FAST_ROWS: '120'
         run: python backtest_europa_temporal.py
 
       - name: Probar arranque Streamlit
