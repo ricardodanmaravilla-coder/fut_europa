@@ -34,7 +34,7 @@ jobs:
           import pandas as pd
           from modules.ml_europa import PredictorMLEuropa
           from modules.montecarlo_europa import simular_partido_europa
-          from modules.odds_europa import _line_locked
+          from modules.odds_europa import _line_locked, _balanced_supported_line
           import weekly_entrypoint as weekly
 
           path='data/historico_premier.csv'
@@ -45,7 +45,32 @@ jobs:
           assert len(teams)>=2
           a,b=teams[0],teams[1]
 
-          # Sportsbook says 3.5 / 10.5 / 5.5. Both engines must use exactly those lines.
+          # Multiple real sportsbook lines: choose the supported line whose no-vig price is closest to 50/50.
+          price_map={
+              1.5:{'Over':1.35,'Under':3.10},
+              2.5:{'Over':1.68,'Under':2.15},
+              3.5:{'Over':1.92,'Under':1.92},
+              4.5:{'Over':2.65,'Under':1.45},
+          }
+          chosen,status=_balanced_supported_line('goles',price_map)
+          assert chosen==3.5,(chosen,status)
+          assert status=='balanced_supported:4',status
+
+          # Unsupported line may be more balanced but must never win.
+          price_map2={
+              2.25:{'Over':1.91,'Under':1.91},
+              2.5:{'Over':1.87,'Under':1.95},
+              3.5:{'Over':2.45,'Under':1.52},
+          }
+          chosen2,status2=_balanced_supported_line('goles',price_map2)
+          assert chosen2==2.5,(chosen2,status2)
+
+          # Exact tie between supported lines must fail closed instead of guessing.
+          tie_map={2.5:{'Over':1.90,'Under':1.90},3.5:{'Over':1.90,'Under':1.90}}
+          tie_line,tie_status=_balanced_supported_line('goles',tie_map)
+          assert tie_line is None and tie_status=='balanced_tie:2',(tie_line,tie_status)
+
+          # Sportsbook selected 3.5 / 10.5 / 5.5. Both engines must use exactly those lines.
           lines={'goles':3.5,'corners':10.5,'tarjetas':5.5}
           odds={
               '1':2.2,'X':3.3,'2':3.1,'_lineas':lines,
@@ -55,7 +80,7 @@ jobs:
           }
           pred=model.predecir_mercados_completos(a,b,cuotas_1x2=odds,lineas_casino=lines)
           assert pred['Meta']['line_aware'] is True
-          assert pred['Meta']['lineas_modeladas']==lines, pred['Meta']['lineas_modeladas']
+          assert pred['Meta']['lineas_modeladas']==lines,pred['Meta']['lineas_modeladas']
           assert 'Over 3.5' in pred['Goles_Over_Under']
           assert 'Over 2.5' not in pred['Goles_Over_Under']
           assert 'Over 10.5 Corners' in pred['Corners_Totales']
@@ -63,18 +88,16 @@ jobs:
 
           mc=simular_partido_europa(a,b,df,1500,1500,lineas_casino=lines)
           assert mc['Meta']['sportsbook_lines_only'] is True
-          assert mc['Meta']['lineas_modeladas']==lines, mc['Meta']['lineas_modeladas']
+          assert mc['Meta']['lineas_modeladas']==lines,mc['Meta']['lineas_modeladas']
           assert set(mc['Lineas_Casino']['goles'])=={'Over 3.5 Goles','Under 3.5 Goles','Push 3.5 Goles'}
           assert 'Over 1.5 Goles' not in mc['Lineas_Casino']['goles']
           assert 'Over 2.5 Goles' not in mc['Lineas_Casino']['goles']
           assert _line_locked(odds,pred,mc,'goles',3.5,'Over') is True
 
-          # Regression: if ML silently models 2.5 while sportsbook says 3.5, reject.
           bad_pred=copy.deepcopy(pred)
           bad_pred['Meta']['lineas_modeladas']['goles']=2.5
           assert _line_locked(odds,bad_pred,mc,'goles',3.5,'Over') is False
 
-          # Regression: if MC lacks the exact sportsbook line, reject.
           bad_mc=copy.deepcopy(mc)
           bad_mc['Lineas_Casino']['goles']={}
           assert _line_locked(odds,pred,bad_mc,'goles',3.5,'Over') is False
@@ -88,25 +111,26 @@ jobs:
           fake_response=[]
           for i in range(20):
               fake_response.append({
-                  'fixture': {'id': 1000+i, 'date': '2026-09-05T18:00:00-06:00'},
-                  'teams': {'home': {'name': f'Home {i}'}, 'away': {'name': f'Away {i}'}}
+                  'fixture': {'id':1000+i,'date':'2026-09-05T18:00:00-06:00'},
+                  'teams': {'home': {'name':f'Home {i}'}, 'away': {'name':f'Away {i}'}}
               })
           class Resp:
               status_code=200
-              def json(self): return {'response': fake_response}
+              def json(self): return {'response':fake_response}
           captured={}
-          def fake_get(url, headers=None, params=None, timeout=None):
+          def fake_get(url,headers=None,params=None,timeout=None):
               captured['params']=params
               return Resp()
-          with patch.object(weekly.core, 'API_KEY', 'test-key'), patch.object(weekly.requests, 'get', side_effect=fake_get):
-              got=weekly._api_sports_week(39, start, end)
-          assert len(got)==20, len(got)
+          with patch.object(weekly.core,'API_KEY','test-key'), patch.object(weekly.requests,'get',side_effect=fake_get):
+              got=weekly._api_sports_week(39,start,end)
+          assert len(got)==20,len(got)
           assert captured['params']['from']=='2026-09-04'
           assert captured['params']['to']=='2026-09-06'
           assert captured['params']['timezone']=='America/Mexico_City'
           assert 'next' not in captured['params']
 
-          print('OK exact sportsbook line lock:', lines)
+          print('OK balanced sportsbook main-line selection:',chosen,status)
+          print('OK exact sportsbook line lock:',lines)
           print('OK line mismatch rejected')
-          print('OK weekly Mexico City window:', start, end, 'fixtures:', len(got))
+          print('OK weekly Mexico City window:',start,end,'fixtures:',len(got))
           PY
