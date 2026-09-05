@@ -8,10 +8,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 COPY requirements.txt ./requirements.txt
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN python -m pip install --upgrade pip \
+    && python -m pip install -r requirements.txt \
+    && python -c "import uvicorn; print('uvicorn', uvicorn.__version__)"
 
 COPY . .
 
 EXPOSE 8080
 
-CMD ["sh", "-c", "uvicorn weekly_entrypoint:app --host 0.0.0.0 --port ${PORT:-8080} --workers 1"]
+CMD ["python", "-m", "uvicorn", "weekly_entrypoint:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "1"]
