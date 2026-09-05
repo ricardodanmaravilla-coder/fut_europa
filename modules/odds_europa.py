@@ -5,7 +5,7 @@ import pandas as pd
 import unicodedata
 
 API_KEY=os.environ.get("API_SPORTS_KEY"); BASE_URL="https://v3.football.api-sports.io"; HEADERS={"x-apisports-key":API_KEY} if API_KEY else {}
-PRIMARY_BOOKMAKER="playdoit"; REFERENCE_BOOKMAKER="bet365"; CALIBRATION_VERSION="strict-v3-balanced-main-line"
+PRIMARY_BOOKMAKER="bet365"; CALIBRATION_VERSION="strict-v4-bet365-line-lock"
 SUPPORTED_HALF_LINES={"goles":{1.5,2.5,3.5,4.5},"corners":{7.5,8.5,9.5,10.5,11.5,12.5},"tarjetas":{2.5,3.5,4.5,5.5,6.5,7.5}}
 MAX_DISAGREEMENT_PP=8.0; MIN_MODEL_PROB_PCT=60.0; STRONG_EV_PCT=10.0; MODERATE_EV_PCT=5.0; STRONG_KELLY_PCT=1.0; MODERATE_KELLY_PCT=0.75; KELLY_FRACTION=0.10
 
@@ -26,9 +26,7 @@ def _extract_line(value):
 def _select_bookmaker(bookmakers):
     normalized=[(normalizar_nombre(b.get("name","")),b) for b in (bookmakers or [])]
     primary=next((b for name,b in normalized if PRIMARY_BOOKMAKER in name),None)
-    if primary:return primary,"playdoit",True
-    reference=next((b for name,b in normalized if REFERENCE_BOOKMAKER in name),None)
-    if reference:return reference,"bet365_reference",False
+    if primary:return primary,"bet365",True
     return None,"unavailable",False
 
 
@@ -53,8 +51,6 @@ def _balanced_supported_line(tipo, price_map):
             continue
         if over<=1.01 or under<=1.01 or not _supported_line(tipo,line):
             continue
-        # Convert to no-vig implied probabilities. The primary market tends to have
-        # the two sides closest to 50/50. Tie-breaker uses raw price symmetry only.
         io,iu=1.0/over,1.0/under
         total=io+iu
         if total<=0:continue
@@ -65,7 +61,6 @@ def _balanced_supported_line(tipo, price_map):
     if not candidates:return None,"missing_supported"
     candidates.sort(key=lambda x:(x[0],x[1],x[2]))
     best=candidates[0]
-    # If two lines are indistinguishable on both balance criteria, do not guess.
     tied=[c for c in candidates if abs(c[0]-best[0])<1e-8 and abs(c[1]-best[1])<1e-8]
     if len(tied)>1:return None,f"balanced_tie:{len(tied)}"
     return best[2],f"balanced_supported:{len(candidates)}"
@@ -181,6 +176,6 @@ def analizar_apuestas_europa(resultados_mc,preds_ml,fixture_id,cuotas_personaliz
         elif ev_pct>=MODERATE_EV_PCT and kelly>=MODERATE_KELLY_PCT:verdict="✅ Value Moderado"
         elif ev_pct>0:verdict="⚠️ EV Positivo Marginal";kelly=0.0
         else:verdict="❌ EV Negativo";kelly=0.0
-        if not official and ("🔥" in verdict or "✅" in verdict):verdict="🧪 REFERENCIA Bet365 — NO OFICIAL";kelly=0.0
+        if not official and ("🔥" in verdict or "✅" in verdict):verdict="🧪 BOOKMAKER NO OFICIAL";kelly=0.0
         rows.append({"Mercado":m["nombre"],"Bookmaker":bookmaker,"Modo cuota":pricing_mode,"Calibración":CALIBRATION_VERSION,"Fuente prob.":"ML line-aware + MC line-locked","Prob. MC":f"{prob_mc:.1f}%","Prob. ML":f"{prob_ml:.1f}%","Prob. usada":f"{prob_modelo_pct:.1f}%","Desacuerdo pp":round(disagreement,1),"Cuota real":round(cuota,3),"EV (Valor)":f"{ev_pct:.2f}%","Stake Recomendado":f"{kelly:.2f}% Bank","Veredicto":verdict})
     return pd.DataFrame(rows)
