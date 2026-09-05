@@ -14,6 +14,10 @@ RUN python -m pip install --upgrade pip \
 
 COPY . .
 
+# Train Elo + ML once during image build. Runtime requests only load these
+# bundles, so /api/analyze and /api/scan-one no longer spend minutes fitting.
+RUN python build_model_cache.py
+
 EXPOSE 8080
 
 CMD ["python", "-m", "uvicorn", "weekly_entrypoint:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "1"]
