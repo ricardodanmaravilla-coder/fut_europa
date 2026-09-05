@@ -5,7 +5,7 @@ import pandas as pd
 import unicodedata
 
 API_KEY=os.environ.get("API_SPORTS_KEY"); BASE_URL="https://v3.football.api-sports.io"; HEADERS={"x-apisports-key":API_KEY} if API_KEY else {}
-PRIMARY_BOOKMAKER="bet365"; CALIBRATION_VERSION="strict-v4-bet365-line-lock"
+PRIMARY_BOOKMAKER="bet365"; CALIBRATION_VERSION="strict-v5-bet365-fullmatch-line-lock"
 SUPPORTED_HALF_LINES={"goles":{1.5,2.5,3.5,4.5},"corners":{7.5,8.5,9.5,10.5,11.5,12.5},"tarjetas":{2.5,3.5,4.5,5.5,6.5,7.5}}
 MAX_DISAGREEMENT_PP=8.0; MIN_MODEL_PROB_PCT=60.0; STRONG_EV_PCT=10.0; MODERATE_EV_PCT=5.0; STRONG_KELLY_PCT=1.0; MODERATE_KELLY_PCT=0.75; KELLY_FRACTION=0.10
 
@@ -36,13 +36,6 @@ def _supported_line(tipo,line):
 
 
 def _balanced_supported_line(tipo, price_map):
-    """Pick the most market-central supported line from complete O/U pairs.
-
-    Pre-match odds can contain several valid total lines. API-Football does not expose
-    the live `main` flag on pre-match values, so use price balance only among lines
-    that are directly supported by the trained model. Lower score = more balanced.
-    Fail closed on exact score ties so we never guess between equally plausible lines.
-    """
     candidates=[]
     for line,sides in (price_map or {}).items():
         try:
@@ -80,10 +73,19 @@ def obtener_cuotas_europa(fixture_id,nombre_liga=None,local=None,visita=None):
         line_prices={"goles":{},"corners":{},"tarjetas":{}}
         for mercado in bm.get("bets",[]):
             mid=mercado.get("id"); bet_name=normalizar_nombre(mercado.get("name",""))
-            if mid==5 or ("goal" in bet_name and ("over" in bet_name or "under" in bet_name)):tipo="goles"
-            elif mid==45 or "corner" in bet_name:tipo="corners"
-            elif "card" in bet_name or "booking" in bet_name or "tarjeta" in bet_name:tipo="tarjetas"
-            else:tipo=None
+
+            # IMPORTANT: full-match goals totals are API-Football bet id 5.
+            # Do not infer goals from names containing goal/over/under because that
+            # mixes team totals, halves and other derivative markets into the same pool.
+            if mid==5:
+                tipo="goles"
+            elif mid==45:
+                tipo="corners"
+            elif "card" in bet_name or "booking" in bet_name or "tarjeta" in bet_name:
+                tipo="tarjetas"
+            else:
+                tipo=None
+
             for valor in mercado.get("values",[]):
                 key=str(valor.get("value","")).strip()
                 try:odd=float(valor.get("odd"))
@@ -96,11 +98,12 @@ def obtener_cuotas_europa(fixture_id,nombre_liga=None,local=None,visita=None):
                     if line is None:continue
                     suffix="Goles" if tipo=="goles" else "Corners" if tipo=="corners" else "Tarjetas"; side="Over" if key.lower().startswith("over") else "Under"
                     cuotas[f"{side} {line:g} {suffix}"]=odd; line_prices[tipo].setdefault(float(line),{})[side]=odd
+
         for tipo,price_map in line_prices.items():
             chosen,status=_balanced_supported_line(tipo,price_map)
             if chosen is not None:
                 cuotas["_lineas"][tipo]=chosen
-                cuotas["_line_status"][tipo]=status
+                cuotas["_line_status"][tipo]=f"fullmatch_market:{status}" if tipo=="goles" else status
             else:
                 complete=[]
                 for line,sides in price_map.items():
@@ -130,7 +133,6 @@ def _mc_market_probability(resultados_mc,tipo,side,line):
 
 
 def _line_locked(cuotas,preds_ml,resultados_mc,tipo,line,side):
-    """Fail closed: sportsbook, ML metadata and MC exact market must all agree."""
     try:
         sportsbook=float(cuotas.get("_lineas",{}).get(tipo)); ml=float(preds_ml.get("Meta",{}).get("lineas_modeladas",{}).get(tipo))
         if abs(sportsbook-line)>1e-9 or abs(ml-line)>1e-9:return False
