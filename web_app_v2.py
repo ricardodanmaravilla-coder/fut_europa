@@ -7,7 +7,7 @@ import web_app as core
 from modules.fut_sheet_ledger import persist_recommendations, sheets_diagnostic
 from modules.fut_sheet_settlement import settle_pending_sheet
 
-app = FastAPI(title="FUT Europa", version="2.9-resilient-timeout")
+app = FastAPI(title="FUT Europa", version="3.0-bet365-primary")
 
 
 def _analizar_partido_linea_real(nombre_liga, fixture):
@@ -71,8 +71,8 @@ def health():
         "scanner_retry_timeout_seconds": 240, "scanner_retry_failed_once": True,
         "sheets_ledger": True, "automatic_settlement": True,
         "casino_line_montecarlo": True,
-        "bookmaker_policy": "playdoit_strict_bet365_reference",
-        "ambiguous_totals_blocked": True, "line_lock": True, "version": "2.9",
+        "bookmaker_policy": "bet365_primary_strict",
+        "ambiguous_totals_blocked": True, "line_lock": True, "version": "3.0",
     }
 
 
@@ -217,13 +217,13 @@ document.getElementById('scan').onclick=async function(){
   for(const item of queue){
    const pct=Math.round(done*100/total);
    p.innerHTML=`<b>${done} / ${total}</b> (${pct}%) · Analizando ${esc(item.liga)} · ${esc(item.partido)}`;
-   m.textContent=`Oficiales Playdoit: ${rows.length} · Guardadas: ${saved} · Referencias bloqueadas: ${blocked} · Fallidos pendientes: ${failed.length} · Avisos: ${errors.length}`;
+   m.textContent=`Oficiales Bet365: ${rows.length} · Guardadas: ${saved} · Bookmakers no oficiales bloqueados: ${blocked} · Fallidos pendientes: ${failed.length} · Avisos: ${errors.length}`;
    try{const d=await scanFetch(item,180000);absorb(d,item);}
    catch(e){failed.push(item);errors.push(`${item.liga} · ${item.partido}: ${e.message}`);}
    done++;
    const pct2=Math.round(done*100/total);
    p.innerHTML=`<b>${done} / ${total}</b> (${pct2}%) · Último: ${esc(item.liga)} · ${esc(item.partido)}`;
-   m.textContent=`Oficiales Playdoit: ${rows.length} · Guardadas: ${saved} · Referencias bloqueadas: ${blocked} · Fallidos pendientes: ${failed.length} · Avisos: ${errors.length}`;
+   m.textContent=`Oficiales Bet365: ${rows.length} · Guardadas: ${saved} · Bookmakers no oficiales bloqueados: ${blocked} · Fallidos pendientes: ${failed.length} · Avisos: ${errors.length}`;
   }
 
   const retryFailed=[];
@@ -231,7 +231,7 @@ document.getElementById('scan').onclick=async function(){
     for(let i=0;i<failed.length;i++){
       const item=failed[i];
       p.innerHTML=`Reintento ${i+1}/${failed.length} · ${esc(item.liga)} · ${esc(item.partido)}`;
-      m.textContent=`Reintentando solo fallidos · Oficiales: ${rows.length} · Guardadas: ${saved}`;
+      m.textContent=`Reintentando solo fallidos · Oficiales Bet365: ${rows.length} · Guardadas: ${saved}`;
       try{const d=await scanFetch(item,240000);absorb(d,item);}
       catch(e){retryFailed.push(item);errors.push(`REINTENTO · ${item.liga} · ${item.partido}: ${e.message}`);}
     }
@@ -241,7 +241,7 @@ document.getElementById('scan').onclick=async function(){
   try{const sr=await fetch('/api/settle',{method:'POST',cache:'no-store'});settlement=await sr.json();if(!sr.ok)errors.push('Settlement: '+JSON.stringify(settlement.detail||settlement));}catch(e){errors.push('Settlement: '+e.message)}
   try{const hr=await fetch('/api/sheets-status',{cache:'no-store'});sh=await hr.json();}catch(e){errors.push('Sheets status: '+e.message)}
   const sheetLine=`Sheets: ${sh.ok?'conectado':'ERROR'} · filas existentes: ${sh.existing_rows??'—'} · schema: ${sh.schema_ok?'OK':'revisar'} · liquidadas: ${settlement.settled||0}`;
-  box.innerHTML=`<div class="panel"><h3>Escáner Global EV+</h3><div class="ok">Escaneo terminado: ${done}/${total} partidos · ${rows.length} picks oficiales Playdoit · ${saved} nuevos guardados · ${blocked} referencias Bet365 bloqueadas · ${retryFailed.length} fallidos definitivos.</div><div class="meta">${esc(sheetLine)}</div><div style="margin-top:12px">${table(rows)}</div>${errors.length?`<details open><summary>${errors.length} avisos</summary><div class="meta error">${errors.map(esc).join('<br>')}</div></details>`:''}</div>`;
+  box.innerHTML=`<div class="panel"><h3>Escáner Global EV+</h3><div class="ok">Escaneo terminado: ${done}/${total} partidos · ${rows.length} picks oficiales Bet365 · ${saved} nuevos guardados · ${blocked} bookmakers no oficiales bloqueados · ${retryFailed.length} fallidos definitivos.</div><div class="meta">${esc(sheetLine)}</div><div style="margin-top:12px">${table(rows)}</div>${errors.length?`<details open><summary>${errors.length} avisos</summary><div class="meta error">${errors.map(esc).join('<br>')}</div></details>`:''}</div>`;
  }catch(e){box.innerHTML=`<div class="panel error">Error del escáner: ${esc(e.message)}</div>`;}
  finally{btn.disabled=false;btn.textContent='Escáner Global EV+';}
 }
