@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
+import time
 
 import requests
 import web_app as core
@@ -16,11 +17,11 @@ import web_app as core
 _original_get_fixtures = core.obtener_proximos_partidos_europa
 _MEXICO_TZ = ZoneInfo("America/Mexico_City")
 _fixture_cache: dict[tuple[int, date, date], tuple[float, dict]] = {}
+_FIXTURE_CACHE_TTL_SECONDS = 300.0
 
 
 def _week_window(today: date | None = None) -> tuple[date, date]:
     start = today or datetime.now(_MEXICO_TZ).date()
-    # Python weekday: Monday=0 ... Sunday=6. If today is Sunday, end=today.
     end = start + timedelta(days=(6 - start.weekday()))
     return start, end
 
@@ -76,17 +77,37 @@ def _api_sports_week(league_id: int, start: date, end: date) -> dict:
 
 
 def obtener_partidos_semana(league_id: int):
-    start, end = _week_window()
+    """Return a stable weekly fixture snapshot.
 
-    # Prefer the explicit date-range query: it returns every fixture in the
-    # weekly window, even if a league has more than 15 upcoming matches.
+    The browser first loads /api/fixtures and later sends each fixture key to
+    /api/scan-one. Re-querying API-Football for every match can hit rate limits,
+    change the snapshot mid-scan, or temporarily return an empty response. Keep
+    one exact per-league snapshot for five minutes and reuse a stale snapshot if
+    the upstream API briefly fails, so fixture keys remain resolvable throughout
+    a scan.
+    """
+    start, end = _week_window()
+    cache_key = (league_id, start, end)
+    now = time.monotonic()
+    cached = _fixture_cache.get(cache_key)
+    if cached and now - cached[0] < _FIXTURE_CACHE_TTL_SECONDS:
+        return cached[1]
+
     partidos = _api_sports_week(league_id, start, end)
     if partidos:
+        _fixture_cache[cache_key] = (now, partidos)
         return partidos
 
-    # Resilience fallback for API errors / missing key. Never expose fixtures
-    # outside the same Mexico City weekly window.
-    return _filter_week(_original_get_fixtures(league_id), start, end)
+    fallback = _filter_week(_original_get_fixtures(league_id), start, end)
+    if fallback:
+        _fixture_cache[cache_key] = (now, fallback)
+        return fallback
+
+    # If upstream temporarily fails during a running scan, preserve the last
+    # known snapshot instead of turning every queued fixture into a 404.
+    if cached:
+        return cached[1]
+    return {}
 
 
 core.obtener_proximos_partidos_europa = obtener_partidos_semana
