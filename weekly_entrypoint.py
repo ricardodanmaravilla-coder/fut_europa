@@ -14,6 +14,7 @@ import time
 
 import requests
 import web_app as core
+from modules.model_cache_runtime import install_prebuilt_model_cache
 
 _original_get_fixtures = core.obtener_proximos_partidos_europa
 _MEXICO_TZ = ZoneInfo("America/Mexico_City")
@@ -126,7 +127,6 @@ def _fallback_tomorrow_only(league_id: int, tomorrow: date) -> dict:
         except Exception:
             continue
         copied = dict(fx)
-        # Synthetic future kickoff lets the common filter accept tomorrow only.
         copied["kickoff"] = f"{tomorrow.isoformat()}T23:59:59-06:00"
         copied["status_short"] = "NS"
         safe[key] = copied
@@ -141,8 +141,6 @@ def obtener_partidos_semana(league_id: int):
     now_local = datetime.now(_MEXICO_TZ)
     cached = _fixture_cache.get(cache_key)
 
-    # Even cached snapshots are re-filtered against the current clock so a game
-    # disappears immediately after kickoff instead of being analyzed for 5 more minutes.
     if cached and now_mono - cached[0] < _FIXTURE_CACHE_TTL_SECONDS:
         fresh_cached = _filter_scan_window(cached[1], start, end, now_local)
         _fixture_cache[cache_key] = (cached[0], fresh_cached)
@@ -153,8 +151,6 @@ def obtener_partidos_semana(league_id: int):
         _fixture_cache[cache_key] = (now_mono, partidos)
         return partidos
 
-    # If API-Football is temporarily unavailable, never reintroduce today's games
-    # without a reliable kickoff/status. Only tomorrow is safe in the legacy data.
     fallback = _fallback_tomorrow_only(league_id, end)
     if fallback:
         _fixture_cache[cache_key] = (now_mono, fallback)
@@ -166,7 +162,8 @@ def obtener_partidos_semana(league_id: int):
 
 
 core.obtener_proximos_partidos_europa = obtener_partidos_semana
+install_prebuilt_model_cache(core)
 
 # web_app_v2 imports the same cached web_app module object, so the individual
-# selector and global scanner both use this patched short-horizon retrieval.
+# selector and global scanner use both the filtered fixtures and prebuilt models.
 from web_app_v2 import app  # noqa: E402,F401
