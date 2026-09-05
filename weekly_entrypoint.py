@@ -1,9 +1,10 @@
-"""Cloud Run entrypoint enforcing the current-week fixture window.
+"""Cloud Run entrypoint for the short-horizon FUT Europa scanner.
 
-Every consumer sees only fixtures from the current Mexico City date through the
-nearest Sunday (inclusive). API-Football is queried by explicit date range so
-we do not depend on the historical ``next=15`` cap. The legacy getter remains
-only as a fallback and its output is filtered to the same weekly window.
+The scanner now exposes only matches from today and tomorrow in Mexico City,
+and only while they have not started. This keeps finished/live matches out of
+ML/MC work and materially reduces scanner load. API-Football is the source of
+truth for kickoff/status; the legacy getter is only a tomorrow-only fallback
+because it does not reliably preserve kickoff time/status.
 """
 from __future__ import annotations
 
@@ -18,28 +19,60 @@ _original_get_fixtures = core.obtener_proximos_partidos_europa
 _MEXICO_TZ = ZoneInfo("America/Mexico_City")
 _fixture_cache: dict[tuple[int, date, date], tuple[float, dict]] = {}
 _FIXTURE_CACHE_TTL_SECONDS = 300.0
+_ALLOWED_PREMATCH_STATUSES = {"NS", "TBD"}
 
 
 def _week_window(today: date | None = None) -> tuple[date, date]:
+    """Backward-compatible helper retained for existing regression tests."""
     start = today or datetime.now(_MEXICO_TZ).date()
     end = start + timedelta(days=(6 - start.weekday()))
     return start, end
 
 
-def _filter_week(fixtures: dict, start: date, end: date) -> dict:
+def _scan_window(today: date | None = None) -> tuple[date, date]:
+    start = today or datetime.now(_MEXICO_TZ).date()
+    return start, start + timedelta(days=1)
+
+
+def _parse_kickoff(raw) -> datetime | None:
+    try:
+        text = str(raw or "").strip().replace("Z", "+00:00")
+        dt = datetime.fromisoformat(text)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=_MEXICO_TZ)
+        return dt.astimezone(_MEXICO_TZ)
+    except Exception:
+        return None
+
+
+def _still_upcoming(fx: dict, now_local: datetime | None = None) -> bool:
+    """True only for a scheduled fixture whose kickoff is still in the future."""
+    now_local = now_local or datetime.now(_MEXICO_TZ)
+    status = str(fx.get("status_short", "")).upper().strip()
+    if status and status not in _ALLOWED_PREMATCH_STATUSES:
+        return False
+    kickoff = _parse_kickoff(fx.get("kickoff"))
+    if kickoff is None:
+        return False
+    return kickoff > now_local
+
+
+def _filter_scan_window(fixtures: dict, start: date, end: date, now_local: datetime | None = None) -> dict:
+    now_local = now_local or datetime.now(_MEXICO_TZ)
     filtered = {}
-    for key, fx in fixtures.items():
+    for key, fx in (fixtures or {}).items():
         raw = str(fx.get("fecha", ""))[:10]
         try:
             match_date = date.fromisoformat(raw)
         except (TypeError, ValueError):
             continue
-        if start <= match_date <= end:
+        if start <= match_date <= end and _still_upcoming(fx, now_local):
             filtered[key] = fx
     return filtered
 
 
 def _api_sports_week(league_id: int, start: date, end: date) -> dict:
+    """Fetch the requested date range and discard live/finished/started games."""
     if not core.API_KEY:
         return {}
     try:
@@ -59,10 +92,14 @@ def _api_sports_week(league_id: int, start: date, end: date) -> dict:
             return {}
         partidos = {}
         for item in response.json().get("response", []):
+            fixture = item.get("fixture", {}) or {}
             local = item.get("teams", {}).get("home", {}).get("name")
             visita = item.get("teams", {}).get("away", {}).get("name")
-            fecha = str(item.get("fixture", {}).get("date", ""))[:10]
-            fixture_id = item.get("fixture", {}).get("id")
+            kickoff_raw = fixture.get("date")
+            kickoff = _parse_kickoff(kickoff_raw)
+            fecha = kickoff.date().isoformat() if kickoff else str(kickoff_raw or "")[:10]
+            fixture_id = fixture.get("id")
+            status_short = str((fixture.get("status", {}) or {}).get("short", "")).upper().strip()
             if local and visita and fecha:
                 key = str(fixture_id or f"{fecha}-{local}-{visita}")
                 partidos[key] = {
@@ -70,48 +107,66 @@ def _api_sports_week(league_id: int, start: date, end: date) -> dict:
                     "visita": visita,
                     "fixture_id": fixture_id,
                     "fecha": fecha,
+                    "kickoff": str(kickoff_raw or ""),
+                    "status_short": status_short,
                 }
-        return _filter_week(partidos, start, end)
+        return _filter_scan_window(partidos, start, end)
     except Exception:
         return {}
 
 
-def obtener_partidos_semana(league_id: int):
-    """Return a stable weekly fixture snapshot.
+def _fallback_tomorrow_only(league_id: int, tomorrow: date) -> dict:
+    """Legacy fallback: only tomorrow is safe because kickoff/status may be absent."""
+    legacy = _original_get_fixtures(league_id)
+    safe = {}
+    for key, fx in (legacy or {}).items():
+        try:
+            if date.fromisoformat(str(fx.get("fecha", ""))[:10]) != tomorrow:
+                continue
+        except Exception:
+            continue
+        copied = dict(fx)
+        # Synthetic future kickoff lets the common filter accept tomorrow only.
+        copied["kickoff"] = f"{tomorrow.isoformat()}T23:59:59-06:00"
+        copied["status_short"] = "NS"
+        safe[key] = copied
+    return safe
 
-    The browser first loads /api/fixtures and later sends each fixture key to
-    /api/scan-one. Re-querying API-Football for every match can hit rate limits,
-    change the snapshot mid-scan, or temporarily return an empty response. Keep
-    one exact per-league snapshot for five minutes and reuse a stale snapshot if
-    the upstream API briefly fails, so fixture keys remain resolvable throughout
-    a scan.
-    """
-    start, end = _week_window()
+
+def obtener_partidos_semana(league_id: int):
+    """Return a stable snapshot of only today/tomorrow games that have not started."""
+    start, end = _scan_window()
     cache_key = (league_id, start, end)
-    now = time.monotonic()
+    now_mono = time.monotonic()
+    now_local = datetime.now(_MEXICO_TZ)
     cached = _fixture_cache.get(cache_key)
-    if cached and now - cached[0] < _FIXTURE_CACHE_TTL_SECONDS:
-        return cached[1]
+
+    # Even cached snapshots are re-filtered against the current clock so a game
+    # disappears immediately after kickoff instead of being analyzed for 5 more minutes.
+    if cached and now_mono - cached[0] < _FIXTURE_CACHE_TTL_SECONDS:
+        fresh_cached = _filter_scan_window(cached[1], start, end, now_local)
+        _fixture_cache[cache_key] = (cached[0], fresh_cached)
+        return fresh_cached
 
     partidos = _api_sports_week(league_id, start, end)
     if partidos:
-        _fixture_cache[cache_key] = (now, partidos)
+        _fixture_cache[cache_key] = (now_mono, partidos)
         return partidos
 
-    fallback = _filter_week(_original_get_fixtures(league_id), start, end)
+    # If API-Football is temporarily unavailable, never reintroduce today's games
+    # without a reliable kickoff/status. Only tomorrow is safe in the legacy data.
+    fallback = _fallback_tomorrow_only(league_id, end)
     if fallback:
-        _fixture_cache[cache_key] = (now, fallback)
+        _fixture_cache[cache_key] = (now_mono, fallback)
         return fallback
 
-    # If upstream temporarily fails during a running scan, preserve the last
-    # known snapshot instead of turning every queued fixture into a 404.
     if cached:
-        return cached[1]
+        return _filter_scan_window(cached[1], start, end, now_local)
     return {}
 
 
 core.obtener_proximos_partidos_europa = obtener_partidos_semana
 
 # web_app_v2 imports the same cached web_app module object, so the individual
-# selector and global scanner both use this patched weekly retrieval.
+# selector and global scanner both use this patched short-horizon retrieval.
 from web_app_v2 import app  # noqa: E402,F401
