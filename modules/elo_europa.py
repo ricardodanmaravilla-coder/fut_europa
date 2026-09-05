@@ -1,56 +1,57 @@
 import pandas as pd
 import numpy as np
 
+HOME_ADVANTAGE = 55.0
+BASE_K = 22.0
+
+
 class SistemaEloEuropa:
-    def __init__(self, k=32, base=1500):
-        self.k = k
-        self.base = base
+    """Elo coherente con el Elo usado por PredictorMLEuropa.
+
+    La ventaja local sólo interviene en la probabilidad esperada; los ratings
+    almacenados siguen siendo neutrales. K aumenta moderadamente con el margen,
+    exactamente como durante el entrenamiento ML.
+    """
+    def __init__(self, k=BASE_K, base=1500, home_advantage=HOME_ADVANTAGE):
+        self.k = float(k)
+        self.base = float(base)
+        self.home_advantage = float(home_advantage)
         self.ratings = {}
 
-    def probabilidad_esperada(self, elo_a, elo_b):
-        return 1.0 / (1.0 + 10.0 ** ((elo_b - elo_a) / 400.0))
+    def probabilidad_esperada(self, elo_local, elo_visita):
+        return 1.0 / (1.0 + 10.0 ** ((float(elo_visita) - (float(elo_local) + self.home_advantage)) / 400.0))
 
     def actualizar_ratings(self, df_historico):
         if df_historico is None or df_historico.empty:
             return pd.DataFrame(columns=["Equipo", "ELO_Rating"])
 
         self.ratings = {}
-        
-        # Ordenar cronológicamente si hay columna fecha
-        if 'Fecha' in df_historico.columns:
-            df = df_historico.sort_values(by='Fecha').copy()
-        else:
-            df = df_historico.copy()
+        df = df_historico.copy()
+        if "Fecha" in df.columns:
+            df["_fecha_elo"] = pd.to_datetime(df["Fecha"], errors="coerce", format="%Y-%m-%d")
+            df = df.sort_values("_fecha_elo", kind="stable")
 
         for _, row in df.iterrows():
-            loc = row['Local']
-            vis = row['Visitante']
-            g_loc = row['Goles_Local']
-            g_vis = row['Goles_Visita']
-
+            loc, vis = row.get("Local"), row.get("Visitante")
+            g_loc, g_vis = row.get("Goles_Local"), row.get("Goles_Visita")
             if pd.isna(loc) or pd.isna(vis) or pd.isna(g_loc) or pd.isna(g_vis):
                 continue
+            loc, vis = str(loc).strip(), str(vis).strip()
+            try:
+                g_loc, g_vis = float(g_loc), float(g_vis)
+            except Exception:
+                continue
 
-            if loc not in self.ratings: self.ratings[loc] = self.base
-            if vis not in self.ratings: self.ratings[vis] = self.base
-
-            elo_l = self.ratings[loc]
-            elo_v = self.ratings[vis]
-
+            elo_l = self.ratings.get(loc, self.base)
+            elo_v = self.ratings.get(vis, self.base)
             exp_l = self.probabilidad_esperada(elo_l, elo_v)
-            exp_v = 1.0 - exp_l
+            score_l = 1.0 if g_loc > g_vis else (0.5 if g_loc == g_vis else 0.0)
+            k_match = self.k * (1.0 + 0.12 * min(abs(g_loc - g_vis), 4.0))
+            delta = k_match * (score_l - exp_l)
+            self.ratings[loc] = elo_l + delta
+            self.ratings[vis] = elo_v - delta
 
-            if g_loc > g_vis:
-                res_l, res_v = 1.0, 0.0
-            elif g_loc < g_vis:
-                res_l, res_v = 0.0, 1.0
-            else:
-                res_l, res_v = 0.5, 0.5
-
-            self.ratings[loc] = elo_l + self.k * (res_l - exp_l)
-            self.ratings[vis] = elo_v + self.k * (res_v - exp_v)
-
-        # Convertir a DataFrame ordenado
-        df_ranking = pd.DataFrame(list(self.ratings.items()), columns=["Equipo", "ELO_Rating"])
-        df_ranking = df_ranking.sort_values(by="ELO_Rating", ascending=False).reset_index(drop=True)
-        return df_ranking
+        out = pd.DataFrame(list(self.ratings.items()), columns=["Equipo", "ELO_Rating"])
+        if not out.empty:
+            out = out.sort_values("ELO_Rating", ascending=False).reset_index(drop=True)
+        return out
