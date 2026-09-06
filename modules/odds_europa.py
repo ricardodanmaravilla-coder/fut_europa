@@ -5,7 +5,7 @@ import pandas as pd
 import unicodedata
 
 API_KEY=os.environ.get("API_SPORTS_KEY"); BASE_URL="https://v3.football.api-sports.io"; HEADERS={"x-apisports-key":API_KEY} if API_KEY else {}
-PRIMARY_BOOKMAKER="bet365"; CALIBRATION_VERSION="strict-v5-bet365-fullmatch-line-lock"
+PRIMARY_BOOKMAKER="bet365"; CALIBRATION_VERSION="strict-v6-bet365-primary-fallback-fullmatch-line-lock"
 SUPPORTED_HALF_LINES={"goles":{1.5,2.5,3.5,4.5},"corners":{7.5,8.5,9.5,10.5,11.5,12.5},"tarjetas":{2.5,3.5,4.5,5.5,6.5,7.5}}
 MAX_DISAGREEMENT_PP=8.0; MIN_MODEL_PROB_PCT=60.0; STRONG_EV_PCT=10.0; MODERATE_EV_PCT=5.0; STRONG_KELLY_PCT=1.0; MODERATE_KELLY_PCT=0.75; KELLY_FRACTION=0.10
 
@@ -23,10 +23,32 @@ def _extract_line(value):
     m=re.search(r"(?:Over|Under)\s*([0-9]+(?:\.[0-9]+)?)",str(value),flags=re.I); return float(m.group(1)) if m else None
 
 
+def _bookmaker_has_usable_market(bm):
+    if not bm:return False
+    for mercado in bm.get("bets",[]):
+        mid=mercado.get("id")
+        bet_name=normalizar_nombre(mercado.get("name",""))
+        if mid not in (1,5,45) and not ("card" in bet_name or "booking" in bet_name or "tarjeta" in bet_name):
+            continue
+        for valor in mercado.get("values",[]):
+            try: odd=float(valor.get("odd"))
+            except Exception: continue
+            if odd>1.01:
+                return True
+    return False
+
+
 def _select_bookmaker(bookmakers):
     normalized=[(normalizar_nombre(b.get("name","")),b) for b in (bookmakers or [])]
-    primary=next((b for name,b in normalized if PRIMARY_BOOKMAKER in name),None)
+    primary=next((b for name,b in normalized if PRIMARY_BOOKMAKER in name and _bookmaker_has_usable_market(b)),None)
     if primary:return primary,"bet365",True
+    # Bet365 remains the preferred source. If it is absent or has no usable
+    # prices for this fixture, use the first real bookmaker returned by
+    # API-Football that exposes at least one supported market.
+    fallback=next((b for _,b in normalized if _bookmaker_has_usable_market(b)),None)
+    if fallback:
+        name=fallback.get("name") or "fallback"
+        return fallback,f"fallback:{name}",True
     return None,"unavailable",False
 
 
