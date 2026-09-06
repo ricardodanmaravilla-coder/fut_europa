@@ -10,7 +10,13 @@ BASE_URL = "https://v3.football.api-sports.io"
 HEADERS = {"x-apisports-key": API_KEY} if API_KEY else {}
 
 PRIMARY_BOOKMAKER = "bet365"
-CALIBRATION_VERSION = "strict-v7-bet365-primary-per-market-fallback-line-lock"
+CALIBRATION_VERSION = "strict-v10-bet365-canonical-ids-price-main-line-lock"
+CANONICAL_MARKET_IDS = {
+    "1x2": 1,
+    "goles": 5,
+    "corners": 45,
+    "tarjetas": 80,
+}
 SUPPORTED_HALF_LINES = {
     "goles": {1.5, 2.5, 3.5, 4.5},
     "corners": {7.5, 8.5, 9.5, 10.5, 11.5, 12.5},
@@ -53,28 +59,76 @@ def _extract_line(value):
 
 
 def _market_type(mercado):
-    mid = mercado.get("id")
-    name = normalizar_nombre(mercado.get("name", ""))
-    if mid == 1:
-        return "1x2"
-    if mid == 5:
-        return "goles"
-    if mid == 45:
-        return "corners"
-    if "card" in name or "booking" in name or "tarjeta" in name:
-        return "tarjetas"
+    """Map only canonical API-Football pre-match market IDs.
+
+    This intentionally does not infer cards/corners/goals by market name. That
+    prevents team, player, half, handicap and other derivative props from being
+    mixed into the full-match line ladder.
+    """
+    try:
+        mid = int(mercado.get("id"))
+    except Exception:
+        return None
+    for tipo, canonical_id in CANONICAL_MARKET_IDS.items():
+        if mid == canonical_id:
+            return tipo
     return None
+
+
+def _supported_line(tipo, line):
+    try:
+        return round(float(line), 2) in SUPPORTED_HALF_LINES.get(tipo, set())
+    except Exception:
+        return False
+
+
+def _market_price_map(mercado, tipo):
+    """Return complete Over/Under price ladder for one canonical market."""
+    price_map = {}
+    if _market_type(mercado) != tipo or tipo == "1x2":
+        return price_map
+    for valor in mercado.get("values", []) or []:
+        key = str(valor.get("value", "")).strip()
+        low = key.lower()
+        if not low.startswith(("over", "under")):
+            continue
+        line = _extract_line(key)
+        if line is None:
+            continue
+        try:
+            odd = float(valor.get("odd"))
+        except Exception:
+            continue
+        if odd <= 1.01:
+            continue
+        side = "Over" if low.startswith("over") else "Under"
+        price_map.setdefault(float(line), {})[side] = odd
+    return price_map
 
 
 def _market_has_usable_price(mercado, tipo):
     if _market_type(mercado) != tipo:
         return False
-    for valor in mercado.get("values", []) or []:
+    if tipo == "1x2":
+        found = set()
+        for valor in mercado.get("values", []) or []:
+            key = str(valor.get("value", "")).strip()
+            try:
+                odd = float(valor.get("odd"))
+            except Exception:
+                continue
+            if odd > 1.01 and key in {"Home", "Draw", "Away"}:
+                found.add(key)
+        return len(found) == 3
+
+    price_map = _market_price_map(mercado, tipo)
+    for line, sides in price_map.items():
         try:
-            odd = float(valor.get("odd"))
+            over = float(sides.get("Over", 0))
+            under = float(sides.get("Under", 0))
         except Exception:
             continue
-        if odd > 1.01:
+        if over > 1.01 and under > 1.01 and _supported_line(tipo, line):
             return True
     return False
 
@@ -86,9 +140,8 @@ def _bookmaker_has_market(bookmaker, tipo):
 
 
 def _select_bookmaker_for_market(bookmakers, tipo):
+    """Bet365 first for every market; fallback only when that market is unusable."""
     normalized = [(normalizar_nombre(b.get("name", "")), b) for b in (bookmakers or [])]
-
-    # Bet365 is ALWAYS the first choice for every individual market.
     primary = next(
         (b for name, b in normalized if PRIMARY_BOOKMAKER in name and _bookmaker_has_market(b, tipo)),
         None,
@@ -96,8 +149,6 @@ def _select_bookmaker_for_market(bookmakers, tipo):
     if primary:
         return primary, "bet365", True
 
-    # Only if Bet365 lacks this specific market, use another real bookmaker
-    # that actually exposes that same market. Never replace Bet365 just for price.
     fallback = next(
         (
             b
@@ -112,14 +163,14 @@ def _select_bookmaker_for_market(bookmakers, tipo):
     return None, "unavailable", False
 
 
-def _supported_line(tipo, line):
-    try:
-        return round(float(line), 2) in SUPPORTED_HALF_LINES.get(tipo, set())
-    except Exception:
-        return False
+def _main_supported_line(tipo, price_map):
+    """Choose the sportsbook main line from the canonical full-match ladder.
 
-
-def _balanced_supported_line(tipo, price_map):
+    Among complete supported Over/Under pairs, the main line is the one whose
+    no-vig Over probability is closest to 50%. Overround and line value are only
+    deterministic tie breakers. This avoids selecting an alternate ladder line
+    merely because it appears first or sits in the middle of the returned list.
+    """
     candidates = []
     for line, sides in (price_map or {}).items():
         try:
@@ -137,53 +188,61 @@ def _balanced_supported_line(tipo, price_map):
             continue
         p_over_no_vig = implied_over / total
         balance = abs(p_over_no_vig - 0.5)
-        symmetry = abs(over - under)
-        candidates.append((round(balance, 8), round(symmetry, 8), line))
+        overround = abs(total - 1.0)
+        candidates.append((round(balance, 10), round(overround, 10), line))
 
     if not candidates:
         return None, "missing_supported"
     candidates.sort(key=lambda x: (x[0], x[1], x[2]))
-    best = candidates[0]
-    tied = [
-        c
-        for c in candidates
-        if abs(c[0] - best[0]) < 1e-8 and abs(c[1] - best[1]) < 1e-8
-    ]
-    if len(tied) > 1:
-        return None, f"balanced_tie:{len(tied)}"
-    return best[2], f"balanced_supported:{len(candidates)}"
+    chosen = candidates[0]
+    return chosen[2], f"price_main_no_vig:{len(candidates)}"
+
+
+# Compatibility alias for older tests/imports; logic is now the canonical v10 selector.
+def _balanced_supported_line(tipo, price_map):
+    return _main_supported_line(tipo, price_map)
 
 
 def _parse_market_from_bookmaker(bookmaker, tipo, cuotas):
     line_prices = {}
+    canonical_id = CANONICAL_MARKET_IDS[tipo]
     for mercado in bookmaker.get("bets", []) or []:
         if _market_type(mercado) != tipo:
             continue
-        mid = mercado.get("id")
-        for valor in mercado.get("values", []) or []:
-            key = str(valor.get("value", "")).strip()
-            try:
-                odd = float(valor.get("odd"))
-            except Exception:
-                continue
-            if odd <= 1.01:
-                continue
+        try:
+            mid = int(mercado.get("id"))
+        except Exception:
+            continue
+        if mid != canonical_id:
+            continue
 
-            if tipo == "1x2" and mid == 1:
+        if tipo == "1x2":
+            for valor in mercado.get("values", []) or []:
+                key = str(valor.get("value", "")).strip()
+                try:
+                    odd = float(valor.get("odd"))
+                except Exception:
+                    continue
+                if odd <= 1.01:
+                    continue
                 if key == "Home":
                     cuotas["1"] = odd
                 elif key == "Draw":
                     cuotas["X"] = odd
                 elif key == "Away":
                     cuotas["2"] = odd
-                continue
+            continue
 
-            if tipo in {"goles", "corners", "tarjetas"} and key.lower().startswith(("over", "under")):
-                line = _extract_line(key)
-                if line is None:
+        market_prices = _market_price_map(mercado, tipo)
+        suffix = "Goles" if tipo == "goles" else "Corners" if tipo == "corners" else "Tarjetas"
+        for line, sides in market_prices.items():
+            for side in ("Over", "Under"):
+                try:
+                    odd = float(sides.get(side, 0))
+                except Exception:
                     continue
-                side = "Over" if key.lower().startswith("over") else "Under"
-                suffix = "Goles" if tipo == "goles" else "Corners" if tipo == "corners" else "Tarjetas"
+                if odd <= 1.01:
+                    continue
                 cuotas[f"{side} {line:g} {suffix}"] = odd
                 line_prices.setdefault(float(line), {})[side] = odd
     return line_prices
@@ -235,31 +294,20 @@ def obtener_cuotas_europa(fixture_id, nombre_liga=None, local=None, visita=None)
             if tipo == "1x2":
                 continue
 
-            chosen, status = _balanced_supported_line(tipo, line_prices)
+            chosen, status = _main_supported_line(tipo, line_prices)
             if chosen is not None:
                 cuotas["_lineas"][tipo] = chosen
-                prefix = "fullmatch_market:" if tipo == "goles" else ""
-                cuotas["_line_status"][tipo] = f"{prefix}{status}"
+                cuotas["_line_status"][tipo] = f"canonical_id:{CANONICAL_MARKET_IDS[tipo]}:{status}"
             else:
-                complete = []
-                for line, sides in line_prices.items():
-                    try:
-                        if float(sides.get("Over", 0)) > 1.01 and float(sides.get("Under", 0)) > 1.01:
-                            complete.append(float(line))
-                    except Exception:
-                        pass
-                if status.startswith("balanced_tie"):
-                    cuotas["_line_status"][tipo] = status
-                elif complete:
-                    cuotas["_line_status"][tipo] = "unsupported_or_no_supported_complete"
-                else:
-                    cuotas["_line_status"][tipo] = "missing"
+                cuotas["_line_status"][tipo] = "missing_supported_complete_line"
+                cuotas["_market_persist_allowed"][tipo] = False
 
-        # Backward-compatible summary metadata for existing UI/diagnostics.
         used_bookmakers = [v for v in cuotas["_bookmakers"].values() if v]
         cuotas["_bookmaker"] = used_bookmakers[0] if used_bookmakers else None
         modes = [v for v in cuotas["_pricing_modes"].values() if v != "unavailable"]
-        cuotas["_pricing_mode"] = "mixed-per-market" if len(set(modes)) > 1 else (modes[0] if modes else "unavailable")
+        cuotas["_pricing_mode"] = (
+            "mixed-per-market" if len(set(modes)) > 1 else (modes[0] if modes else "unavailable")
+        )
         cuotas["_persist_allowed"] = any(cuotas["_market_persist_allowed"].values())
     except Exception:
         return cuotas
