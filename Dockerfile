@@ -3,7 +3,11 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    PORT=8080
+    PORT=8080 \
+    OMP_NUM_THREADS=1 \
+    OPENBLAS_NUM_THREADS=1 \
+    MKL_NUM_THREADS=1 \
+    NUMEXPR_NUM_THREADS=1
 
 WORKDIR /app
 
@@ -12,12 +16,20 @@ RUN python -m pip install --upgrade pip \
     && python -m pip install -r requirements.txt \
     && python -c "import uvicorn; print('uvicorn', uvicorn.__version__)"
 
-COPY . .
+# Keep the expensive data/model build in its own Docker layer. UI/API-only
+# changes no longer invalidate the five-league ML training cache.
+COPY data ./data
+COPY modules ./modules
+COPY build_parquet_store.py ./build_parquet_store.py
+COPY build_model_cache.py ./build_model_cache.py
 
-# Build fresh Parquet stores (historicals + Monte Carlo team profiles), then
-# train Elo + ML once. Runtime requests only load these prebuilt assets.
 RUN python build_parquet_store.py \
     && python build_model_cache.py
+
+# Copy the rest of the application after the precomputed assets exist. Docker
+# preserves model_cache/ and generated parquet files because COPY does not
+# delete files already present in the image layer.
+COPY . .
 
 EXPOSE 8080
 
