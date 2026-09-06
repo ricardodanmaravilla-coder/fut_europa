@@ -10,13 +10,16 @@ from google.auth.transport.requests import AuthorizedSession
 SPREADSHEET_ID = os.environ.get("GOOGLE_SHEETS_ID", "1VsB21QUsQL5EyXu7Sek5WVeNVznECiTuoIMMB4JXno4")
 WORKSHEET = os.environ.get("FUT_SHEETS_WORKSHEET", "FUT_Europa_Picks")
 BANKROLL_MXN = float(os.environ.get("BANKROLL_MXN", "5000"))
-MODEL_VERSION = os.environ.get("FUT_MODEL_VERSION", "fut-europa-v2.3-sheets")
+MODEL_VERSION = os.environ.get("FUT_MODEL_VERSION", "fut-europa-v2.4-market-bookmaker")
 
+# Keep the original settlement columns U:Y in the exact same positions.
+# Bookmaker traceability is appended after them in Z:AA.
 HEADERS = [
     "record_key", "snapshot_utc", "game_date", "fixture_id", "league", "away", "home",
     "market", "selection", "odds", "prob_ml", "prob_mc", "prob_combined", "disagreement_pp",
     "ev_pct", "kelly_pct", "bankroll_mxn", "stake_mxn", "verdict", "model_version",
     "result_status", "result_value", "profit_units", "profit_mxn", "settled_utc",
+    "bookmaker", "pricing_mode",
 ]
 
 
@@ -82,7 +85,7 @@ def sheets_diagnostic():
     try:
         session = _session()
         keys = _existing_keys(session)
-        header_response = session.get(_values_url(f"{WORKSHEET}!A1:Y1"), timeout=15)
+        header_response = session.get(_values_url(f"{WORKSHEET}!A1:AA1"), timeout=15)
         if not header_response.ok:
             raise RuntimeError(f"Sheets header read {header_response.status_code}: {header_response.text[:500]}")
         headers = (header_response.json().get("values") or [[]])[0]
@@ -112,13 +115,15 @@ def _build_row(liga, fixture, bet):
     ev_pct = _number(bet.get("EV (Valor)"))
     kelly_pct = _number(bet.get("Stake Recomendado"))
     stake_mxn = round(BANKROLL_MXN * kelly_pct / 100.0, 2)
-    record_key = f"{game_date}|{fixture_id}|{liga}|{away}|{home}|{selection}|{MODEL_VERSION}"
+    bookmaker = str(bet.get("Bookmaker", "")).strip()
+    pricing_mode = str(bet.get("Modo cuota", "")).strip()
+    record_key = f"{game_date}|{fixture_id}|{liga}|{away}|{home}|{selection}|{bookmaker}|{MODEL_VERSION}"
     now = datetime.now(timezone.utc).isoformat()
     return [
         record_key, now, game_date, fixture_id, liga, away, home,
         _market_group(selection), selection, odds, prob_ml, prob_mc, prob_combined, disagreement,
         ev_pct, kelly_pct, BANKROLL_MXN, stake_mxn, str(bet.get("Veredicto", "")), MODEL_VERSION,
-        "pending", "", "", "", "",
+        "pending", "", "", "", "", bookmaker, pricing_mode,
     ]
 
 
@@ -142,7 +147,7 @@ def persist_recommendations(liga, fixture, bets):
             existing.add(row[0])
         if not rows:
             return {"ok": True, "configured": True, "written": 0, "skipped": skipped}
-        url = _values_url(f"{WORKSHEET}!A:Y") + ":append"
+        url = _values_url(f"{WORKSHEET}!A:AA") + ":append"
         response = session.post(
             url,
             params={"valueInputOption": "RAW", "insertDataOption": "INSERT_ROWS"},
