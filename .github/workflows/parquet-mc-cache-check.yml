@@ -1,0 +1,71 @@
+name: Parquet Monte Carlo cache checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  parquet-mc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Build Parquet stores
+        run: python build_parquet_store.py
+      - name: Verify history and Monte Carlo caches
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import numpy as np
+          import pandas as pd
+          from modules.data_store import cargar_historico
+          from modules.montecarlo_europa import (
+              MC_PROFILE_PARQUET, _team_recent, _cached_profile, simular_partido_europa,
+          )
+
+          files = [
+              'data/historico_premier.csv', 'data/historico_laliga.csv',
+              'data/historico_seriea.csv', 'data/historico_bundesliga.csv',
+              'data/historico_ligue1.csv',
+          ]
+          assert Path(MC_PROFILE_PARQUET).exists()
+          store = pd.read_parquet(MC_PROFILE_PARQUET)
+          assert len(store) >= 100
+
+          for path in files:
+              pq = Path(path).with_suffix('.parquet')
+              assert pq.exists()
+              df = cargar_historico(path)
+              assert not df.empty
+              teams = sorted(set(df.Local.astype(str)).intersection(set(df.Visitante.astype(str))))
+              team = teams[-1]
+              for venue in ('home', 'away'):
+                  old = _team_recent(df, team, venue)
+                  new = _cached_profile(df, team, venue)
+                  assert old is not None and new is not None
+                  for k in ('xgf','xga','cf','ca','cards'):
+                      assert abs(float(old[k]) - float(new[k])) < 1e-12, (path, team, venue, k, old[k], new[k])
+
+          df = cargar_historico('data/historico_premier.csv')
+          teams = sorted(set(df.Local.astype(str)).intersection(set(df.Visitante.astype(str))))
+          home, away = teams[0], teams[1]
+          out = simular_partido_europa(home, away, df, 1500, 1500, n_simulaciones=5000, seed=42)
+          assert out['Meta']['mc_profile_cache'] == 'parquet'
+          assert abs(sum(out['Resultado_1X2'].values()) - 100.0) <= 0.2
+          print('Parquet/MC cache parity OK', len(store), home, away)
+          PY
+      - name: Production imports
+        run: |
+          python - <<'PY'
+          import weekly_entrypoint
+          import web_app
+          assert getattr(web_app, 'MODEL_CACHE_PREBUILT', False) is True
+          print('Production import OK')
+          PY
