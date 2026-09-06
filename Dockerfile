@@ -14,9 +14,10 @@ RUN python -m pip install --upgrade pip \
 
 COPY . .
 
-# Train Elo + ML once during image build. Runtime requests only load these
-# bundles, so /api/analyze and /api/scan-one no longer spend minutes fitting.
-RUN python build_model_cache.py
+# Build fresh Parquet stores (historicals + Monte Carlo team profiles), then
+# train Elo + ML once. Runtime requests only load these prebuilt assets.
+RUN python build_parquet_store.py \
+    && python build_model_cache.py
 
 EXPOSE 8080
 
