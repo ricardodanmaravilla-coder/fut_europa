@@ -1,10 +1,9 @@
 """Cloud Run entrypoint for the short-horizon FUT Europa scanner.
 
-The scanner now exposes only matches from today and tomorrow in Mexico City,
-and only while they have not started. This keeps finished/live matches out of
-ML/MC work and materially reduces scanner load. API-Football is the source of
-truth for kickoff/status; the legacy getter is only a tomorrow-only fallback
-because it does not reliably preserve kickoff time/status.
+The scanner exposes upcoming matches from the next 7 calendar days in Mexico
+City time and only while they have not started. Finished/live matches stay out
+of ML/MC work. API-Football is the source of truth for kickoff/status. To keep
+Cloud Run responsive, each league is capped to the earliest upcoming fixtures.
 """
 from __future__ import annotations
 
@@ -21,6 +20,8 @@ _MEXICO_TZ = ZoneInfo("America/Mexico_City")
 _fixture_cache: dict[tuple[int, date, date], tuple[float, dict]] = {}
 _FIXTURE_CACHE_TTL_SECONDS = 300.0
 _ALLOWED_PREMATCH_STATUSES = {"NS", "TBD"}
+_SCAN_DAYS = 7
+_MAX_FIXTURES_PER_LEAGUE = 10
 
 
 def _week_window(today: date | None = None) -> tuple[date, date]:
@@ -31,8 +32,9 @@ def _week_window(today: date | None = None) -> tuple[date, date]:
 
 
 def _scan_window(today: date | None = None) -> tuple[date, date]:
+    """Inclusive rolling 7-day window: today through today+6."""
     start = today or datetime.now(_MEXICO_TZ).date()
-    return start, start + timedelta(days=1)
+    return start, start + timedelta(days=_SCAN_DAYS - 1)
 
 
 def _parse_kickoff(raw) -> datetime | None:
@@ -58,6 +60,18 @@ def _still_upcoming(fx: dict, now_local: datetime | None = None) -> bool:
     return kickoff > now_local
 
 
+def _limit_earliest(fixtures: dict) -> dict:
+    """Return at most the earliest N fixtures for one league, preserving keys."""
+    ranked = []
+    for key, fx in (fixtures or {}).items():
+        kickoff = _parse_kickoff(fx.get("kickoff"))
+        if kickoff is None:
+            continue
+        ranked.append((kickoff, str(key), key, fx))
+    ranked.sort(key=lambda row: (row[0], row[1]))
+    return {key: fx for _, _, key, fx in ranked[:_MAX_FIXTURES_PER_LEAGUE]}
+
+
 def _filter_scan_window(fixtures: dict, start: date, end: date, now_local: datetime | None = None) -> dict:
     now_local = now_local or datetime.now(_MEXICO_TZ)
     filtered = {}
@@ -69,7 +83,7 @@ def _filter_scan_window(fixtures: dict, start: date, end: date, now_local: datet
             continue
         if start <= match_date <= end and _still_upcoming(fx, now_local):
             filtered[key] = fx
-    return filtered
+    return _limit_earliest(filtered)
 
 
 def _api_sports_week(league_id: int, start: date, end: date) -> dict:
@@ -116,25 +130,25 @@ def _api_sports_week(league_id: int, start: date, end: date) -> dict:
         return {}
 
 
-def _fallback_tomorrow_only(league_id: int, tomorrow: date) -> dict:
-    """Legacy fallback: only tomorrow is safe because kickoff/status may be absent."""
+def _fallback_end_date_only(league_id: int, end_date: date) -> dict:
+    """Legacy fallback uses only the window end date because kickoff/status may be absent."""
     legacy = _original_get_fixtures(league_id)
     safe = {}
     for key, fx in (legacy or {}).items():
         try:
-            if date.fromisoformat(str(fx.get("fecha", ""))[:10]) != tomorrow:
+            if date.fromisoformat(str(fx.get("fecha", ""))[:10]) != end_date:
                 continue
         except Exception:
             continue
         copied = dict(fx)
-        copied["kickoff"] = f"{tomorrow.isoformat()}T23:59:59-06:00"
+        copied["kickoff"] = f"{end_date.isoformat()}T23:59:59-06:00"
         copied["status_short"] = "NS"
         safe[key] = copied
-    return safe
+    return _limit_earliest(safe)
 
 
 def obtener_partidos_semana(league_id: int):
-    """Return a stable snapshot of only today/tomorrow games that have not started."""
+    """Return a stable snapshot of the next 7 days, capped to 10 fixtures per league."""
     start, end = _scan_window()
     cache_key = (league_id, start, end)
     now_mono = time.monotonic()
@@ -151,7 +165,7 @@ def obtener_partidos_semana(league_id: int):
         _fixture_cache[cache_key] = (now_mono, partidos)
         return partidos
 
-    fallback = _fallback_tomorrow_only(league_id, end)
+    fallback = _fallback_end_date_only(league_id, end)
     if fallback:
         _fixture_cache[cache_key] = (now_mono, fallback)
         return fallback
