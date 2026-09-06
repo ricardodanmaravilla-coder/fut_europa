@@ -189,7 +189,7 @@ def settle_pending_sheet():
 
     try:
         session = _session()
-        response = session.get(_values_url(f"{WORKSHEET}!A1:Y2000"), timeout=20)
+        response = session.get(_values_url(f"{WORKSHEET}!A1:AA2000"), timeout=20)
         if not response.ok:
             raise RuntimeError(f"Sheets read {response.status_code}: {response.text[:700]}")
         rows = response.json().get("values", [])
