@@ -3,8 +3,6 @@ name: Actualizar Historicos y Validar Fut Europa
 on:
   push:
     branches: [main]
-  schedule:
-    - cron: '0 4 * * 2,5'
   workflow_dispatch:
   pull_request:
     branches: [main]

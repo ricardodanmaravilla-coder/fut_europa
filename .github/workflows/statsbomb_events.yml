@@ -2,9 +2,6 @@ name: Actualizar StatsBomb Eventos Avanzados
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '30 5 * * 1'
-
 permissions:
   contents: write
 
